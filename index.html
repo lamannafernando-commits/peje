@@ -28,15 +28,6 @@
     #reloj-header{font-family:'Oswald',sans-serif;font-size:.95rem;color:var(--dorado);background:rgba(0,0,0,.35);border:1px solid var(--dorado);display:inline-block;padding:4px 16px;border-radius:20px;letter-spacing:1px;}
     #header-inspector{font-size:.82rem;color:var(--blanco);background:rgba(45,110,45,.5);border:1px solid var(--verde-claro);display:inline-block;padding:4px 16px;border-radius:20px;}
     #header-inspector.sin-inspector{background:rgba(180,30,30,.35);border-color:var(--rojo-claro);color:#ffaaaa;}
-    #sync-badge{font-size:.78rem;color:var(--blanco);background:rgba(0,0,0,.4);border:1px solid #555;display:inline-flex;align-items:center;gap:5px;padding:4px 14px;border-radius:20px;font-family:'Oswald',sans-serif;letter-spacing:.5px;transition:background .3s,border-color .3s;}
-    #sync-badge.sync-ok{background:rgba(26,107,26,.6);border-color:#2a8a2a;}
-    #sync-badge.sync-error{background:rgba(180,30,30,.5);border-color:var(--rojo-claro);}
-    #sync-badge.sync-syncing{background:rgba(26,90,138,.5);border-color:#2a7aaa;}
-    #sync-dot{width:8px;height:8px;border-radius:50%;background:#888;display:inline-block;}
-    #sync-badge.sync-ok #sync-dot{background:#4aff4a;box-shadow:0 0 6px #4aff4a;}
-    #sync-badge.sync-error #sync-dot{background:var(--rojo-claro);box-shadow:0 0 6px var(--rojo-claro);}
-    #sync-badge.sync-syncing #sync-dot{background:#88ccff;box-shadow:0 0 6px #88ccff;animation:pulse 1s infinite;}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
     nav{display:flex;flex-wrap:wrap;gap:4px;background:#0d1f0d;border-bottom:2px solid var(--dorado);padding:8px 12px;justify-content:center;position:relative;z-index:95;}
     nav button{background:rgba(255,255,255,.08);color:#cce8cc;border:1px solid rgba(255,255,255,.12);padding:7px 16px;border-radius:6px;cursor:pointer;font-size:.82rem;font-family:'Oswald',sans-serif;font-weight:400;letter-spacing:.5px;transition:.2s;text-transform:uppercase;}
     nav button:hover{background:var(--verde-logo);border-color:var(--dorado);color:var(--dorado);}
@@ -168,12 +159,6 @@
     .foto-thumb-placeholder{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:5px;background:#e8ede8;border:2px dashed #aaaaaa;color:#aaaaaa;font-size:1.2rem;vertical-align:middle;}
     .aviso-https{background:#fff3cd;border:2px solid var(--naranja);border-radius:8px;padding:10px 14px;margin-bottom:10px;font-size:.82rem;color:#92400e;font-weight:600;display:none;}
     .aviso-https.show{display:block;}
-    #sync-loading{display:none;position:fixed;inset:0;z-index:999;background:rgba(10,25,10,.95);align-items:center;justify-content:center;flex-direction:column;gap:16px;}
-    #sync-loading.show{display:flex;}
-    .sync-spinner{width:48px;height:48px;border:5px solid rgba(200,168,75,.3);border-top-color:var(--dorado);border-radius:50%;animation:spin 1s linear infinite;}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .sync-loading-txt{font-family:'Oswald',sans-serif;font-size:1.1rem;color:var(--dorado);letter-spacing:2px;text-align:center;}
-    .sync-loading-sub{font-size:.8rem;color:#88aa88;letter-spacing:1px;}
     @media(max-width:600px){
       header h1{font-size:1.15rem;}
       .form-row{flex-direction:column;}
@@ -185,22 +170,6 @@
   </style>
 </head>
 <body>
-
-<!-- SYNC LOADING OVERLAY -->
-<div id="sync-loading">
-  <div class="bloqueo-logo">
-    <svg class="logo-fish" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="10,10 10,70 55,40" fill="none" stroke="#2d6e2d" stroke-width="5" stroke-linejoin="round"/>
-      <ellipse cx="120" cy="40" rx="70" ry="28" fill="none" stroke="#2d6e2d" stroke-width="5"/>
-      <circle cx="168" cy="34" r="5" fill="#2d6e2d"/>
-      <path d="M90,18 Q120,10 150,18" fill="none" stroke="#2d6e2d" stroke-width="3"/>
-    </svg>
-    <div class="logo-club-text">PEJERREY CLUB</div>
-  </div>
-  <div class="sync-spinner"></div>
-  <div class="sync-loading-txt" id="sync-loading-txt">Conectando con GitHub...</div>
-  <div class="sync-loading-sub" id="sync-loading-sub">Sincronizando datos entre dispositivos</div>
-</div>
 
 <!-- PANTALLA DE BLOQUEO -->
 <div id="bloqueo-overlay">
@@ -246,10 +215,6 @@
   <div class="header-info-row">
     <div id="reloj-header">Cargando hora...</div>
     <div id="header-inspector" class="sin-inspector">🔒 Sin inspector activo</div>
-    <div id="sync-badge">
-      <span id="sync-dot"></span>
-      <span id="sync-txt">Conectando...</span>
-    </div>
   </div>
 </header>
 
@@ -481,21 +446,8 @@
   <!-- BACKUP -->
   <section id="sec-backup" class="seccion">
     <div class="card">
-      <h2>☁️ Sincronización con GitHub</h2>
-      <p style="font-size:.9rem;color:#4a6a4a;margin-bottom:14px;">
-        Todos los datos se sincronizan automáticamente en tiempo real.<br/>
-        📁 Repositorio: <strong style="color:var(--verde-oscuro)">lamannafernando-commits/peje → data/pcq_data.json</strong>
-      </p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
-        <button class="btn btn-primary" onclick="sincronizarDesdeGitHub(true)">🔄 Sincronizar ahora</button>
-        <button class="btn btn-info" onclick="verificarConexionGitHub()">🔍 Verificar conexión</button>
-      </div>
-      <div id="alerta-github" class="alerta"></div>
-      <div id="ultimo-sync-info" style="font-size:.82rem;color:#4a6a4a;margin-top:8px;"></div>
-    </div>
-    <div class="card">
       <h2>💾 Backup XML Local</h2>
-      <p style="font-size:.9rem;color:#4a6a4a;margin-bottom:14px;">Descargá una copia local de todos los datos en formato <strong>.xml</strong>.</p>
+      <p style="font-size:.9rem;color:#4a6a4a;margin-bottom:14px;">Descargá una copia local de todos los datos en formato <strong>.xml</strong>. Los datos se guardan en este dispositivo (localStorage).</p>
       <div class="backup-row">
         <button class="btn btn-success" onclick="generarBackup()">⬇️ Descargar XML local</button>
       </div>
@@ -561,229 +513,24 @@
 
 <script>
 /* ═══════════════════════════════════════════════
-   CONFIGURACIÓN GITHUB
-   ⚠️ REEMPLAZÁ TU_TOKEN_AQUI con tu token nuevo
-   Generalo en: github.com → Settings → Developer settings
-   → Personal access tokens → Tokens (classic) → scope: repo
-═══════════════════════════════════════════════ */
-const GH = {
-  owner:    'lamannafernando-commits',
-  repo:     'peje',
-  branch:   'main',
-  dataFile: 'data/pcq_data.json',
-  token:    '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k'
-};
-
-/* ═══════════════════════════════════════════════
    CONSTANTES
 ═══════════════════════════════════════════════ */
 const KEYS = {
   ingresos:'pcq_ingresos', apercibimientos:'pcq_apercibimientos',
   suspensiones:'pcq_suspensiones', inspectores:'pcq_inspectores',
   fotos:'pcq_fotos', inspActivo:'pcq_inspector_activo',
-  turnoInicio:'pcq_turno_inicio', lastSync:'pcq_last_sync'
+  turnoInicio:'pcq_turno_inicio'
 };
 const HS_VIGENCIA    = 24;
 const MIN_POR_VENCER = 60;
 const WA_NUMERO      = '541162544509';
 const FOTO_MAX_W     = 320;
 const FOTO_QUALITY   = 0.72;
-const SYNC_INTERVAL  = 30000;
 
-let offsetMs        = 0;
-let _editInspId     = null;
-let _inspDesact     = null;
-let _streamCamara   = null;
-let _syncEnCurso    = false;
-let _shaDataFile    = null;
-let _ultimoSyncTs   = null;
-
-/* ═══════════════════════════════════════════════
-   UTILIDADES BASE64
-═══════════════════════════════════════════════ */
-function utf8ToBase64(str){
-  const b=new TextEncoder().encode(str);
-  let s=''; b.forEach(x=>{s+=String.fromCharCode(x);}); return btoa(s);
-}
-function base64ToUtf8(b64){
-  const bin=atob(b64); const b=new Uint8Array(bin.length);
-  for(let i=0;i<bin.length;i++) b[i]=bin.charCodeAt(i);
-  return new TextDecoder().decode(b);
-}
-
-/* ═══════════════════════════════════════════════
-   SYNC BADGE UI
-═══════════════════════════════════════════════ */
-function setSyncBadge(estado,texto){
-  const badge=document.getElementById('sync-badge');
-  const txt=document.getElementById('sync-txt');
-  badge.className='sync-'+estado;
-  txt.textContent=texto;
-}
-
-/* ═══════════════════════════════════════════════
-   GITHUB API
-═══════════════════════════════════════════════ */
-async function ghGetFile(path){
-  try{
-    const r=await fetch(
-      `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${path}?ref=${GH.branch}&t=${Date.now()}`,
-      {headers:{'Authorization':`Bearer ${GH.token}`,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}}
-    );
-    if(r.status===404) return {sha:null,content:null};
-    if(!r.ok) return {sha:null,content:null};
-    const d=await r.json();
-    return {sha:d.sha||null,content:d.content||null};
-  }catch(e){return {sha:null,content:null};}
-}
-
-async function ghPutFile(path,contenido,mensaje,sha){
-  const body={message:mensaje,content:utf8ToBase64(contenido),branch:GH.branch};
-  if(sha) body.sha=sha;
-  try{
-    const r=await fetch(
-      `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${path}`,
-      {method:'PUT',headers:{'Authorization':`Bearer ${GH.token}`,'Accept':'application/vnd.github+json','Content-Type':'application/json','X-GitHub-Api-Version':'2022-11-28'},body:JSON.stringify(body)}
-    );
-    const d=await r.json();
-    if(r.ok) return {ok:true,sha:d.content?.sha||null,error:null};
-    return {ok:false,sha:null,error:d.message||`HTTP ${r.status}`};
-  }catch(e){return {ok:false,sha:null,error:e.message};}
-}
-
-/* ═══════════════════════════════════════════════
-   CONSTRUIR / APLICAR DATOS
-═══════════════════════════════════════════════ */
-function construirDatos(){
-  return {
-    version:2, updatedAt:ahoraReal().toISOString(),
-    ingresos:cargarDatos(KEYS.ingresos),
-    apercibimientos:cargarDatos(KEYS.apercibimientos),
-    suspensiones:cargarDatos(KEYS.suspensiones),
-    inspectores:cargarDatos(KEYS.inspectores),
-    fotos:cargarFotos(),
-    inspActivo:cargarItem(KEYS.inspActivo)||'',
-    turnoInicio:cargarItem(KEYS.turnoInicio)||''
-  };
-}
-function aplicarDatos(d){
-  if(!d||typeof d!=='object') return false;
-  guardarDatos(KEYS.ingresos,        d.ingresos||[]);
-  guardarDatos(KEYS.apercibimientos, d.apercibimientos||[]);
-  guardarDatos(KEYS.suspensiones,    d.suspensiones||[]);
-  guardarDatos(KEYS.inspectores,     d.inspectores||[]);
-  guardarFotos(d.fotos||{});
-  if(d.inspActivo) guardarItem(KEYS.inspActivo,d.inspActivo);
-  else localStorage.removeItem(KEYS.inspActivo);
-  if(d.turnoInicio) guardarItem(KEYS.turnoInicio,d.turnoInicio);
-  else localStorage.removeItem(KEYS.turnoInicio);
-  return true;
-}
-
-/* ═══════════════════════════════════════════════
-   GUARDAR EN GITHUB (push)
-═══════════════════════════════════════════════ */
-async function guardarEnGitHub(silencioso=false){
-  if(_syncEnCurso) return {ok:false};
-  _syncEnCurso=true;
-  if(!silencioso) setSyncBadge('syncing','⏳ Guardando...');
-  else setSyncBadge('syncing','⏳ Sync...');
-  try{
-    const datos=construirDatos();
-    const json=JSON.stringify(datos,null,2);
-    const now=ahoraReal();
-    const msg=`PCQ sync ${formatFecha(now)} ${formatHora(now)}`;
-    if(!_shaDataFile){
-      const info=await ghGetFile(GH.dataFile);
-      _shaDataFile=info.sha;
-    }
-    const res=await ghPutFile(GH.dataFile,json,msg,_shaDataFile);
-    if(res.ok){
-      _shaDataFile=res.sha;
-      _ultimoSyncTs=ahoraReal();
-      guardarItem(KEYS.lastSync,_ultimoSyncTs.toISOString());
-      setSyncBadge('ok','✅ '+formatHora(_ultimoSyncTs));
-      _actualizarInfoSync();
-      return {ok:true};
-    } else {
-      if(res.error&&(res.error.includes('sha')||res.error.includes('409'))){
-        _shaDataFile=null; _syncEnCurso=false;
-        return guardarEnGitHub(silencioso);
-      }
-      setSyncBadge('error','❌ Error al guardar');
-      return {ok:false,error:res.error};
-    }
-  }catch(e){
-    setSyncBadge('error','❌ Sin conexión');
-    return {ok:false,error:e.message};
-  }finally{_syncEnCurso=false;}
-}
-
-/* ═══════════════════════════════════════════════
-   SINCRONIZAR DESDE GITHUB (pull)
-═══════════════════════════════════════════════ */
-async function sincronizarDesdeGitHub(mostrarUI=false){
-  if(_syncEnCurso) return;
-  _syncEnCurso=true;
-  setSyncBadge('syncing','🔄 Sincronizando...');
-  if(mostrarUI) mostrarAlerta('alerta-github','info','⏳ Sincronizando datos desde GitHub...');
-  try{
-    const info=await ghGetFile(GH.dataFile);
-    if(!info.content){
-      _syncEnCurso=false;
-      await guardarEnGitHub(true);
-      if(mostrarUI) mostrarAlerta('alerta-github','ok','✅ Primer uso: datos locales subidos a GitHub.');
-      return;
-    }
-    _shaDataFile=info.sha;
-    const jsonStr=base64ToUtf8(info.content.replace(/\n/g,''));
-    const remoto=JSON.parse(jsonStr);
-    const tsRemoto=remoto.updatedAt?new Date(remoto.updatedAt).getTime():0;
-    const tsLocal=cargarItem(KEYS.lastSync)?new Date(cargarItem(KEYS.lastSync)).getTime():0;
-    if(tsRemoto>tsLocal){
-      aplicarDatos(remoto);
-      _ultimoSyncTs=new Date(remoto.updatedAt);
-      guardarItem(KEYS.lastSync,remoto.updatedAt);
-      setSyncBadge('ok','✅ '+formatHora(_ultimoSyncTs));
-      _actualizarInfoSync();
-      actualizarUIInspectorActivo();
-      actualizarEstadoBloqueo();
-      if(mostrarUI) mostrarAlerta('alerta-github','ok',
-        `✅ Datos actualizados desde GitHub.<br>
-         📅 <strong>${formatFecha(_ultimoSyncTs)} ${formatHora(_ultimoSyncTs)}</strong> |
-         🚪 Ingresos: <strong>${remoto.ingresos?.length||0}</strong> |
-         ⚠️ Aperc: <strong>${remoto.apercibimientos?.length||0}</strong> |
-         🚫 Susp: <strong>${remoto.suspensiones?.length||0}</strong>`);
-    } else {
-      _syncEnCurso=false;
-      await guardarEnGitHub(true);
-      if(mostrarUI) mostrarAlerta('alerta-github','ok','✅ Datos locales ya actualizados. Confirmados en GitHub.');
-    }
-  }catch(e){
-    setSyncBadge('error','❌ Error');
-    if(mostrarUI) mostrarAlerta('alerta-github','error','❌ Error al sincronizar: '+e.message);
-  }finally{_syncEnCurso=false;}
-}
-
-function _actualizarInfoSync(){
-  const el=document.getElementById('ultimo-sync-info');
-  if(el&&_ultimoSyncTs) el.textContent=`🕐 Última sincronización: ${formatFecha(_ultimoSyncTs)} ${formatHora(_ultimoSyncTs)}`;
-}
-
-/* ═══════════════════════════════════════════════
-   VERIFICAR CONEXIÓN
-═══════════════════════════════════════════════ */
-async function verificarConexionGitHub(){
-  mostrarAlerta('alerta-github','info','⏳ Verificando conexión con GitHub...');
-  try{
-    const r=await fetch(`https://api.github.com/repos/${GH.owner}/${GH.repo}`,
-      {headers:{'Authorization':`Bearer ${GH.token}`,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}});
-    const d=await r.json();
-    if(r.ok) mostrarAlerta('alerta-github','ok',
-      `✅ Conexión exitosa.<br>Repositorio: <strong>${d.full_name}</strong> | Privado: <strong>${d.private?'Sí':'No'}</strong><br>📁 Base de datos: <strong>${GH.dataFile}</strong>`);
-    else mostrarAlerta('alerta-github','error',`❌ Error: ${d.message||'HTTP '+r.status}`);
-  }catch(e){mostrarAlerta('alerta-github','error','❌ Sin conexión: '+e.message);}
-}
+let offsetMs      = 0;
+let _editInspId   = null;
+let _inspDesact   = null;
+let _streamCamara = null;
 
 /* ═══════════════════════════════════════════════
    PERSISTENCIA LOCAL
@@ -802,10 +549,7 @@ function deleteFoto(dni){const f=cargarFotos();delete f[String(dni)];guardarFoto
    HORA DESDE INTERNET
 ═══════════════════════════════════════════════ */
 async function sincronizarHora(){
-  const apis=[
-    'https://timeapi.io/api/time/current/zone?timeZone=America%2FArgentina%2FBuenos_Aires',
-    'https://worldtimeapi.org/api/timezone/America/Argentina/Buenos_Aires'
-  ];
+  const apis=[    'https://timeapi.io/api/time/current/zone?timeZone=America%2FArgentina%2FBuenos_Aires',    'https://worldtimeapi.org/api/timezone/America/Argentina/Buenos_Aires'  ];
   for(const url of apis){
     try{
       const r=await fetch(url,{signal:AbortSignal.timeout(5000)});
@@ -925,7 +669,7 @@ function cargarFotoArchivo(ev){
   r.onload=function(e){const i=new Image();i.onload=function(){_guardarFoto(comprimirImagen(i));};i.src=e.target.result;};
   r.readAsDataURL(f);ev.target.value='';
 }
-async function _guardarFoto(b64){
+function _guardarFoto(b64){
   document.getElementById('foto-preview').src=b64;
   document.getElementById('foto-preview-wrap').classList.add('show');
   document.getElementById('btn-borrar-foto').style.display='inline-flex';
@@ -934,17 +678,15 @@ async function _guardarFoto(b64){
   if(dni){
     setFoto(dni,b64);
     document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅ guardada';
-    mostrarAlerta('alerta-foto','info','📤 Guardando foto en GitHub...');
-    await guardarEnGitHub(true);
-    mostrarAlerta('alerta-foto','ok','✅ Foto guardada y sincronizada para DNI '+dni+'.');
+    mostrarAlerta('alerta-foto','ok','✅ Foto guardada para DNI '+dni+'.');
   } else {
     document.getElementById('foto-preview-dni').textContent='⚠️ Ingresá el DNI para asociar la foto';
     mostrarAlerta('alerta-foto','warn','⚠️ Ingresá el DNI del invitado para asociar la foto.');
   }
 }
-async function borrarFoto(){
+function borrarFoto(){
   const dni=document.getElementById('dni-ingreso').value.trim();
-  if(dni&&getFoto(dni)){if(!confirm(`¿Eliminar la foto del DNI ${dni}?`))return;deleteFoto(dni);await guardarEnGitHub(true);}
+  if(dni&&getFoto(dni)){if(!confirm(`¿Eliminar la foto del DNI ${dni}?`))return;deleteFoto(dni);}
   document.getElementById('foto-preview').src='';
   document.getElementById('foto-preview-wrap').classList.remove('show');
   document.getElementById('btn-borrar-foto').style.display='none';
@@ -990,7 +732,7 @@ function _navegarSeccion(id,btn){
   if(btn) btn.classList.add('activo');
   if(id==='apercibamiento'){renderTablaApercibimientos();actualizarUIInspectorActivo();}
   if(id==='suspension')     renderTablaSuspensiones();
-  if(id==='backup')         {renderEstadisticas();_actualizarInfoSync();}
+  if(id==='backup')         renderEstadisticas();
   if(id==='inspectores')    {renderInspectores();actualizarUIInspectorActivo();}
   if(id==='vencidos')       renderVencidos();
   if(id==='consulta')       setFechasConsultaHoy();
@@ -1013,16 +755,14 @@ function actualizarUIInspectorActivo(){
   else    {document.getElementById('insp-activo-nombre').textContent='Sin inspector activo';document.getElementById('insp-activo-sub').textContent='Seleccioná un inspector y presioná "Activar"';pI.classList.add('sin-inspector');bD.style.display='none';}
 }
 
-async function activarInspector(id){
+function activarInspector(id){
   const ant=cargarItem(KEYS.inspActivo);
   if(ant&&ant!==String(id)){localStorage.removeItem(KEYS.inspActivo);localStorage.removeItem(KEYS.turnoInicio);}
   guardarItem(KEYS.inspActivo,String(id));
   guardarItem(KEYS.turnoInicio,ahoraReal().toISOString());
   document.getElementById('banner-activar').style.display='none';
   actualizarUIInspectorActivo();actualizarEstadoBloqueo();renderInspectores();
-  mostrarAlerta('alerta-insp','info','⏳ Activando inspector y sincronizando...');
-  await guardarEnGitHub(false);
-  mostrarAlerta('alerta-insp','ok','✅ Inspector activado y sincronizado. ¡Sistema habilitado!');
+  mostrarAlerta('alerta-insp','ok','✅ Inspector activado. ¡Sistema habilitado!');
   _navegarSeccion('ingreso',document.getElementById('btn-nav-ingreso'));
 }
 
@@ -1057,7 +797,7 @@ function desactivarInspector(){
   document.getElementById('modal-cierre').classList.add('show');
 }
 function cerrarModalCierre(){document.getElementById('modal-cierre').classList.remove('show');_inspDesact=null;}
-async function confirmarDesactivar(){
+function confirmarDesactivar(){
   if(!_inspDesact)return;
   const insp=_inspDesact,turno=insp._turno,now=ahoraReal();
   const xml=generarXMLTurno(insp,turno,now);
@@ -1067,10 +807,6 @@ async function confirmarDesactivar(){
   Object.assign(document.createElement('a'),{href:url,download:nom}).click();
   URL.revokeObjectURL(url);
   localStorage.removeItem(KEYS.inspActivo);localStorage.removeItem(KEYS.turnoInicio);
-  _shaDataFile=null;
-  mostrarAlerta('alerta-modal-cierre','info','⏳ Sincronizando cierre con GitHub...');
-  await guardarEnGitHub(false);
-  mostrarAlerta('alerta-modal-cierre','ok','✅ Turno cerrado y sincronizado.');
   actualizarUIInspectorActivo();actualizarEstadoBloqueo();renderInspectores();
   cerrarModalCierre();
   document.getElementById('banner-activar').style.display='block';
@@ -1107,7 +843,7 @@ function armarMensajeWA(insp,turno){
 /* ═══════════════════════════════════════════════
    ABM INSPECTORES
 ═══════════════════════════════════════════════ */
-async function guardarInspector(){
+function guardarInspector(){
   const nombre=document.getElementById('insp-nombre').value.trim();
   const tel=document.getElementById('insp-tel').value.trim();
   const obs=document.getElementById('insp-obs').value.trim();
@@ -1116,9 +852,7 @@ async function guardarInspector(){
   if(lista.find(i=>i.nombre.toLowerCase()===nombre.toLowerCase())){mostrarAlerta('alerta-insp','error','Ya existe un inspector con ese nombre.');return;}
   lista.push({id:Date.now(),nombre,tel,obs});
   guardarDatos(KEYS.inspectores,lista);
-  mostrarAlerta('alerta-insp','info','⏳ Guardando en GitHub...');
-  await guardarEnGitHub(false);
-  mostrarAlerta('alerta-insp','ok',`✅ Inspector <strong>${nombre}</strong> registrado y sincronizado.`);
+  mostrarAlerta('alerta-insp','ok',`✅ Inspector <strong>${nombre}</strong> registrado.`);
   ['insp-nombre','insp-tel','insp-obs'].forEach(id=>{document.getElementById(id).value='';});
   renderInspectores();
 }
@@ -1132,7 +866,7 @@ function editarInspector(id){
   document.getElementById('modal-insp').classList.add('show');
 }
 function cerrarModalInspector(){document.getElementById('modal-insp').classList.remove('show');_editInspId=null;}
-async function guardarModalInspector(){
+function guardarModalInspector(){
   const nombre=document.getElementById('m-insp-nombre').value.trim();
   const tel=document.getElementById('m-insp-tel').value.trim();
   const obs=document.getElementById('m-insp-obs').value.trim();
@@ -1142,18 +876,16 @@ async function guardarModalInspector(){
   const idx=lista.findIndex(i=>i.id===_editInspId);if(idx===-1){cerrarModalInspector();return;}
   lista[idx]={...lista[idx],nombre,tel,obs};
   guardarDatos(KEYS.inspectores,lista);
-  await guardarEnGitHub(false);
   cerrarModalInspector();actualizarUIInspectorActivo();renderInspectores();
-  mostrarAlerta('alerta-insp','ok','✅ Inspector actualizado y sincronizado.');
+  mostrarAlerta('alerta-insp','ok','✅ Inspector actualizado.');
 }
-async function eliminarInspector(id){
+function eliminarInspector(id){
   const insp=cargarDatos(KEYS.inspectores).find(i=>i.id===id);if(!insp)return;
   if(!confirm(`¿Eliminar al inspector "${insp.nombre}"?`))return;
   if(cargarItem(KEYS.inspActivo)===String(id)){localStorage.removeItem(KEYS.inspActivo);localStorage.removeItem(KEYS.turnoInicio);}
   guardarDatos(KEYS.inspectores,cargarDatos(KEYS.inspectores).filter(i=>i.id!==id));
-  await guardarEnGitHub(false);
   actualizarUIInspectorActivo();actualizarEstadoBloqueo();renderInspectores();
-  mostrarAlerta('alerta-insp','warn','⚠️ Inspector eliminado y sincronizado.');
+  mostrarAlerta('alerta-insp','warn','⚠️ Inspector eliminado.');
 }
 function renderInspectores(){
   const lista=cargarDatos(KEYS.inspectores),actId=cargarItem(KEYS.inspActivo);
@@ -1194,19 +926,19 @@ function renderVencidos(){
     tbody.appendChild(tr);
   });
 }
-async function eliminarIngreso(ticket){
+function eliminarIngreso(ticket){
   if(!confirm(`¿Dar de baja el ticket "${ticket}"?`))return;
   guardarDatos(KEYS.ingresos,cargarDatos(KEYS.ingresos).filter(i=>i.ticket!==ticket));
-  await guardarEnGitHub(true);renderVencidos();
+  renderVencidos();
   mostrarAlerta('alerta-vencidos','ok',`✅ Ticket <strong>${ticket}</strong> eliminado.`);
 }
-async function limpiarVencidos(){
+function limpiarVencidos(){
   const ing=cargarDatos(KEYS.ingresos),now=ahoraReal(),lim=HS_VIGENCIA*3600000;
   const vig=ing.filter(i=>(now.getTime()-parseFechaHora(i.fecha,i.hora).getTime())<lim);
   const cant=ing.length-vig.length;
   if(!cant){mostrarAlerta('alerta-vencidos','info','No hay ingresos vencidos.');return;}
   if(!confirm(`¿Eliminar los ${cant} ingreso(s) vencido(s)?`))return;
-  guardarDatos(KEYS.ingresos,vig);await guardarEnGitHub(true);renderVencidos();
+  guardarDatos(KEYS.ingresos,vig);renderVencidos();
   mostrarAlerta('alerta-vencidos','ok',`✅ Se eliminaron <strong>${cant}</strong> ingreso(s) vencido(s).`);
 }
 
@@ -1298,7 +1030,7 @@ function buscarInvitado(){
   if(foto){document.getElementById('foto-preview').src=foto;document.getElementById('foto-preview-wrap').classList.add('show');document.getElementById('btn-borrar-foto').style.display='inline-flex';document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅';}
 }
 
-async function registrarIngreso(){
+function registrarIngreso(){
   const dni=document.getElementById('dni-ingreso').value.trim();
   const ticket=document.getElementById('ticket-ingreso').value.trim();
   if(!dni){mostrarAlerta('alerta-ingreso','error','Ingresá el número de documento.');return;}
@@ -1314,9 +1046,7 @@ async function registrarIngreso(){
   lista.push({dni,ticket,fecha:formatFecha(now),hora:formatHora(now),isoFecha:isoFecha(now)});
   guardarDatos(KEYS.ingresos,lista);
   document.getElementById('aviso-ticket').className='alerta';
-  mostrarAlerta('alerta-ingreso','info','⏳ Guardando en GitHub...');
-  await guardarEnGitHub(false);
-  mostrarAlerta('alerta-ingreso','ok',`✅ Ingreso registrado y sincronizado – DNI: <strong>${dni}</strong> | Ticket: <strong>${ticket}</strong> | ${formatFecha(now)} ${formatHora(now)}`);
+  mostrarAlerta('alerta-ingreso','ok',`✅ Ingreso registrado – DNI: <strong>${dni}</strong> | Ticket: <strong>${ticket}</strong> | ${formatFecha(now)} ${formatHora(now)}`);
   buscarInvitado();
   document.getElementById('ticket-ingreso').value='';
 }
@@ -1324,7 +1054,7 @@ async function registrarIngreso(){
 /* ═══════════════════════════════════════════════
    APERCIBAMIENTO
 ═══════════════════════════════════════════════ */
-async function registrarApercibamiento(){
+function registrarApercibamiento(){
   const dni=document.getElementById('dni-aperc').value.trim();
   const nombre=document.getElementById('nombre-aperc').value.trim();
   const motivo=document.getElementById('motivo-aperc').value.trim();
@@ -1336,16 +1066,14 @@ async function registrarApercibamiento(){
   const lista=cargarDatos(KEYS.apercibimientos);
   lista.push({id:Date.now(),dni,nombre,motivo,fecha:formatFecha(now),hora:formatHora(now),inspector:insp?insp.nombre:null,inspectorId:insp?insp.id:null});
   guardarDatos(KEYS.apercibimientos,lista);
-  mostrarAlerta('alerta-aperc','info','⏳ Guardando en GitHub...');
-  await guardarEnGitHub(false);
-  mostrarAlerta('alerta-aperc','ok',`⚠️ Apercibamiento registrado y sincronizado para DNI <strong>${dni}</strong>${insp?` | Inspector: <strong>${insp.nombre}</strong>`:''}.`);
+  mostrarAlerta('alerta-aperc','ok',`⚠️ Apercibamiento registrado para DNI <strong>${dni}</strong>${insp?` | Inspector: <strong>${insp.nombre}</strong>`:''}.`);
   ['dni-aperc','nombre-aperc','motivo-aperc'].forEach(id=>{document.getElementById(id).value='';});
   renderTablaApercibimientos();
 }
-async function eliminarApercibimiento(id){
+function eliminarApercibimiento(id){
   if(!confirm('¿Eliminar este apercibamiento?'))return;
   guardarDatos(KEYS.apercibimientos,cargarDatos(KEYS.apercibimientos).filter(a=>a.id!==id));
-  await guardarEnGitHub(true);renderTablaApercibimientos();
+  renderTablaApercibimientos();
 }
 function renderTablaApercibimientos(){
   const lista=cargarDatos(KEYS.apercibimientos).slice().reverse();
@@ -1354,7 +1082,7 @@ function renderTablaApercibimientos(){
   lista.forEach(a=>{
     const ib=a.inspector?`<span class="badge badge-azul">👮 ${a.inspector}</span>`:'<span style="color:#aaa;font-size:.8rem">—</span>';
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td>${fotoThumb(a.dni)}</td><td>${a.dni}</td><td>${a.nombre||'—'}</td><td>${a.fecha} ${a.hora}</td><td style="max-width:240px">${a.motivo}</td><td>${ib}</td><td><button class="btn btn-danger btn-sm" onclick="eliminarApercibimiento(${a.id})">🗑️ Eliminar</button></td>`;
+    tr.innerHTML=`<td>${fotoThumb(a.dni)}</td><td>${a.dni}</td><td>${a.nombre||'—'}</td><td>${a.fecha} ${a.hora}</td><td style="max-width:240px">${a.motivo}</td><td>${ib}</td><td><button class="btn btn-danger btn-sm" onclick="eliminarApercibamiento(${a.id})">🗑️ Eliminar</button></td>`;
     tbody.appendChild(tr);
   });
 }
@@ -1362,7 +1090,7 @@ function renderTablaApercibimientos(){
 /* ═══════════════════════════════════════════════
    SUSPENSIÓN
 ═══════════════════════════════════════════════ */
-async function registrarSuspension(){
+function registrarSuspension(){
   const dni=document.getElementById('dni-susp').value.trim();
   const nombre=document.getElementById('nombre-susp').value.trim();
   const desde=document.getElementById('susp-desde').value;
@@ -1376,16 +1104,14 @@ async function registrarSuspension(){
   const lista=cargarDatos(KEYS.suspensiones);
   lista.push({id:Date.now(),dni,nombre,desde,hasta,motivo});
   guardarDatos(KEYS.suspensiones,lista);
-  mostrarAlerta('alerta-susp','info','⏳ Guardando en GitHub...');
-  await guardarEnGitHub(false);
-  mostrarAlerta('alerta-susp','ok',`🚫 Suspensión registrada y sincronizada para DNI <strong>${dni}</strong> hasta <strong>${hasta}</strong>.`);
+  mostrarAlerta('alerta-susp','ok',`🚫 Suspensión registrada para DNI <strong>${dni}</strong> hasta <strong>${hasta}</strong>.`);
   ['dni-susp','nombre-susp','susp-desde','susp-hasta','motivo-susp'].forEach(id=>{document.getElementById(id).value='';});
   renderTablaSuspensiones();
 }
-async function eliminarSuspension(id){
+function eliminarSuspension(id){
   if(!confirm('¿Eliminar esta suspensión?'))return;
   guardarDatos(KEYS.suspensiones,cargarDatos(KEYS.suspensiones).filter(s=>s.id!==id));
-  await guardarEnGitHub(true);renderTablaSuspensiones();
+  renderTablaSuspensiones();
 }
 function renderTablaSuspensiones(){
   const lista=cargarDatos(KEYS.suspensiones).slice().reverse();
@@ -1437,7 +1163,7 @@ function restaurarBackup(){
   if(!arch){mostrarAlerta('alerta-backup-rest','error','Seleccioná un archivo .xml');return;}
   if(!confirm('⚠️ ¿Estás seguro? Esto reemplazará TODOS los datos actuales.'))return;
   const reader=new FileReader();
-  reader.onload=async function(e){
+  reader.onload=function(e){
     try{
       const parser=new DOMParser();
       const doc=parser.parseFromString(e.target.result,'application/xml');
@@ -1454,9 +1180,7 @@ function restaurarBackup(){
       const inspEx=actId&&ins.find(i=>String(i.id)===String(actId));
       if(inspEx)guardarItem(KEYS.inspActivo,actId);else localStorage.removeItem(KEYS.inspActivo);
       actualizarUIInspectorActivo();actualizarEstadoBloqueo();
-      mostrarAlerta('alerta-backup-rest','info','⏳ Datos restaurados. Sincronizando con GitHub...');
-      _shaDataFile=null;await guardarEnGitHub(false);
-      mostrarAlerta('alerta-backup-rest','ok',`✅ Backup restaurado y sincronizado.<br>Ingresos: <strong>${ing.length}</strong> | Apercibamientos: <strong>${ap.length}</strong> | Suspensiones: <strong>${su.length}</strong> | Inspectores: <strong>${ins.length}</strong> | Fotos: <strong>${Object.keys(fotosR).length}</strong>`);
+      mostrarAlerta('alerta-backup-rest','ok',`✅ Backup restaurado.<br>Ingresos: <strong>${ing.length}</strong> | Apercibamientos: <strong>${ap.length}</strong> | Suspensiones: <strong>${su.length}</strong> | Inspectores: <strong>${ins.length}</strong> | Fotos: <strong>${Object.keys(fotosR).length}</strong>`);
       renderEstadisticas();document.getElementById('archivo-bak').value='';
     }catch(ex){mostrarAlerta('alerta-backup-rest','error','❌ Error al leer el archivo: '+ex.message);}
   };
@@ -1487,94 +1211,26 @@ function renderEstadisticas(){
 }
 
 /* ═══════════════════════════════════════════════
-   INICIALIZACIÓN — con timeout de emergencia
-   para que el sistema arranque aunque GitHub falle
+   INICIALIZACIÓN
 ═══════════════════════════════════════════════ */
 (async function init(){
-  const loadEl=document.getElementById('sync-loading');
-  loadEl.classList.add('show');
+  // 1. Sincronizar hora
+  await sincronizarHora();
+  tickReloj();
+  setInterval(tickReloj, 1000);
+  setInterval(sincronizarHora, 5 * 60 * 1000);
 
-  // TIMEOUT DE EMERGENCIA: si GitHub no responde en 10s, arranca igual
-  const emergencyTimeout=setTimeout(()=>{
-    loadEl.classList.remove('show');
-    setSyncBadge('error','❌ Sin conexión');
-    verificarContextoYMostrarAviso();
-    actualizarUIInspectorActivo();
-    actualizarEstadoBloqueo();
-    if(getInspectorActivo()){
-      _navegarSeccion('ingreso',document.getElementById('btn-nav-ingreso'));
-    } else {
-      document.getElementById('banner-activar').style.display='block';
-      _navegarSeccion('inspectores',document.getElementById('btn-nav-inspectores'));
-    }
-  },10000);
-
-  try{
-    // 1. Hora
-    document.getElementById('sync-loading-txt').textContent='🕐 Sincronizando hora...';
-    await sincronizarHora();
-    tickReloj();
-    setInterval(tickReloj,1000);
-    setInterval(sincronizarHora,5*60*1000);
-
-    // 2. Bajar datos de GitHub
-    document.getElementById('sync-loading-txt').textContent='☁️ Descargando datos desde GitHub...';
-    document.getElementById('sync-loading-sub').textContent='Esto puede tardar unos segundos...';
-    setSyncBadge('syncing','🔄 Cargando...');
-
-    const info=await ghGetFile(GH.dataFile);
-    if(info.content){
-      _shaDataFile=info.sha;
-      const jsonStr=base64ToUtf8(info.content.replace(/\n/g,''));
-      const remoto=JSON.parse(jsonStr);
-      const tsR=remoto.updatedAt?new Date(remoto.updatedAt).getTime():0;
-      const tsL=cargarItem(KEYS.lastSync)?new Date(cargarItem(KEYS.lastSync)).getTime():0;
-      if(tsR>tsL){
-        aplicarDatos(remoto);
-        _ultimoSyncTs=new Date(remoto.updatedAt);
-        guardarItem(KEYS.lastSync,remoto.updatedAt);
-        document.getElementById('sync-loading-sub').textContent='✅ Datos sincronizados correctamente';
-      } else {
-        document.getElementById('sync-loading-sub').textContent='✅ Datos locales ya actualizados';
-      }
-      setSyncBadge('ok','✅ Sincronizado');
-    } else {
-      // Token inválido o archivo no existe: trabajar offline
-      setSyncBadge('error','⚠️ Sin sync GitHub');
-      document.getElementById('sync-loading-sub').textContent='⚠️ GitHub no disponible – usando datos locales';
-      await new Promise(r=>setTimeout(r,1500));
-    }
-  }catch(e){
-    setSyncBadge('error','❌ Sin conexión');
-    document.getElementById('sync-loading-sub').textContent='⚠️ Sin conexión – usando datos locales';
-    await new Promise(r=>setTimeout(r,1500));
-  }
-
-  // Cancelar el timeout de emergencia porque llegamos hasta acá normalmente
-  clearTimeout(emergencyTimeout);
-
-  // 3. Ocultar pantalla de carga
-  loadEl.classList.remove('show');
-
-  // 4. UI inicial
+  // 2. UI inicial
   verificarContextoYMostrarAviso();
   actualizarUIInspectorActivo();
   actualizarEstadoBloqueo();
-  if(getInspectorActivo()){
-    _navegarSeccion('ingreso',document.getElementById('btn-nav-ingreso'));
-  } else {
-    document.getElementById('banner-activar').style.display='block';
-    _navegarSeccion('inspectores',document.getElementById('btn-nav-inspectores'));
-  }
 
-  // 5. Auto-sync cada 30 segundos
-  setInterval(async()=>{
-    if(!_syncEnCurso){
-      await sincronizarDesdeGitHub(false);
-      actualizarUIInspectorActivo();
-      actualizarEstadoBloqueo();
-    }
-  },SYNC_INTERVAL);
+  if(getInspectorActivo()){
+    _navegarSeccion('ingreso', document.getElementById('btn-nav-ingreso'));
+  } else {
+    document.getElementById('banner-activar').style.display = 'block';
+    _navegarSeccion('inspectores', document.getElementById('btn-nav-inspectores'));
+  }
 })();
 </script>
 </body>
