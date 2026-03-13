@@ -1,7 +1,15 @@
 {
   "version": 2,
-  "updatedAt": "2026-03-13T17:27:32.734Z",
-  "ingresos": [],
+  "updatedAt": "2026-03-13T17:39:48.325Z",
+  "ingresos": [
+    {
+      "dni": "7858",
+      "ticket": "8688",
+      "fecha": "13/03/2026",
+      "hora": "14:39:48",
+      "isoFecha": "2026-03-13"
+    }
+  ],
   "apercibimientos": [],
   "suspensiones": [],
   "inspectores": [
