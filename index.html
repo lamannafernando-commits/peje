@@ -364,7 +364,6 @@
       display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; align-items: center;
     }
 
-    /* ── ESTADO CÁMARA ── */
     #cam-status {
       font-size: .8rem; color: #4a6a4a; font-style: italic;
       margin-bottom: 6px; min-height: 1.2em;
@@ -422,7 +421,6 @@
       text-align: center;
     }
 
-    /* Foto en tablas */
     .foto-thumb {
       width: 44px; height: 44px; object-fit: cover;
       border-radius: 5px; border: 2px solid #ccc;
@@ -449,6 +447,20 @@
     }
     .aviso-https.show { display: block; }
 
+    /* ── GITHUB STATUS ── */
+    #github-status-bar {
+      background: rgba(0,0,0,.4); border-top: 1px solid var(--dorado);
+      text-align: center; padding: 4px 12px;
+      font-size: .75rem; color: #aacfaa;
+      font-family: 'Oswald', sans-serif; letter-spacing: .5px;
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+      display: none;
+    }
+    #github-status-bar.show { display: block; }
+    #github-status-bar.gh-ok    { color: #6ee7b7; }
+    #github-status-bar.gh-error { color: #fca5a5; }
+    #github-status-bar.gh-info  { color: #93c5fd; }
+
     @media(max-width:600px){
       header h1 { font-size: 1.15rem; }
       .form-row  { flex-direction: column; }
@@ -460,6 +472,9 @@
   </style>
 </head>
 <body>
+
+<!-- BARRA DE ESTADO GITHUB -->
+<div id="github-status-bar"></div>
 
 <!-- PANTALLA DE BLOQUEO -->
 <div id="bloqueo-overlay">
@@ -516,7 +531,7 @@
 <!-- NAV -->
 <nav>
   <button id="btn-nav-ingreso"        onclick="navClick('ingreso',this)">🚪 Ingreso</button>
-  <button id="btn-nav-apercibamiento" onclick="navClick('apercibimiento',this)">⚠️ Apercibimiento</button>
+  <button id="btn-nav-apercibamiento" onclick="navClick('apercibamiento',this)">⚠️ Apercibimiento</button>
   <button id="btn-nav-suspension"     onclick="navClick('suspension',this)">🚫 Suspensión</button>
   <button id="btn-nav-consulta"       onclick="navClick('consulta',this)">📋 Consulta por Fechas</button>
   <button id="btn-nav-vencidos"       onclick="navClick('vencidos',this)">⏰ Ingresos Vencidos</button>
@@ -549,18 +564,13 @@
       </div>
       <div id="aviso-ticket" class="alerta"></div>
 
-      <!-- SECCIÓN FOTO -->
       <div class="foto-section">
         <h4>📷 Foto del Invitado</h4>
-
         <div id="aviso-https" class="aviso-https">
           ⚠️ <strong>Cámara directa no disponible en este contexto (requiere HTTPS).</strong>
           Usá el botón <strong>📁 Cargar / Tomar Foto</strong> — en el celular abre la cámara igualmente.
         </div>
-
-        <!-- Estado de la cámara -->
         <div id="cam-status"></div>
-
         <div class="foto-controles">
           <button class="btn btn-info btn-sm" id="btn-abrir-camara" onclick="abrirCamara()">📷 Tomar Foto</button>
           <button class="btn btn-secondary btn-sm" onclick="document.getElementById('foto-archivo').click()">📁 Cargar / Tomar Foto</button>
@@ -568,8 +578,6 @@
                  style="display:none" onchange="cargarFotoArchivo(event)"/>
           <button class="btn btn-danger btn-sm" id="btn-borrar-foto" onclick="borrarFoto()" style="display:none">🗑️ Borrar foto</button>
         </div>
-
-        <!-- Video cámara -->
         <div id="camara-wrap">
           <video id="video-camara" autoplay playsinline muted></video>
           <canvas id="canvas-foto"></canvas>
@@ -578,13 +586,10 @@
             <button class="btn btn-secondary btn-sm" onclick="cerrarCamara()">✖ Cancelar</button>
           </div>
         </div>
-
-        <!-- Preview foto -->
         <div id="foto-preview-wrap">
           <img id="foto-preview" src="" alt="Foto del invitado"/>
           <span class="foto-dni-label" id="foto-preview-dni">DNI: --</span>
         </div>
-
         <div id="alerta-foto" class="alerta"></div>
       </div>
 
@@ -615,7 +620,7 @@
   </section>
 
   <!-- APERCIBIMIENTO -->
-  <section id="sec-apercibimiento" class="seccion">
+  <section id="sec-apercibamiento" class="seccion">
     <div class="card">
       <h2>⚠️ Registrar Apercibimiento</h2>
       <div id="aperc-inspector-panel" class="inspector-activo-panel sin-inspector">
@@ -717,7 +722,6 @@
   <section id="sec-vencidos" class="seccion">
     <div class="card">
       <h2>⏰ Ingresos Vencidos / Por Vencer</h2>
-
       <div id="contador-por-vencer" class="contador-por-vencer" style="display:none;">
         <div class="cpv-num" id="cpv-num">0</div>
         <div>
@@ -725,7 +729,6 @@
           <div class="cpv-sub">Ingresaron hace más de 23 horas — vencen pronto</div>
         </div>
       </div>
-
       <div id="contador-vencidos" class="contador-vencidos" style="display:none;">
         <div class="cv-num" id="cv-num">0</div>
         <div>
@@ -733,7 +736,6 @@
           <div class="cv-sub">Ingresaron hace más de 24 horas y no han salido del registro</div>
         </div>
       </div>
-
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
         <button class="btn btn-primary" onclick="renderVencidos()">🔄 Actualizar</button>
         <button class="btn btn-danger"  onclick="limpiarVencidos()">🗑️ Eliminar todos los vencidos</button>
@@ -794,10 +796,11 @@
     <div class="card">
       <h2>💾 Generar Backup</h2>
       <p style="font-size:.9rem;color:#4a6a4a;margin-bottom:14px;">
-        Exporta todos los datos (incluidas las fotos) en un archivo <strong>.xml</strong>.
+        Exporta todos los datos (incluidas las fotos) en un archivo <strong>.xml</strong>.<br/>
+        El archivo se descarga localmente <strong>y también se guarda automáticamente en GitHub</strong> 📂.
       </p>
       <div class="backup-row">
-        <button class="btn btn-success" onclick="generarBackup()">⬇️ Descargar Backup (.xml)</button>
+        <button class="btn btn-success" onclick="generarBackup()">⬇️ Descargar + Guardar en GitHub</button>
       </div>
       <div id="alerta-backup-gen" class="alerta"></div>
     </div>
@@ -813,6 +816,15 @@
         <button class="btn btn-warning" onclick="restaurarBackup()">⬆️ Restaurar Backup</button>
       </div>
       <div id="alerta-backup-rest" class="alerta"></div>
+    </div>
+    <div class="card">
+      <h2>🐙 Estado GitHub</h2>
+      <p style="font-size:.9rem;color:#4a6a4a;margin-bottom:14px;">
+        Los backups y cierres de turno se guardan en:<br/>
+        <strong style="color:var(--verde-oscuro);">📁 lamannafernando-commits / peje → carpeta <code>backups/</code></strong>
+      </p>
+      <button class="btn btn-info" onclick="verificarConexionGitHub()">🔍 Verificar conexión con GitHub</button>
+      <div id="alerta-github" class="alerta"></div>
     </div>
     <div class="card">
       <h2>📊 Estadísticas de Datos Actuales</h2>
@@ -843,7 +855,7 @@
     <h3>📋 Resumen de Turno – <span id="mc-inspector-nombre"></span></h3>
     <div id="mc-resumen" style="font-size:.88rem;color:#444;margin:12px 0;line-height:1.7;"></div>
     <p style="font-size:.8rem;color:#666;margin-bottom:6px;">
-      Se descargará el XML del turno y se abrirá WhatsApp con el resumen.
+      Se descargará el XML del turno, se guardará en GitHub y se abrirá WhatsApp con el resumen.
     </p>
     <div id="alerta-modal-cierre" class="alerta"></div>
     <div class="modal-acciones">
@@ -865,6 +877,19 @@
 
 <script>
 /* ═══════════════════════════════════════════════════════
+   CONFIGURACIÓN GITHUB
+   IMPORTANTE: Regenerá el token en github.com/settings/tokens
+   si lo compartiste públicamente.
+═══════════════════════════════════════════════════════ */
+const GITHUB_CONFIG = {
+  owner:  'lamannafernando-commits',
+  repo:   'peje',
+  branch: 'main',           // cambiá a 'master' si tu rama principal se llama así
+  folder: 'backups',        // carpeta dentro del repo donde se guardan los XML
+  token:  'REEMPLAZA_CON_TU_NUEVO_TOKEN'  // ← pegá acá el token NUEVO que generaste
+};
+
+/* ═══════════════════════════════════════════════════════
    CONSTANTES Y ESTADO GLOBAL
 ═══════════════════════════════════════════════════════ */
 const KEYS = {
@@ -885,6 +910,147 @@ let offsetMs            = 0;
 let _editInspId         = null;
 let _inspDesactivando   = null;
 let _streamCamara       = null;
+
+/* ═══════════════════════════════════════════════════════
+   GITHUB API — GUARDAR XML EN REPOSITORIO
+═══════════════════════════════════════════════════════ */
+
+/**
+ * Muestra un mensaje en la barra de estado de GitHub (fija abajo).
+ */
+function ghStatusBar(msg, tipo){
+  const bar = document.getElementById('github-status-bar');
+  bar.textContent = msg;
+  bar.className   = 'show gh-' + (tipo || 'info');
+  clearTimeout(bar._timer);
+  bar._timer = setTimeout(() => { bar.className = ''; }, 7000);
+}
+
+/**
+ * Convierte una cadena UTF-8 a Base64 compatible con la API de GitHub.
+ * btoa() falla con caracteres no-ASCII, por eso usamos TextEncoder.
+ */
+function utf8ToBase64(str){
+  const bytes  = new TextEncoder().encode(str);
+  let binary   = '';
+  bytes.forEach(b => { binary += String.fromCharCode(b); });
+  return btoa(binary);
+}
+
+/**
+ * Obtiene el SHA de un archivo existente en GitHub (necesario para actualizarlo).
+ * Retorna null si el archivo no existe aún.
+ */
+async function obtenerSHAArchivo(path){
+  const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${path}?ref=${GITHUB_CONFIG.branch}`;
+  try{
+    const r = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${GITHUB_CONFIG.token}`,
+        'Accept':        'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
+    });
+    if(r.status === 404) return null;
+    if(!r.ok) return null;
+    const data = await r.json();
+    return data.sha || null;
+  }catch(e){
+    return null;
+  }
+}
+
+/**
+ * Sube (crea o actualiza) un archivo XML al repositorio de GitHub.
+ * @param {string} contenidoXML  - El XML como string
+ * @param {string} nombreArchivo - Nombre del archivo (sin ruta), ej: "backup_20250313.xml"
+ * @param {string} mensaje       - Mensaje del commit
+ * @returns {Promise<{ok:boolean, url:string|null, error:string|null}>}
+ */
+async function subirXMLaGitHub(contenidoXML, nombreArchivo, mensaje){
+  if(!GITHUB_CONFIG.token || GITHUB_CONFIG.token === 'REEMPLAZA_CON_TU_NUEVO_TOKEN'){
+    return { ok: false, url: null, error: 'Token de GitHub no configurado.' };
+  }
+
+  const path   = `${GITHUB_CONFIG.folder}/${nombreArchivo}`;
+  const apiURL = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${path}`;
+
+  ghStatusBar('⏳ Subiendo XML a GitHub...', 'info');
+
+  // Obtener SHA si el archivo ya existe (para actualizarlo en vez de crearlo)
+  const sha = await obtenerSHAArchivo(path);
+
+  const body = {
+    message: mensaje || `PCQ: ${nombreArchivo}`,
+    content: utf8ToBase64(contenidoXML),
+    branch:  GITHUB_CONFIG.branch
+  };
+  if(sha) body.sha = sha; // Si existe, incluir SHA para sobrescribir
+
+  try{
+    const r = await fetch(apiURL, {
+      method:  'PUT',
+      headers: {
+        'Authorization':        `Bearer ${GITHUB_CONFIG.token}`,
+        'Accept':               'application/vnd.github+json',
+        'Content-Type':         'application/json',
+        'X-GitHub-Api-Version': '2022-11-28'
+      },
+      body: JSON.stringify(body)
+    });
+
+    const data = await r.json();
+
+    if(r.ok){
+      const htmlUrl = data.content?.html_url || null;
+      ghStatusBar(`✅ Guardado en GitHub: ${nombreArchivo}`, 'ok');
+      return { ok: true, url: htmlUrl, error: null };
+    } else {
+      const errMsg = data.message || `HTTP ${r.status}`;
+      ghStatusBar(`❌ Error GitHub: ${errMsg}`, 'error');
+      return { ok: false, url: null, error: errMsg };
+    }
+  }catch(e){
+    const errMsg = 'Sin conexión o error de red: ' + e.message;
+    ghStatusBar('❌ ' + errMsg, 'error');
+    return { ok: false, url: null, error: errMsg };
+  }
+}
+
+/**
+ * Verifica la conexión con GitHub y muestra el resultado.
+ */
+async function verificarConexionGitHub(){
+  mostrarAlerta('alerta-github','info','⏳ Verificando conexión con GitHub...');
+  if(!GITHUB_CONFIG.token || GITHUB_CONFIG.token === 'REEMPLAZA_CON_TU_NUEVO_TOKEN'){
+    mostrarAlerta('alerta-github','error','❌ Token no configurado. Editá GITHUB_CONFIG.token en el código.');
+    return;
+  }
+  try{
+    const r = await fetch(
+      `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`,
+      {
+        headers: {
+          'Authorization':        `Bearer ${GITHUB_CONFIG.token}`,
+          'Accept':               'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28'
+        }
+      }
+    );
+    const data = await r.json();
+    if(r.ok){
+      mostrarAlerta('alerta-github','ok',
+        `✅ Conexión exitosa con GitHub.<br>
+         Repositorio: <strong>${data.full_name}</strong> |
+         Rama por defecto: <strong>${data.default_branch}</strong> |
+         Privado: <strong>${data.private ? 'Sí' : 'No'}</strong>`);
+    } else {
+      mostrarAlerta('alerta-github','error',`❌ Error: ${data.message || 'HTTP ' + r.status}`);
+    }
+  }catch(e){
+    mostrarAlerta('alerta-github','error','❌ Sin conexión: ' + e.message);
+  }
+}
 
 /* ═══════════════════════════════════════════════════════
    PERSISTENCIA
@@ -972,7 +1138,6 @@ function estadoIngreso(ing){
   const ms   = msDesdeIngreso(ing);
   const lim  = HS_VIGENCIA * 3600000;
   const prev = lim - MIN_POR_VENCER * 60000;
-
   if(ms < 0)    return {texto:'⏳ Pendiente',   clase:'badge-azul',    fila:''};
   if(ms >= lim) return {texto:'⏰ Vencido',     clase:'badge-rojo',    fila:'vencido'};
   if(ms >= prev){
@@ -1000,24 +1165,8 @@ function validarTicketDuplicado(){
 }
 
 /* ═══════════════════════════════════════════════════════
-   MÓDULO DE CÁMARA — VERSIÓN ANDROID-COMPATIBLE
-   
-   Problemas conocidos en Android Chrome:
-   1. getUserMedia solo funciona en contextos seguros (HTTPS / localhost).
-   2. Las constraints muy específicas (exact facingMode) pueden fallar en
-      algunos dispositivos Android aunque el permiso esté concedido.
-   3. El video.play() puede rechazarse si el elemento no está visible aún.
-   4. En algunos Android, el stream demora en tener datos (readyState < 2).
-   
-   Solución aplicada:
-   - Usar { ideal: 'environment' } en vez de { facingMode: 'environment' }
-     para que sea una preferencia, no un requisito estricto.
-   - Fallback progresivo: trasero → frontal → cualquier cámara.
-   - Verificar contexto seguro antes de intentar getUserMedia.
-   - Esperar a que el video tenga datos antes de habilitar captura.
-   - Mostrar estado visual en tiempo real al usuario.
+   MÓDULO DE CÁMARA
 ═══════════════════════════════════════════════════════ */
-
 function _setCamStatus(msg, color){
   const el = document.getElementById('cam-status');
   if(!el) return;
@@ -1025,16 +1174,14 @@ function _setCamStatus(msg, color){
   el.style.color = color || '#4a6a4a';
 }
 
-/* ── Verificar contexto seguro ── */
 function esContextoSeguro(){
   return location.protocol === 'https:' ||
          location.hostname === 'localhost' ||
          location.hostname === '127.0.0.1' ||
-         location.hostname === '';          // file:// en algunos navegadores
+         location.hostname === '';
 }
 
 function verificarContextoYMostrarAviso(){
-  // Solo mostramos el aviso si definitivamente no hay soporte
   const sinSoporte = !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia;
   const inseguro   = !esContextoSeguro();
   if(sinSoporte || inseguro){
@@ -1044,418 +1191,300 @@ function verificarContextoYMostrarAviso(){
   }
 }
 
-/* ── Abrir cámara (versión robusta para Android) ── */
 async function abrirCamara(){
-
-  // 1. Verificar soporte de la API
   if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
     document.getElementById('aviso-https').classList.add('show');
     mostrarAlerta('alerta-foto','warn',
-      '📁 Cámara directa no disponible. Usá el botón <strong>"Cargar / Tomar Foto"</strong> — en Android abre la cámara igualmente.');
+      '📁 Cámara directa no disponible. Usá el botón <strong>"Cargar / Tomar Foto"</strong>.');
     return;
   }
-
-  // 2. Cerrar stream anterior
   _cerrarStreamCamara();
-
   _setCamStatus('⏳ Solicitando acceso a la cámara...', '#1a5a8a');
-
-  /*
-    CLAVE PARA ANDROID:
-    Usar `ideal` en vez de un valor directo para facingMode.
-    `{ facingMode: 'environment' }` puede lanzar OverconstrainedError en
-    algunos Android. `{ video: { facingMode: { ideal: 'environment' } } }`
-    es una preferencia suave — el navegador la satisface si puede, sino
-    usa cualquier cámara disponible.
-  */
   const intentos = [
     { video: { facingMode: { ideal: 'environment' } }, audio: false },
     { video: { facingMode: { ideal: 'user'        } }, audio: false },
     { video: true,                                      audio: false }
   ];
-
-  let stream      = null;
-  let ultimoError = null;
-
+  let stream = null, ultimoError = null;
   for(const constraints of intentos){
     try{
       stream = await navigator.mediaDevices.getUserMedia(constraints);
-      break; // éxito
+      break;
     }catch(e){
       ultimoError = e;
-      // Si el permiso fue denegado explícitamente, no tiene sentido seguir intentando
       if(e.name === 'NotAllowedError' || e.name === 'PermissionDeniedError') break;
-      // Para otros errores, intentamos la siguiente configuración
     }
   }
-
-  if(!stream){
-    _setCamStatus('', '');
-    _mostrarErrorCamara(ultimoError);
-    return;
-  }
-
+  if(!stream){ _setCamStatus('', ''); _mostrarErrorCamara(ultimoError); return; }
   _streamCamara = stream;
-
   const video = document.getElementById('video-camara');
   video.srcObject = stream;
-
-  // En Android, a veces hay que esperar el evento 'loadedmetadata' antes de play()
   await new Promise(resolve => {
     if(video.readyState >= 1){ resolve(); return; }
     video.addEventListener('loadedmetadata', resolve, { once: true });
-    // Timeout de seguridad
     setTimeout(resolve, 3000);
   });
-
-  try{
-    await video.play();
-  }catch(playErr){
-    // En Android Chrome a veces play() falla si el gesto del usuario ya pasó.
-    // No es crítico — el stream sigue activo y se puede capturar con canvas.
-    console.warn('video.play() rechazado (no crítico):', playErr.message);
-  }
-
+  try{ await video.play(); }catch(e){ console.warn('video.play() rechazado:', e.message); }
   document.getElementById('camara-wrap').classList.add('show');
   _setCamStatus('✅ Cámara activa — encuadrá al invitado y presioná Capturar', '#1a6b1a');
   mostrarAlerta('alerta-foto','info','📷 Cámara activa. Encuadrá al invitado y presioná Capturar.');
 }
 
-/* ── Mostrar error de cámara con mensajes útiles ── */
 function _mostrarErrorCamara(e){
   if(!e){ mostrarAlerta('alerta-foto','error','⚠️ No se pudo acceder a la cámara.'); return; }
-
   let msg = '';
   switch(e.name){
     case 'NotAllowedError':
     case 'PermissionDeniedError':
-      msg = '🚫 <strong>Permiso de cámara denegado.</strong><br/>' +
-            '📱 <strong>Android Chrome:</strong> Tocá el ícono 🔒 en la barra de dirección → Permisos → Cámara → Permitir. Luego recargá.<br/>' +
-            '📱 <strong>O bien:</strong> Ajustes del teléfono → Aplicaciones → Chrome → Permisos → Cámara → Permitir.<br/>' +
-            '💡 También podés usar <strong>"📁 Cargar / Tomar Foto"</strong> que abre la cámara igualmente.';
-      break;
+      msg = '🚫 <strong>Permiso de cámara denegado.</strong><br/>💡 Usá <strong>"📁 Cargar / Tomar Foto"</strong>.'; break;
     case 'NotFoundError':
     case 'DevicesNotFoundError':
-      msg = '📷 No se encontró ninguna cámara en este dispositivo.<br/>' +
-            '💡 Usá el botón <strong>"📁 Cargar / Tomar Foto"</strong>.';
-      break;
-    case 'NotReadableError':
-    case 'TrackStartError':
-      msg = '⚠️ La cámara está siendo usada por otra aplicación.<br/>' +
-            'Cerrá otras apps que usen la cámara y volvé a intentar.<br/>' +
-            '💡 O usá <strong>"📁 Cargar / Tomar Foto"</strong>.';
-      break;
-    case 'OverconstrainedError':
-    case 'ConstraintNotSatisfiedError':
-      msg = '⚠️ No se pudo satisfacer la configuración de cámara.<br/>' +
-            '💡 Usá el botón <strong>"📁 Cargar / Tomar Foto"</strong>.';
-      break;
-    case 'SecurityError':
-      document.getElementById('aviso-https').classList.add('show');
-      msg = '🔒 <strong>Error de seguridad.</strong><br/>' +
-            'La cámara directa requiere HTTPS o localhost.<br/>' +
-            '💡 Usá <strong>"📁 Cargar / Tomar Foto"</strong> — en Android abre la cámara igualmente.';
-      break;
-    case 'AbortError':
-      msg = '⚠️ La cámara fue interrumpida. Intentá de nuevo.<br/>' +
-            '💡 O usá <strong>"📁 Cargar / Tomar Foto"</strong>.';
-      break;
+      msg = '📷 No se encontró cámara.<br/>💡 Usá <strong>"📁 Cargar / Tomar Foto"</strong>.'; break;
     default:
-      msg = `⚠️ No se pudo acceder a la cámara (${e.name || 'Error desconocido'}).<br/>` +
-            '💡 Usá el botón <strong>"📁 Cargar / Tomar Foto"</strong> como alternativa.';
+      msg = `⚠️ No se pudo acceder a la cámara (${e.name||'Error'}).<br/>💡 Usá <strong>"📁 Cargar / Tomar Foto"</strong>.`;
   }
   mostrarAlerta('alerta-foto','error', msg);
 }
 
-/* ── Cerrar stream de cámara ── */
 function _cerrarStreamCamara(){
-  if(_streamCamara){
-    _streamCamara.getTracks().forEach(t => t.stop());
-    _streamCamara = null;
-  }
+  if(_streamCamara){ _streamCamara.getTracks().forEach(t=>t.stop()); _streamCamara=null; }
 }
 
 function cerrarCamara(){
   _cerrarStreamCamara();
-  const video = document.getElementById('video-camara');
-  video.srcObject = null;
+  const video=document.getElementById('video-camara');
+  video.srcObject=null;
   document.getElementById('camara-wrap').classList.remove('show');
-  document.getElementById('alerta-foto').className = 'alerta';
-  _setCamStatus('', '');
+  document.getElementById('alerta-foto').className='alerta';
+  _setCamStatus('','');
 }
 
-/* ── Capturar frame del video ── */
 function capturarFoto(){
-  const video = document.getElementById('video-camara');
-
-  if(!video.srcObject || !_streamCamara){
-    mostrarAlerta('alerta-foto','error','La cámara no está activa.');
-    return;
+  const video=document.getElementById('video-camara');
+  if(!video.srcObject||!_streamCamara){ mostrarAlerta('alerta-foto','error','La cámara no está activa.'); return; }
+  if(video.readyState<1){ mostrarAlerta('alerta-foto','warn','⏳ La cámara aún está iniciando...'); return; }
+  if(!video.videoWidth||!video.videoHeight){
+    _setCamStatus('⏳ Esperando imagen...','#b45309');
+    setTimeout(()=>{
+      if(video.videoWidth&&video.videoHeight){ const b=comprimirImagenABase64(video); cerrarCamara(); _guardarFotoCapturada(b); }
+      else{ mostrarAlerta('alerta-foto','error','No se pudo obtener imagen. Intentá de nuevo.'); _setCamStatus('',''); }
+    },500); return;
   }
-
-  // En Android, readyState puede ser 1 (HAVE_METADATA) y aun así tener frames.
-  // Usamos readyState >= 1 en vez de >= 2 para mayor compatibilidad.
-  if(video.readyState < 1){
-    mostrarAlerta('alerta-foto','warn','⏳ La cámara aún está iniciando, esperá un momento...');
-    return;
-  }
-
-  // Si el video no tiene dimensiones válidas, esperamos un tick
-  if(!video.videoWidth || !video.videoHeight){
-    _setCamStatus('⏳ Esperando imagen de la cámara...', '#b45309');
-    setTimeout(() => {
-      if(video.videoWidth && video.videoHeight){
-        const base64 = comprimirImagenABase64(video);
-        cerrarCamara();
-        _guardarFotoCapturada(base64);
-      } else {
-        mostrarAlerta('alerta-foto','error','No se pudo obtener imagen. Intentá de nuevo o usá "📁 Cargar / Tomar Foto".');
-        _setCamStatus('', '');
-      }
-    }, 500);
-    return;
-  }
-
-  const base64 = comprimirImagenABase64(video);
+  const base64=comprimirImagenABase64(video);
   cerrarCamara();
   _guardarFotoCapturada(base64);
 }
 
-/* ── Comprimir imagen ── */
 function comprimirImagenABase64(source){
-  const canvas = document.createElement('canvas');
-  let w = source.videoWidth  || source.naturalWidth  || source.width  || 320;
-  let h = source.videoHeight || source.naturalHeight || source.height || 240;
-  if(w > FOTO_MAX_W){ h = Math.round(h * FOTO_MAX_W / w); w = FOTO_MAX_W; }
-  canvas.width = w; canvas.height = h;
-  canvas.getContext('2d').drawImage(source, 0, 0, w, h);
-  return canvas.toDataURL('image/jpeg', FOTO_QUALITY);
+  const canvas=document.createElement('canvas');
+  let w=source.videoWidth||source.naturalWidth||source.width||320;
+  let h=source.videoHeight||source.naturalHeight||source.height||240;
+  if(w>FOTO_MAX_W){h=Math.round(h*FOTO_MAX_W/w);w=FOTO_MAX_W;}
+  canvas.width=w;canvas.height=h;
+  canvas.getContext('2d').drawImage(source,0,0,w,h);
+  return canvas.toDataURL('image/jpeg',FOTO_QUALITY);
 }
 
-/* ── Cargar foto desde archivo ── */
 function cargarFotoArchivo(event){
-  const file = event.target.files[0];
+  const file=event.target.files[0];
   if(!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e){
-    const img = new Image();
-    img.onload = function(){ _guardarFotoCapturada(comprimirImagenABase64(img)); };
-    img.src = e.target.result;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const img=new Image();
+    img.onload=function(){_guardarFotoCapturada(comprimirImagenABase64(img));};
+    img.src=e.target.result;
   };
   reader.readAsDataURL(file);
-  event.target.value = '';
+  event.target.value='';
 }
 
-/* ── Guardar foto capturada ── */
 function _guardarFotoCapturada(base64){
-  const preview = document.getElementById('foto-preview');
-  preview.src = base64;
+  const preview=document.getElementById('foto-preview');
+  preview.src=base64;
   document.getElementById('foto-preview-wrap').classList.add('show');
-  document.getElementById('btn-borrar-foto').style.display = 'inline-flex';
-  document.getElementById('alerta-foto').className = 'alerta';
-
-  const dni = document.getElementById('dni-ingreso').value.trim();
+  document.getElementById('btn-borrar-foto').style.display='inline-flex';
+  document.getElementById('alerta-foto').className='alerta';
+  const dni=document.getElementById('dni-ingreso').value.trim();
   if(dni){
-    setFoto(dni, base64);
-    document.getElementById('foto-preview-dni').textContent = 'DNI: ' + dni + ' ✅ guardada';
-    mostrarAlerta('alerta-foto','ok','✅ Foto guardada para DNI ' + dni + '.');
+    setFoto(dni,base64);
+    document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅ guardada';
+    mostrarAlerta('alerta-foto','ok','✅ Foto guardada para DNI '+dni+'.');
   } else {
-    document.getElementById('foto-preview-dni').textContent = '⚠️ Ingresá el DNI para asociar la foto';
+    document.getElementById('foto-preview-dni').textContent='⚠️ Ingresá el DNI para asociar la foto';
     mostrarAlerta('alerta-foto','warn','⚠️ Ingresá el DNI del invitado para asociar la foto.');
   }
 }
 
-/* ── Borrar foto ── */
 function borrarFoto(){
-  const dni = document.getElementById('dni-ingreso').value.trim();
-  if(dni && getFoto(dni)){
-    if(!confirm(`¿Eliminar la foto del DNI ${dni}?`)) return;
-    deleteFoto(dni);
-  }
-  document.getElementById('foto-preview').src = '';
+  const dni=document.getElementById('dni-ingreso').value.trim();
+  if(dni&&getFoto(dni)){ if(!confirm(`¿Eliminar la foto del DNI ${dni}?`)) return; deleteFoto(dni); }
+  document.getElementById('foto-preview').src='';
   document.getElementById('foto-preview-wrap').classList.remove('show');
-  document.getElementById('btn-borrar-foto').style.display = 'none';
-  document.getElementById('foto-preview-dni').textContent = 'DNI: --';
+  document.getElementById('btn-borrar-foto').style.display='none';
+  document.getElementById('foto-preview-dni').textContent='DNI: --';
   mostrarAlerta('alerta-foto','warn','🗑️ Foto eliminada.');
 }
 
-/* ── Al cambiar DNI, cargar foto existente ── */
 function onDniIngresoChange(){
-  const dni  = document.getElementById('dni-ingreso').value.trim();
-  const foto = dni ? getFoto(dni) : null;
+  const dni=document.getElementById('dni-ingreso').value.trim();
+  const foto=dni?getFoto(dni):null;
   if(foto){
-    document.getElementById('foto-preview').src = foto;
+    document.getElementById('foto-preview').src=foto;
     document.getElementById('foto-preview-wrap').classList.add('show');
-    document.getElementById('btn-borrar-foto').style.display = 'inline-flex';
-    document.getElementById('foto-preview-dni').textContent = 'DNI: ' + dni + ' ✅';
+    document.getElementById('btn-borrar-foto').style.display='inline-flex';
+    document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅';
   } else {
-    document.getElementById('foto-preview').src = '';
+    document.getElementById('foto-preview').src='';
     document.getElementById('foto-preview-wrap').classList.remove('show');
-    document.getElementById('btn-borrar-foto').style.display = 'none';
-    document.getElementById('foto-preview-dni').textContent = 'DNI: --';
+    document.getElementById('btn-borrar-foto').style.display='none';
+    document.getElementById('foto-preview-dni').textContent='DNI: --';
   }
 }
 
-/* ── Asociar foto al registrar ingreso ── */
 function asociarFotoAlRegistrar(dni){
-  const previewSrc = document.getElementById('foto-preview').src;
-  if(previewSrc && previewSrc !== window.location.href && !getFoto(dni)){
-    setFoto(dni, previewSrc);
-  }
+  const previewSrc=document.getElementById('foto-preview').src;
+  if(previewSrc&&previewSrc!==window.location.href&&!getFoto(dni)){ setFoto(dni,previewSrc); }
 }
 
 /* ═══════════════════════════════════════════════════════
-   FOTOS EN TABLAS — THUMBNAIL MEJORADO
-   Muestra foto si existe, o un placeholder visual si no.
-   Todas las fotos son clickeables para ver en grande.
+   FOTOS EN TABLAS
 ═══════════════════════════════════════════════════════ */
-function fotoThumb(dni, claseExtra){
-  const foto = getFoto(String(dni));
+function fotoThumb(dni,claseExtra){
+  const foto=getFoto(String(dni));
   if(foto){
-    return `<img src="${foto}"
-                 class="foto-thumb ${claseExtra||''}"
-                 onclick="verFotoGrande('${dni}')"
-                 title="Ver foto – DNI ${dni}"
-                 alt="Foto DNI ${dni}"/>`;
+    return `<img src="${foto}" class="foto-thumb ${claseExtra||''}" onclick="verFotoGrande('${dni}')" title="Ver foto – DNI ${dni}" alt="Foto DNI ${dni}"/>`;
   }
-  // Placeholder cuando no hay foto
   return `<span class="foto-thumb-placeholder" title="Sin foto – DNI ${dni}">👤</span>`;
 }
 
-/* ── Modal ver foto grande ── */
 function verFotoGrande(dni){
-  const foto = getFoto(String(dni));
+  const foto=getFoto(String(dni));
   if(!foto) return;
-  document.getElementById('modal-foto-img').src  = foto;
-  document.getElementById('modal-foto-info').textContent = 'DNI: ' + dni;
+  document.getElementById('modal-foto-img').src=foto;
+  document.getElementById('modal-foto-info').textContent='DNI: '+dni;
   document.getElementById('modal-foto').classList.add('show');
 }
-function cerrarModalFoto(){
-  document.getElementById('modal-foto').classList.remove('show');
-}
+function cerrarModalFoto(){ document.getElementById('modal-foto').classList.remove('show'); }
 
 /* ═══════════════════════════════════════════════════════
    BLOQUEO / DESBLOQUEO
 ═══════════════════════════════════════════════════════ */
 function getInspectorActivo(){
-  const id = cargarItem(KEYS.inspActivo);
+  const id=cargarItem(KEYS.inspActivo);
   if(!id) return null;
-  return cargarDatos(KEYS.inspectores).find(i => String(i.id) === String(id)) || null;
+  return cargarDatos(KEYS.inspectores).find(i=>String(i.id)===String(id))||null;
 }
 
 function actualizarEstadoBloqueo(){
-  const tieneInspector = !!getInspectorActivo();
-  const overlay = document.getElementById('bloqueo-overlay');
+  const tieneInspector=!!getInspectorActivo();
+  const overlay=document.getElementById('bloqueo-overlay');
   if(tieneInspector){ overlay.classList.remove('show'); }
   else              { overlay.classList.add('show'); }
   ['btn-nav-ingreso','btn-nav-apercibamiento','btn-nav-suspension',
-   'btn-nav-consulta','btn-nav-vencidos','btn-nav-backup'].forEach(id => {
-    const btn = document.getElementById(id);
+   'btn-nav-consulta','btn-nav-vencidos','btn-nav-backup'].forEach(id=>{
+    const btn=document.getElementById(id);
     if(!btn) return;
-    tieneInspector ? btn.classList.remove('nav-bloqueado') : btn.classList.add('nav-bloqueado');
+    tieneInspector?btn.classList.remove('nav-bloqueado'):btn.classList.add('nav-bloqueado');
   });
 }
 
 function irAInspectores(){
   document.getElementById('bloqueo-overlay').classList.remove('show');
-  document.getElementById('banner-activar').style.display = 'block';
-  const btn = document.getElementById('btn-nav-inspectores');
-  _navegarSeccion('inspectores', btn);
-  window.scrollTo({top:0, behavior:'smooth'});
+  document.getElementById('banner-activar').style.display='block';
+  const btn=document.getElementById('btn-nav-inspectores');
+  _navegarSeccion('inspectores',btn);
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function navClick(id, btn){
-  if(!getInspectorActivo() && id !== 'inspectores') return;
-  _navegarSeccion(id, btn);
+function navClick(id,btn){
+  if(!getInspectorActivo()&&id!=='inspectores') return;
+  _navegarSeccion(id,btn);
 }
 
-function _navegarSeccion(id, btn){
-  document.querySelectorAll('.seccion').forEach(s => s.classList.remove('activa'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('activo'));
-  document.getElementById('sec-' + id).classList.add('activa');
+function _navegarSeccion(id,btn){
+  document.querySelectorAll('.seccion').forEach(s=>s.classList.remove('activa'));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('activo'));
+  document.getElementById('sec-'+id).classList.add('activa');
   if(btn) btn.classList.add('activo');
-  if(id === 'apercibimiento'){ renderTablaApercibimientos(); actualizarUIInspectorActivo(); }
-  if(id === 'suspension')      renderTablaSuspensiones();
-  if(id === 'backup')          renderEstadisticas();
-  if(id === 'inspectores'){    renderInspectores(); actualizarUIInspectorActivo(); }
-  if(id === 'vencidos')        renderVencidos();
-  if(id === 'consulta')        setFechasConsultaHoy();
-  if(id === 'ingreso')         verificarContextoYMostrarAviso();
+  if(id==='apercibamiento'){ renderTablaApercibimientos(); actualizarUIInspectorActivo(); }
+  if(id==='suspension')      renderTablaSuspensiones();
+  if(id==='backup')          renderEstadisticas();
+  if(id==='inspectores'){    renderInspectores(); actualizarUIInspectorActivo(); }
+  if(id==='vencidos')        renderVencidos();
+  if(id==='consulta')        setFechasConsultaHoy();
+  if(id==='ingreso')         verificarContextoYMostrarAviso();
 }
 
 /* ═══════════════════════════════════════════════════════
    INSPECTOR ACTIVO – UI
 ═══════════════════════════════════════════════════════ */
 function actualizarUIInspectorActivo(){
-  const insp = getInspectorActivo();
-  const hi   = document.getElementById('header-inspector');
-  if(insp){ hi.textContent = `👮 ${insp.nombre}`; hi.classList.remove('sin-inspector'); }
-  else    { hi.textContent = '🔒 Sin inspector activo'; hi.classList.add('sin-inspector'); }
+  const insp=getInspectorActivo();
+  const hi=document.getElementById('header-inspector');
+  if(insp){ hi.textContent=`👮 ${insp.nombre}`; hi.classList.remove('sin-inspector'); }
+  else    { hi.textContent='🔒 Sin inspector activo'; hi.classList.add('sin-inspector'); }
 
-  const pA = document.getElementById('aperc-inspector-panel');
+  const pA=document.getElementById('aperc-inspector-panel');
   if(insp){
-    document.getElementById('aperc-inspector-nombre').textContent = insp.nombre;
-    document.getElementById('aperc-inspector-sub').textContent    = insp.tel ? `📞 ${insp.tel}` : 'Inspector activo';
+    document.getElementById('aperc-inspector-nombre').textContent=insp.nombre;
+    document.getElementById('aperc-inspector-sub').textContent=insp.tel?`📞 ${insp.tel}`:'Inspector activo';
     pA.classList.remove('sin-inspector');
   } else {
-    document.getElementById('aperc-inspector-nombre').textContent = 'Sin inspector activo';
-    document.getElementById('aperc-inspector-sub').textContent    = 'Asigná un inspector en la sección Inspectores';
+    document.getElementById('aperc-inspector-nombre').textContent='Sin inspector activo';
+    document.getElementById('aperc-inspector-sub').textContent='Asigná un inspector en la sección Inspectores';
     pA.classList.add('sin-inspector');
   }
 
-  const pI = document.getElementById('insp-activo-panel');
-  const bD = document.getElementById('btn-desactivar');
+  const pI=document.getElementById('insp-activo-panel');
+  const bD=document.getElementById('btn-desactivar');
   if(insp){
-    document.getElementById('insp-activo-nombre').textContent = insp.nombre;
-    document.getElementById('insp-activo-sub').textContent    = insp.obs || 'Inspector de turno activo';
-    pI.classList.remove('sin-inspector'); bD.style.display = 'inline-flex';
+    document.getElementById('insp-activo-nombre').textContent=insp.nombre;
+    document.getElementById('insp-activo-sub').textContent=insp.obs||'Inspector de turno activo';
+    pI.classList.remove('sin-inspector'); bD.style.display='inline-flex';
   } else {
-    document.getElementById('insp-activo-nombre').textContent = 'Sin inspector activo';
-    document.getElementById('insp-activo-sub').textContent    = 'Seleccioná un inspector y presioná "Activar"';
-    pI.classList.add('sin-inspector'); bD.style.display = 'none';
+    document.getElementById('insp-activo-nombre').textContent='Sin inspector activo';
+    document.getElementById('insp-activo-sub').textContent='Seleccioná un inspector y presioná "Activar"';
+    pI.classList.add('sin-inspector'); bD.style.display='none';
   }
 }
 
 function activarInspector(id){
-  const anteriorId = cargarItem(KEYS.inspActivo);
-  if(anteriorId && anteriorId !== String(id)){
-    localStorage.removeItem(KEYS.inspActivo);
-    localStorage.removeItem(KEYS.turnoInicio);
-  }
-  guardarItem(KEYS.inspActivo, String(id));
-  guardarItem(KEYS.turnoInicio, ahoraReal().toISOString());
-  document.getElementById('banner-activar').style.display = 'none';
+  const anteriorId=cargarItem(KEYS.inspActivo);
+  if(anteriorId&&anteriorId!==String(id)){ localStorage.removeItem(KEYS.inspActivo); localStorage.removeItem(KEYS.turnoInicio); }
+  guardarItem(KEYS.inspActivo,String(id));
+  guardarItem(KEYS.turnoInicio,ahoraReal().toISOString());
+  document.getElementById('banner-activar').style.display='none';
   actualizarUIInspectorActivo();
   actualizarEstadoBloqueo();
   renderInspectores();
   mostrarAlerta('alerta-insp','ok','✅ Inspector activado. ¡Sistema habilitado!');
-  _navegarSeccion('ingreso', document.getElementById('btn-nav-ingreso'));
+  _navegarSeccion('ingreso',document.getElementById('btn-nav-ingreso'));
 }
 
 /* ═══════════════════════════════════════════════════════
    DESACTIVAR INSPECTOR
 ═══════════════════════════════════════════════════════ */
 function desactivarInspector(){
-  const insp = getInspectorActivo();
+  const insp=getInspectorActivo();
   if(!insp) return;
-  _inspDesactivando = insp;
-  const turnoInicioStr = cargarItem(KEYS.turnoInicio);
-  const turnoInicio    = turnoInicioStr ? new Date(turnoInicioStr) : null;
-  const now            = ahoraReal();
-  const desde          = turnoInicio || new Date(isoFecha(now) + 'T00:00:00');
-  const todosIngresos  = cargarDatos(KEYS.ingresos);
-  const ingTurno   = todosIngresos.filter(i  => { const dt = parseFechaHora(i.fecha, i.hora); return dt >= desde; });
-  const apercTurno = cargarDatos(KEYS.apercibimientos).filter(a => { const dt = parseFechaHora(a.fecha, a.hora); return dt >= desde; });
-  const suspTurno  = cargarDatos(KEYS.suspensiones).filter(s => Number(s.id) >= desde.getTime());
-  const lim        = HS_VIGENCIA * 3600000;
-  const vencidosTurno = todosIngresos.filter(i => (now.getTime() - parseFechaHora(i.fecha, i.hora).getTime()) > lim);
-  _inspDesactivando._turno = {
-    ingresos: ingTurno, apercibimientos: apercTurno, suspensiones: suspTurno, vencidos: vencidosTurno,
-    inicio: turnoInicio ? formatFecha(turnoInicio) + ' ' + formatHora(turnoInicio) : 'Inicio del día',
-    fin: formatFecha(now) + ' ' + formatHora(now)
+  _inspDesactivando=insp;
+  const turnoInicioStr=cargarItem(KEYS.turnoInicio);
+  const turnoInicio=turnoInicioStr?new Date(turnoInicioStr):null;
+  const now=ahoraReal();
+  const desde=turnoInicio||new Date(isoFecha(now)+'T00:00:00');
+  const todosIngresos=cargarDatos(KEYS.ingresos);
+  const ingTurno=todosIngresos.filter(i=>{const dt=parseFechaHora(i.fecha,i.hora);return dt>=desde;});
+  const apercTurno=cargarDatos(KEYS.apercibimientos).filter(a=>{const dt=parseFechaHora(a.fecha,a.hora);return dt>=desde;});
+  const suspTurno=cargarDatos(KEYS.suspensiones).filter(s=>Number(s.id)>=desde.getTime());
+  const lim=HS_VIGENCIA*3600000;
+  const vencidosTurno=todosIngresos.filter(i=>(now.getTime()-parseFechaHora(i.fecha,i.hora).getTime())>lim);
+  _inspDesactivando._turno={
+    ingresos:ingTurno,apercibimientos:apercTurno,suspensiones:suspTurno,vencidos:vencidosTurno,
+    inicio:turnoInicio?formatFecha(turnoInicio)+' '+formatHora(turnoInicio):'Inicio del día',
+    fin:formatFecha(now)+' '+formatHora(now)
   };
-  document.getElementById('mc-inspector-nombre').textContent = insp.nombre;
-  document.getElementById('mc-resumen').innerHTML = `
+  document.getElementById('mc-inspector-nombre').textContent=insp.nombre;
+  document.getElementById('mc-resumen').innerHTML=`
     <table style="width:100%;border-collapse:collapse;font-size:.87rem;">
       <tr style="background:#f0f5f0;"><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">🕐 Inicio de turno</td><td style="padding:6px 10px;">${_inspDesactivando._turno.inicio}</td></tr>
       <tr><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">🕐 Cierre de turno</td><td style="padding:6px 10px;">${_inspDesactivando._turno.fin}</td></tr>
@@ -1464,63 +1493,79 @@ function desactivarInspector(){
       <tr style="background:#f0f5f0;"><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">🚫 Suspensiones en el turno</td><td style="padding:6px 10px;">${suspTurno.length}</td></tr>
       <tr><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">⏰ Ingresos vencidos actuales</td><td style="padding:6px 10px;">${vencidosTurno.length}</td></tr>
     </table>`;
-  document.getElementById('alerta-modal-cierre').className = 'alerta';
+  document.getElementById('alerta-modal-cierre').className='alerta';
   document.getElementById('modal-cierre').classList.add('show');
 }
 
 function cerrarModalCierre(){
   document.getElementById('modal-cierre').classList.remove('show');
-  _inspDesactivando = null;
+  _inspDesactivando=null;
 }
 
-function confirmarDesactivar(){
+async function confirmarDesactivar(){
   if(!_inspDesactivando) return;
-  const insp = _inspDesactivando, turno = insp._turno, now = ahoraReal();
-  const xml   = generarXMLTurno(insp, turno, now);
-  const blob  = new Blob([xml], {type:'application/xml'});
-  const url   = URL.createObjectURL(blob);
-  const nombre = `PCQ_turno_${insp.nombre.replace(/\s+/g,'_')}_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.xml`;
-  Object.assign(document.createElement('a'), {href:url, download:nombre}).click();
+  const insp=_inspDesactivando, turno=insp._turno, now=ahoraReal();
+  const xml=generarXMLTurno(insp,turno,now);
+  const nombre=`PCQ_turno_${insp.nombre.replace(/\s+/g,'_')}_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.xml`;
+
+  // 1. Descarga local
+  const blob=new Blob([xml],{type:'application/xml'});
+  const url=URL.createObjectURL(blob);
+  Object.assign(document.createElement('a'),{href:url,download:nombre}).click();
   URL.revokeObjectURL(url);
-  const waURL = `https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(armarMensajeWA(insp, turno))}`;
+
+  // 2. Subir a GitHub
+  mostrarAlerta('alerta-modal-cierre','info','⏳ Subiendo XML de turno a GitHub...');
+  const ghResult = await subirXMLaGitHub(
+    xml, nombre,
+    `🎣 PCQ Cierre de turno – ${insp.nombre} – ${formatFecha(now)}`
+  );
+  if(ghResult.ok){
+    mostrarAlerta('alerta-modal-cierre','ok',`✅ XML guardado en GitHub correctamente.`);
+  } else {
+    mostrarAlerta('alerta-modal-cierre','warn',`⚠️ No se pudo subir a GitHub: ${ghResult.error}. El archivo sí se descargó localmente.`);
+  }
+
+  // 3. WhatsApp
+  const waURL=`https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(armarMensajeWA(insp,turno))}`;
   localStorage.removeItem(KEYS.inspActivo);
   localStorage.removeItem(KEYS.turnoInicio);
   actualizarUIInspectorActivo();
   actualizarEstadoBloqueo();
   renderInspectores();
   cerrarModalCierre();
-  document.getElementById('banner-activar').style.display = 'block';
-  _navegarSeccion('inspectores', document.getElementById('btn-nav-inspectores'));
-  mostrarAlerta('alerta-insp','ok','✅ Turno cerrado. XML descargado. Abriendo WhatsApp...');
-  setTimeout(() => window.open(waURL, '_blank'), 800);
+  document.getElementById('banner-activar').style.display='block';
+  _navegarSeccion('inspectores',document.getElementById('btn-nav-inspectores'));
+  mostrarAlerta('alerta-insp','ok','✅ Turno cerrado. XML descargado y subido a GitHub. Abriendo WhatsApp...');
+  setTimeout(()=>window.open(waURL,'_blank'),800);
 }
 
-function generarXMLTurno(insp, turno, now){
-  const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<TurnoPCQ>\n`;
-  xml += `  <MetaData>\n    <Inspector>${esc(insp.nombre)}</Inspector>\n    <InicioTurno>${esc(turno.inicio)}</InicioTurno>\n    <CierreTurno>${esc(turno.fin)}</CierreTurno>\n    <TotalIngresos>${turno.ingresos.length}</TotalIngresos>\n    <TotalApercibimientos>${turno.apercibimientos.length}</TotalApercibimientos>\n    <TotalSuspensiones>${turno.suspensiones.length}</TotalSuspensiones>\n    <TotalVencidos>${turno.vencidos.length}</TotalVencidos>\n  </MetaData>\n`;
-  xml += `  <Ingresos>\n`;
-  turno.ingresos.forEach(i => { xml += `    <Ingreso><DNI>${esc(i.dni)}</DNI><Ticket>${esc(i.ticket)}</Ticket><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora></Ingreso>\n`; });
-  xml += `  </Ingresos>\n  <Apercibimientos>\n`;
-  turno.apercibimientos.forEach(a => { xml += `    <Apercibimiento><DNI>${esc(a.dni)}</DNI><Nombre>${esc(a.nombre)}</Nombre><Motivo>${esc(a.motivo)}</Motivo><Fecha>${esc(a.fecha)}</Fecha><Hora>${esc(a.hora)}</Hora></Apercibimiento>\n`; });
-  xml += `  </Apercibimientos>\n  <Suspensiones>\n`;
-  turno.suspensiones.forEach(s => { xml += `    <Suspension><DNI>${esc(s.dni)}</DNI><Nombre>${esc(s.nombre)}</Nombre><Desde>${esc(s.desde)}</Desde><Hasta>${esc(s.hasta)}</Hasta><Motivo>${esc(s.motivo)}</Motivo></Suspension>\n`; });
-  xml += `  </Suspensiones>\n  <IngresosVencidos>\n`;
-  turno.vencidos.forEach(i => { const ms = ahoraReal().getTime() - parseFechaHora(i.fecha,i.hora).getTime(); xml += `    <Vencido><DNI>${esc(i.dni)}</DNI><Ticket>${esc(i.ticket)}</Ticket><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora><Transcurrido>${tiempoTranscurrido(ms)}</Transcurrido></Vencido>\n`; });
-  xml += `  </IngresosVencidos>\n</TurnoPCQ>`;
+function generarXMLTurno(insp,turno,now){
+  const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  let xml=`<?xml version="1.0" encoding="UTF-8"?>\n<TurnoPCQ>\n`;
+  xml+=`  <MetaData>\n    <Inspector>${esc(insp.nombre)}</Inspector>\n    <InicioTurno>${esc(turno.inicio)}</InicioTurno>\n    <CierreTurno>${esc(turno.fin)}</CierreTurno>\n    <TotalIngresos>${turno.ingresos.length}</TotalIngresos>\n    <TotalApercibimientos>${turno.apercibimientos.length}</TotalApercibimientos>\n    <TotalSuspensiones>${turno.suspensiones.length}</TotalSuspensiones>\n    <TotalVencidos>${turno.vencidos.length}</TotalVencidos>\n  </MetaData>\n`;
+  xml+=`  <Ingresos>\n`;
+  turno.ingresos.forEach(i=>{xml+=`    <Ingreso><DNI>${esc(i.dni)}</DNI><Ticket>${esc(i.ticket)}</Ticket><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora></Ingreso>\n`;});
+  xml+=`  </Ingresos>\n  <Apercibimientos>\n`;
+  turno.apercibimientos.forEach(a=>{xml+=`    <Apercibimiento><DNI>${esc(a.dni)}</DNI><Nombre>${esc(a.nombre)}</Nombre><Motivo>${esc(a.motivo)}</Motivo><Fecha>${esc(a.fecha)}</Fecha><Hora>${esc(a.hora)}</Hora></Apercibimiento>\n`;});
+  xml+=`  </Apercibimientos>\n  <Suspensiones>\n`;
+  turno.suspensiones.forEach(s=>{xml+=`    <Suspension><DNI>${esc(s.dni)}</DNI><Nombre>${esc(s.nombre)}</Nombre><Desde>${esc(s.desde)}</Desde><Hasta>${esc(s.hasta)}</Hasta><Motivo>${esc(s.motivo)}</Motivo></Suspension>\n`;});
+  xml+=`  </Suspensiones>\n  <IngresosVencidos>\n`;
+  turno.vencidos.forEach(i=>{const ms=ahoraReal().getTime()-parseFechaHora(i.fecha,i.hora).getTime();xml+=`    <Vencido><DNI>${esc(i.dni)}</DNI><Ticket>${esc(i.ticket)}</Ticket><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora><Transcurrido>${tiempoTranscurrido(ms)}</Transcurrido></Vencido>\n`;});
+  xml+=`  </IngresosVencidos>\n</TurnoPCQ>`;
   return xml;
 }
 
-function armarMensajeWA(insp, turno){
-  let msg = `🎣 *Pejerrey Club Quilmes*\n📋 *Cierre de Turno*\n👮 Inspector: *${insp.nombre}*\n🕐 Inicio: ${turno.inicio}\n🕐 Cierre: ${turno.fin}\n──────────────────\n🚪 Ingresos del turno: *${turno.ingresos.length}*\n`;
-  turno.ingresos.forEach(i => { msg += `  • DNI ${i.dni} – Ticket ${i.ticket} (${i.fecha} ${i.hora})\n`; });
-  msg += `──────────────────\n⚠️ Apercibimientos del turno: *${turno.apercibimientos.length}*\n`;
-  turno.apercibimientos.forEach(a => { msg += `  • DNI ${a.dni}${a.nombre?' ('+a.nombre+')':''} – ${a.motivo} (${a.fecha})\n`; });
-  msg += `──────────────────\n🚫 Suspensiones del turno: *${turno.suspensiones.length}*\n`;
-  turno.suspensiones.forEach(s => { msg += `  • DNI ${s.dni}${s.nombre?' ('+s.nombre+')':''} – hasta ${s.hasta} – ${s.motivo}\n`; });
-  msg += `──────────────────\n⏰ Ingresos vencidos (>24hs): *${turno.vencidos.length}*\n`;
-  turno.vencidos.forEach(i => { const ms = ahoraReal().getTime() - parseFechaHora(i.fecha,i.hora).getTime(); msg += `  • DNI ${i.dni} – Ticket ${i.ticket} – hace ${tiempoTranscurrido(ms)}\n`; });
-  msg += `──────────────────\n✅ Turno cerrado correctamente.`;
+function armarMensajeWA(insp,turno){
+  let msg=`🎣 *Pejerrey Club Quilmes*\n📋 *Cierre de Turno*\n👮 Inspector: *${insp.nombre}*\n🕐 Inicio: ${turno.inicio}\n🕐 Cierre: ${turno.fin}\n──────────────────\n🚪 Ingresos del turno: *${turno.ingresos.length}*\n`;
+  turno.ingresos.forEach(i=>{msg+=`  • DNI ${i.dni} – Ticket ${i.ticket} (${i.fecha} ${i.hora})\n`;});
+  msg+=`──────────────────\n⚠️ Apercibimientos del turno: *${turno.apercibimientos.length}*\n`;
+  turno.apercibimientos.forEach(a=>{msg+=`  • DNI ${a.dni}${a.nombre?' ('+a.nombre+')':''} – ${a.motivo} (${a.fecha})\n`;});
+  msg+=`──────────────────\n🚫 Suspensiones del turno: *${turno.suspensiones.length}*\n`;
+  turno.suspensiones.forEach(s=>{msg+=`  • DNI ${s.dni}${s.nombre?' ('+s.nombre+')':''} – hasta ${s.hasta} – ${s.motivo}\n`;});
+  msg+=`──────────────────\n⏰ Ingresos vencidos (>24hs): *${turno.vencidos.length}*\n`;
+  turno.vencidos.forEach(i=>{const ms=ahoraReal().getTime()-parseFechaHora(i.fecha,i.hora).getTime();msg+=`  • DNI ${i.dni} – Ticket ${i.ticket} – hace ${tiempoTranscurrido(ms)}\n`;});
+  msg+=`──────────────────\n✅ Turno cerrado correctamente.`;
   return msg;
 }
 
@@ -1528,78 +1573,78 @@ function armarMensajeWA(insp, turno){
    ABM INSPECTORES
 ═══════════════════════════════════════════════════════ */
 function guardarInspector(){
-  const nombre = document.getElementById('insp-nombre').value.trim();
-  const tel    = document.getElementById('insp-tel').value.trim();
-  const obs    = document.getElementById('insp-obs').value.trim();
-  if(!nombre){ mostrarAlerta('alerta-insp','error','Ingresá el nombre del inspector.'); return; }
-  const lista = cargarDatos(KEYS.inspectores);
-  if(lista.find(i => i.nombre.toLowerCase() === nombre.toLowerCase())){ mostrarAlerta('alerta-insp','error','Ya existe un inspector con ese nombre.'); return; }
-  lista.push({id: Date.now(), nombre, tel, obs});
-  guardarDatos(KEYS.inspectores, lista);
+  const nombre=document.getElementById('insp-nombre').value.trim();
+  const tel=document.getElementById('insp-tel').value.trim();
+  const obs=document.getElementById('insp-obs').value.trim();
+  if(!nombre){mostrarAlerta('alerta-insp','error','Ingresá el nombre del inspector.');return;}
+  const lista=cargarDatos(KEYS.inspectores);
+  if(lista.find(i=>i.nombre.toLowerCase()===nombre.toLowerCase())){mostrarAlerta('alerta-insp','error','Ya existe un inspector con ese nombre.');return;}
+  lista.push({id:Date.now(),nombre,tel,obs});
+  guardarDatos(KEYS.inspectores,lista);
   mostrarAlerta('alerta-insp','ok',`✅ Inspector <strong>${nombre}</strong> registrado.`);
-  ['insp-nombre','insp-tel','insp-obs'].forEach(id => { document.getElementById(id).value = ''; });
+  ['insp-nombre','insp-tel','insp-obs'].forEach(id=>{document.getElementById(id).value='';});
   renderInspectores();
 }
 
 function editarInspector(id){
-  const insp = cargarDatos(KEYS.inspectores).find(i => i.id === id);
+  const insp=cargarDatos(KEYS.inspectores).find(i=>i.id===id);
   if(!insp) return;
-  _editInspId = id;
-  document.getElementById('m-insp-nombre').value = insp.nombre;
-  document.getElementById('m-insp-tel').value    = insp.tel || '';
-  document.getElementById('m-insp-obs').value    = insp.obs || '';
-  document.getElementById('alerta-modal-insp').className = 'alerta';
+  _editInspId=id;
+  document.getElementById('m-insp-nombre').value=insp.nombre;
+  document.getElementById('m-insp-tel').value=insp.tel||'';
+  document.getElementById('m-insp-obs').value=insp.obs||'';
+  document.getElementById('alerta-modal-insp').className='alerta';
   document.getElementById('modal-insp').classList.add('show');
 }
-function cerrarModalInspector(){ document.getElementById('modal-insp').classList.remove('show'); _editInspId = null; }
+function cerrarModalInspector(){document.getElementById('modal-insp').classList.remove('show');_editInspId=null;}
 function guardarModalInspector(){
-  const nombre = document.getElementById('m-insp-nombre').value.trim();
-  const tel    = document.getElementById('m-insp-tel').value.trim();
-  const obs    = document.getElementById('m-insp-obs').value.trim();
-  if(!nombre){ mostrarAlerta('alerta-modal-insp','error','Ingresá el nombre.'); return; }
-  const lista = cargarDatos(KEYS.inspectores);
-  if(lista.find(i => i.nombre.toLowerCase() === nombre.toLowerCase() && i.id !== _editInspId)){ mostrarAlerta('alerta-modal-insp','error','Ya existe un inspector con ese nombre.'); return; }
-  const idx = lista.findIndex(i => i.id === _editInspId);
-  if(idx === -1){ cerrarModalInspector(); return; }
-  lista[idx] = {...lista[idx], nombre, tel, obs};
-  guardarDatos(KEYS.inspectores, lista);
-  cerrarModalInspector(); actualizarUIInspectorActivo(); renderInspectores();
+  const nombre=document.getElementById('m-insp-nombre').value.trim();
+  const tel=document.getElementById('m-insp-tel').value.trim();
+  const obs=document.getElementById('m-insp-obs').value.trim();
+  if(!nombre){mostrarAlerta('alerta-modal-insp','error','Ingresá el nombre.');return;}
+  const lista=cargarDatos(KEYS.inspectores);
+  if(lista.find(i=>i.nombre.toLowerCase()===nombre.toLowerCase()&&i.id!==_editInspId)){mostrarAlerta('alerta-modal-insp','error','Ya existe un inspector con ese nombre.');return;}
+  const idx=lista.findIndex(i=>i.id===_editInspId);
+  if(idx===-1){cerrarModalInspector();return;}
+  lista[idx]={...lista[idx],nombre,tel,obs};
+  guardarDatos(KEYS.inspectores,lista);
+  cerrarModalInspector();actualizarUIInspectorActivo();renderInspectores();
   mostrarAlerta('alerta-insp','ok','✅ Inspector actualizado correctamente.');
 }
 function eliminarInspector(id){
-  const insp = cargarDatos(KEYS.inspectores).find(i => i.id === id);
+  const insp=cargarDatos(KEYS.inspectores).find(i=>i.id===id);
   if(!insp) return;
   if(!confirm(`¿Eliminar al inspector "${insp.nombre}"?`)) return;
-  if(cargarItem(KEYS.inspActivo) === String(id)){ localStorage.removeItem(KEYS.inspActivo); localStorage.removeItem(KEYS.turnoInicio); }
-  guardarDatos(KEYS.inspectores, cargarDatos(KEYS.inspectores).filter(i => i.id !== id));
-  actualizarUIInspectorActivo(); actualizarEstadoBloqueo(); renderInspectores();
+  if(cargarItem(KEYS.inspActivo)===String(id)){localStorage.removeItem(KEYS.inspActivo);localStorage.removeItem(KEYS.turnoInicio);}
+  guardarDatos(KEYS.inspectores,cargarDatos(KEYS.inspectores).filter(i=>i.id!==id));
+  actualizarUIInspectorActivo();actualizarEstadoBloqueo();renderInspectores();
   mostrarAlerta('alerta-insp','warn','⚠️ Inspector eliminado.');
 }
 function renderInspectores(){
-  const lista    = cargarDatos(KEYS.inspectores);
-  const activoId = cargarItem(KEYS.inspActivo);
-  const grid  = document.getElementById('insp-grid');
-  const vacio = document.getElementById('insp-vacio');
-  grid.innerHTML = '';
-  if(!lista.length){ vacio.style.display = 'block'; grid.style.display = 'none'; return; }
-  vacio.style.display = 'none'; grid.style.display = 'grid';
-  lista.forEach(insp => {
-    const esActivo = String(insp.id) === String(activoId);
-    const card = document.createElement('div');
-    card.className = 'insp-card' + (esActivo ? ' activo' : '');
-    card.innerHTML = `
+  const lista=cargarDatos(KEYS.inspectores);
+  const activoId=cargarItem(KEYS.inspActivo);
+  const grid=document.getElementById('insp-grid');
+  const vacio=document.getElementById('insp-vacio');
+  grid.innerHTML='';
+  if(!lista.length){vacio.style.display='block';grid.style.display='none';return;}
+  vacio.style.display='none';grid.style.display='grid';
+  lista.forEach(insp=>{
+    const esActivo=String(insp.id)===String(activoId);
+    const card=document.createElement('div');
+    card.className='insp-card'+(esActivo?' activo':'');
+    card.innerHTML=`
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;">
         <div>
           <div class="ic-nombre">👮 ${insp.nombre}</div>
-          ${insp.tel ? `<div class="ic-sub">📞 ${insp.tel}</div>` : ''}
-          ${insp.obs ? `<div class="ic-sub">📝 ${insp.obs}</div>` : ''}
+          ${insp.tel?`<div class="ic-sub">📞 ${insp.tel}</div>`:''}
+          ${insp.obs?`<div class="ic-sub">📝 ${insp.obs}</div>`:''}
         </div>
-        ${esActivo ? '<span class="badge badge-dorado">✅ ACTIVO</span>' : ''}
+        ${esActivo?'<span class="badge badge-dorado">✅ ACTIVO</span>':''}
       </div>
       <div class="ic-acciones">
         ${!esActivo
-          ? `<button class="btn btn-gold btn-sm" onclick="activarInspector(${insp.id})">⚡ Activar</button>`
-          : `<button class="btn btn-secondary btn-sm" onclick="desactivarInspector()">✖ Desactivar</button>`}
+          ?`<button class="btn btn-gold btn-sm" onclick="activarInspector(${insp.id})">⚡ Activar</button>`
+          :`<button class="btn btn-secondary btn-sm" onclick="desactivarInspector()">✖ Desactivar</button>`}
         <button class="btn btn-warning btn-sm" onclick="editarInspector(${insp.id})">✏️ Editar</button>
         <button class="btn btn-danger  btn-sm" onclick="eliminarInspector(${insp.id})">🗑️ Eliminar</button>
       </div>`;
@@ -1611,64 +1656,46 @@ function renderInspectores(){
    SECCIÓN INGRESOS VENCIDOS
 ═══════════════════════════════════════════════════════ */
 function renderVencidos(){
-  const ingresos = cargarDatos(KEYS.ingresos);
-  const now      = ahoraReal();
-  const lim      = HS_VIGENCIA * 3600000;
-  const prev     = lim - MIN_POR_VENCER * 60000;
-
-  const vencidos  = ingresos
-    .filter(i => { const ms = now.getTime() - parseFechaHora(i.fecha,i.hora).getTime(); return ms >= lim; })
-    .sort((a,b) => parseFechaHora(a.fecha,a.hora) - parseFechaHora(b.fecha,b.hora));
-  const porVencer = ingresos
-    .filter(i => { const ms = now.getTime() - parseFechaHora(i.fecha,i.hora).getTime(); return ms >= prev && ms < lim; })
-    .sort((a,b) => parseFechaHora(a.fecha,a.hora) - parseFechaHora(b.fecha,b.hora));
-
-  const contPV = document.getElementById('contador-por-vencer');
-  if(porVencer.length > 0){ contPV.style.display = 'flex'; document.getElementById('cpv-num').textContent = porVencer.length; }
-  else contPV.style.display = 'none';
-
-  const contV = document.getElementById('contador-vencidos');
-  if(vencidos.length > 0){ contV.style.display = 'flex'; document.getElementById('cv-num').textContent = vencidos.length; }
-  else contV.style.display = 'none';
-
-  const tbody = document.querySelector('#tabla-vencidos tbody');
-  tbody.innerHTML = '';
-
-  const todos = [...porVencer, ...vencidos];
-  if(!todos.length){
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#aaa;">✅ No hay ingresos vencidos ni por vencer en este momento</td></tr>';
-    return;
-  }
-
-  todos.forEach(ing => {
-    const ms  = now.getTime() - parseFechaHora(ing.fecha, ing.hora).getTime();
-    const est = estadoIngreso(ing);
-    const tr  = document.createElement('tr');
-    tr.className = est.fila;
-    tr.innerHTML = `
-      <td>${fotoThumb(ing.dni)}</td>
-      <td>${ing.dni}</td><td>${ing.ticket}</td><td>${ing.fecha}</td><td>${ing.hora}</td>
-      <td>${tiempoTranscurrido(ms)}</td>
-      <td><span class="badge ${est.clase}">${est.texto}</span></td>
-      <td><button class="btn btn-danger btn-sm" onclick="eliminarIngreso('${ing.ticket}')">🗑️ Dar de baja</button></td>`;
+  const ingresos=cargarDatos(KEYS.ingresos);
+  const now=ahoraReal();
+  const lim=HS_VIGENCIA*3600000;
+  const prev=lim-MIN_POR_VENCER*60000;
+  const vencidos=ingresos.filter(i=>{const ms=now.getTime()-parseFechaHora(i.fecha,i.hora).getTime();return ms>=lim;}).sort((a,b)=>parseFechaHora(a.fecha,a.hora)-parseFechaHora(b.fecha,b.hora));
+  const porVencer=ingresos.filter(i=>{const ms=now.getTime()-parseFechaHora(i.fecha,i.hora).getTime();return ms>=prev&&ms<lim;}).sort((a,b)=>parseFechaHora(a.fecha,a.hora)-parseFechaHora(b.fecha,b.hora));
+  const contPV=document.getElementById('contador-por-vencer');
+  if(porVencer.length>0){contPV.style.display='flex';document.getElementById('cpv-num').textContent=porVencer.length;}
+  else contPV.style.display='none';
+  const contV=document.getElementById('contador-vencidos');
+  if(vencidos.length>0){contV.style.display='flex';document.getElementById('cv-num').textContent=vencidos.length;}
+  else contV.style.display='none';
+  const tbody=document.querySelector('#tabla-vencidos tbody');
+  tbody.innerHTML='';
+  const todos=[...porVencer,...vencidos];
+  if(!todos.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:#aaa;">✅ No hay ingresos vencidos ni por vencer</td></tr>';return;}
+  todos.forEach(ing=>{
+    const ms=now.getTime()-parseFechaHora(ing.fecha,ing.hora).getTime();
+    const est=estadoIngreso(ing);
+    const tr=document.createElement('tr');
+    tr.className=est.fila;
+    tr.innerHTML=`<td>${fotoThumb(ing.dni)}</td><td>${ing.dni}</td><td>${ing.ticket}</td><td>${ing.fecha}</td><td>${ing.hora}</td><td>${tiempoTranscurrido(ms)}</td><td><span class="badge ${est.clase}">${est.texto}</span></td><td><button class="btn btn-danger btn-sm" onclick="eliminarIngreso('${ing.ticket}')">🗑️ Dar de baja</button></td>`;
     tbody.appendChild(tr);
   });
 }
 
 function eliminarIngreso(ticket){
   if(!confirm(`¿Dar de baja el ingreso del ticket "${ticket}"?`)) return;
-  guardarDatos(KEYS.ingresos, cargarDatos(KEYS.ingresos).filter(i => i.ticket !== ticket));
+  guardarDatos(KEYS.ingresos,cargarDatos(KEYS.ingresos).filter(i=>i.ticket!==ticket));
   renderVencidos();
   mostrarAlerta('alerta-vencidos','ok',`✅ Ingreso del ticket <strong>${ticket}</strong> eliminado.`);
 }
 function limpiarVencidos(){
-  const ingresos = cargarDatos(KEYS.ingresos);
-  const now = ahoraReal(); const lim = HS_VIGENCIA * 3600000;
-  const vigentes = ingresos.filter(i => (now.getTime() - parseFechaHora(i.fecha,i.hora).getTime()) < lim);
-  const cant = ingresos.length - vigentes.length;
-  if(!cant){ mostrarAlerta('alerta-vencidos','info','No hay ingresos vencidos para eliminar.'); return; }
+  const ingresos=cargarDatos(KEYS.ingresos);
+  const now=ahoraReal();const lim=HS_VIGENCIA*3600000;
+  const vigentes=ingresos.filter(i=>(now.getTime()-parseFechaHora(i.fecha,i.hora).getTime())<lim);
+  const cant=ingresos.length-vigentes.length;
+  if(!cant){mostrarAlerta('alerta-vencidos','info','No hay ingresos vencidos para eliminar.');return;}
   if(!confirm(`¿Eliminar los ${cant} ingreso(s) vencido(s)?`)) return;
-  guardarDatos(KEYS.ingresos, vigentes); renderVencidos();
+  guardarDatos(KEYS.ingresos,vigentes);renderVencidos();
   mostrarAlerta('alerta-vencidos','ok',`✅ Se eliminaron <strong>${cant}</strong> ingreso(s) vencido(s).`);
 }
 
@@ -1676,206 +1703,173 @@ function limpiarVencidos(){
    FECHAS CONSULTA
 ═══════════════════════════════════════════════════════ */
 function setFechasConsultaHoy(){
-  const hoy = isoFecha(ahoraReal());
-  const d = document.getElementById('consulta-desde');
-  const h = document.getElementById('consulta-hasta');
-  if(!d.value) d.value = hoy;
-  if(!h.value) h.value = hoy;
+  const hoy=isoFecha(ahoraReal());
+  const d=document.getElementById('consulta-desde');
+  const h=document.getElementById('consulta-hasta');
+  if(!d.value) d.value=hoy;
+  if(!h.value) h.value=hoy;
 }
 
 /* ═══════════════════════════════════════════════════════
    ALERTAS
 ═══════════════════════════════════════════════════════ */
-function mostrarAlerta(id, tipo, msg){
-  const el = document.getElementById(id);
+function mostrarAlerta(id,tipo,msg){
+  const el=document.getElementById(id);
   if(!el) return;
-  el.className = 'alerta show alerta-' + tipo;
-  el.innerHTML = msg;
-  setTimeout(() => { el.className = 'alerta'; }, 8000);
+  el.className='alerta show alerta-'+tipo;
+  el.innerHTML=msg;
+  setTimeout(()=>{el.className='alerta';},8000);
 }
 
 /* ═══════════════════════════════════════════════════════
    SECCIÓN 1 – INGRESO
 ═══════════════════════════════════════════════════════ */
 function buscarInvitado(){
-  const dni = document.getElementById('dni-ingreso').value.trim();
-  if(!dni){ mostrarAlerta('alerta-ingreso','error','Ingresá el número de documento.'); return; }
-
-  const ingresos        = cargarDatos(KEYS.ingresos);
-  const apercibimientos = cargarDatos(KEYS.apercibimientos);
-  const suspensiones    = cargarDatos(KEYS.suspensiones);
-  const hoy             = isoFecha(ahoraReal());
-  const misIngresos     = ingresos.filter(i => i.dni === dni).slice(-10).reverse();
-  const misAperc        = apercibimientos.filter(a => a.dni === dni);
-  const misSuspActivas  = suspensiones.filter(s => s.dni === dni && hoy >= s.desde && hoy <= s.hasta);
-  const lim             = HS_VIGENCIA * 3600000;
-  const prev            = lim - MIN_POR_VENCER * 60000;
-  const now             = ahoraReal();
-
-  const ultimoIngreso   = ingresos.filter(i => i.dni === dni).slice(-1)[0];
-  let   msUltimo        = ultimoIngreso ? now.getTime() - parseFechaHora(ultimoIngreso.fecha, ultimoIngreso.hora).getTime() : -1;
-  const tieneVencido    = msUltimo >= lim;
-  const tienePorVencer  = msUltimo >= prev && msUltimo < lim;
-
-  const panel    = document.getElementById('panel-estado');
-  const badges   = document.getElementById('estado-badges');
-  const detalles = document.getElementById('estado-detalles');
-  const fotoContenedor = document.getElementById('estado-foto-contenedor');
+  const dni=document.getElementById('dni-ingreso').value.trim();
+  if(!dni){mostrarAlerta('alerta-ingreso','error','Ingresá el número de documento.');return;}
+  const ingresos=cargarDatos(KEYS.ingresos);
+  const apercibimientos=cargarDatos(KEYS.apercibimientos);
+  const suspensiones=cargarDatos(KEYS.suspensiones);
+  const hoy=isoFecha(ahoraReal());
+  const misIngresos=ingresos.filter(i=>i.dni===dni).slice(-10).reverse();
+  const misAperc=apercibimientos.filter(a=>a.dni===dni);
+  const misSuspActivas=suspensiones.filter(s=>s.dni===dni&&hoy>=s.desde&&hoy<=s.hasta);
+  const lim=HS_VIGENCIA*3600000;
+  const prev=lim-MIN_POR_VENCER*60000;
+  const now=ahoraReal();
+  const ultimoIngreso=ingresos.filter(i=>i.dni===dni).slice(-1)[0];
+  let msUltimo=ultimoIngreso?now.getTime()-parseFechaHora(ultimoIngreso.fecha,ultimoIngreso.hora).getTime():-1;
+  const tieneVencido=msUltimo>=lim;
+  const tienePorVencer=msUltimo>=prev&&msUltimo<lim;
+  const panel=document.getElementById('panel-estado');
+  const badges=document.getElementById('estado-badges');
+  const detalles=document.getElementById('estado-detalles');
+  const fotoContenedor=document.getElementById('estado-foto-contenedor');
   panel.classList.add('show');
-  document.getElementById('estado-nombre').textContent = 'DNI: ' + dni;
-  badges.innerHTML = ''; fotoContenedor.innerHTML = '';
-
-  let alertaTipo = 'info', alertaMsg = `✅ Invitado DNI <strong>${dni}</strong> sin restricciones.`;
-  let fotoClase  = '';
-
-  if(misSuspActivas.length > 0){
-    const s = misSuspActivas[0];
-    badges.innerHTML += `<span class="badge badge-rojo">🚫 SUSPENDIDO hasta ${s.hasta}</span>`;
-    detalles.innerHTML = `<strong>Motivo suspensión:</strong> ${s.motivo}`;
-    alertaTipo = 'error';
-    alertaMsg  = `🚫 <strong>SUSPENDIDO</strong> – No puede ingresar. Vigente hasta <strong>${s.hasta}</strong>.`;
-    panel.style.borderColor = 'var(--rojo)'; fotoClase = 'foto-suspendido';
-  } else if(misAperc.length > 0){
-    badges.innerHTML += `<span class="badge badge-naranja">⚠️ ${misAperc.length} apercibimiento(s)</span>`;
-    if(tieneVencido)     badges.innerHTML += `<span class="badge badge-rojo">⏰ Ingreso vencido</span>`;
-    else if(tienePorVencer){ const rm = Math.ceil((lim-msUltimo)/60000); badges.innerHTML += `<span class="badge badge-naranja">⏳ Vence en ${rm} min</span>`; }
-    detalles.innerHTML = misAperc.map(a => `<div>• ${a.fecha} – ${a.motivo}${a.inspector?` <span class="badge badge-azul">👮 ${a.inspector}</span>`:''}</div>`).join('');
-    alertaTipo = 'warn';
-    alertaMsg  = `⚠️ El invitado tiene <strong>${misAperc.length} apercibimiento(s)</strong>. Puede ingresar con advertencia.`;
-    panel.style.borderColor = 'var(--naranja)'; fotoClase = 'foto-apercibido';
+  document.getElementById('estado-nombre').textContent='DNI: '+dni;
+  badges.innerHTML='';fotoContenedor.innerHTML='';
+  let alertaTipo='info',alertaMsg=`✅ Invitado DNI <strong>${dni}</strong> sin restricciones.`;
+  let fotoClase='';
+  if(misSuspActivas.length>0){
+    const s=misSuspActivas[0];
+    badges.innerHTML+=`<span class="badge badge-rojo">🚫 SUSPENDIDO hasta ${s.hasta}</span>`;
+    detalles.innerHTML=`<strong>Motivo suspensión:</strong> ${s.motivo}`;
+    alertaTipo='error';alertaMsg=`🚫 <strong>SUSPENDIDO</strong> – No puede ingresar. Vigente hasta <strong>${s.hasta}</strong>.`;
+    panel.style.borderColor='var(--rojo)';fotoClase='foto-suspendido';
+  } else if(misAperc.length>0){
+    badges.innerHTML+=`<span class="badge badge-naranja">⚠️ ${misAperc.length} apercibimiento(s)</span>`;
+    if(tieneVencido) badges.innerHTML+=`<span class="badge badge-rojo">⏰ Ingreso vencido</span>`;
+    else if(tienePorVencer){const rm=Math.ceil((lim-msUltimo)/60000);badges.innerHTML+=`<span class="badge badge-naranja">⏳ Vence en ${rm} min</span>`;}
+    detalles.innerHTML=misAperc.map(a=>`<div>• ${a.fecha} – ${a.motivo}${a.inspector?` <span class="badge badge-azul">👮 ${a.inspector}</span>`:''}</div>`).join('');
+    alertaTipo='warn';alertaMsg=`⚠️ El invitado tiene <strong>${misAperc.length} apercibimiento(s)</strong>. Puede ingresar con advertencia.`;
+    panel.style.borderColor='var(--naranja)';fotoClase='foto-apercibido';
   } else if(tieneVencido){
-    badges.innerHTML += `<span class="badge badge-rojo">⏰ Ingreso vencido</span>`;
-    detalles.innerHTML = '<span style="color:#991b1b;">Tiene un ingreso vencido (más de 24hs).</span>';
-    alertaTipo = 'warn'; alertaMsg = `⏰ El invitado tiene un <strong>ingreso vencido</strong>.`;
-    panel.style.borderColor = '#888'; fotoClase = 'foto-vencido';
+    badges.innerHTML+=`<span class="badge badge-rojo">⏰ Ingreso vencido</span>`;
+    detalles.innerHTML='<span style="color:#991b1b;">Tiene un ingreso vencido (más de 24hs).</span>';
+    alertaTipo='warn';alertaMsg=`⏰ El invitado tiene un <strong>ingreso vencido</strong>.`;
+    panel.style.borderColor='#888';fotoClase='foto-vencido';
   } else if(tienePorVencer){
-    const restMin = Math.ceil((lim-msUltimo)/60000);
-    badges.innerHTML += `<span class="badge badge-naranja">⏳ Vence en ${restMin} min</span>`;
-    detalles.innerHTML = `<span style="color:#92400e;">El ingreso activo vence en menos de 1 hora (${restMin} minutos).</span>`;
-    alertaTipo = 'warn'; alertaMsg = `⏳ El invitado tiene un ingreso que <strong>vence en ${restMin} minutos</strong>.`;
-    panel.style.borderColor = 'var(--naranja)'; fotoClase = 'foto-por-vencer';
+    const restMin=Math.ceil((lim-msUltimo)/60000);
+    badges.innerHTML+=`<span class="badge badge-naranja">⏳ Vence en ${restMin} min</span>`;
+    detalles.innerHTML=`<span style="color:#92400e;">El ingreso activo vence en menos de 1 hora (${restMin} minutos).</span>`;
+    alertaTipo='warn';alertaMsg=`⏳ El invitado tiene un ingreso que <strong>vence en ${restMin} minutos</strong>.`;
+    panel.style.borderColor='var(--naranja)';fotoClase='foto-por-vencer';
   } else {
-    badges.innerHTML = `<span class="badge badge-verde">✅ Sin restricciones</span>`;
-    detalles.innerHTML = ''; panel.style.borderColor = 'var(--dorado)';
+    badges.innerHTML=`<span class="badge badge-verde">✅ Sin restricciones</span>`;
+    detalles.innerHTML='';panel.style.borderColor='var(--dorado)';
   }
-
-  const foto = getFoto(dni);
+  const foto=getFoto(dni);
   if(foto){
-    fotoContenedor.innerHTML = `
+    fotoContenedor.innerHTML=`
       <div class="estado-foto-wrap">
-        <img src="${foto}" class="estado-foto ${fotoClase}"
-             onclick="verFotoGrande('${dni}')" style="cursor:pointer"
-             title="Clic para ver foto completa"/>
+        <img src="${foto}" class="estado-foto ${fotoClase}" onclick="verFotoGrande('${dni}')" style="cursor:pointer" title="Clic para ver foto completa"/>
         <span class="estado-foto-label">📷 DNI ${dni}</span>
       </div>`;
   }
-
-  mostrarAlerta('alerta-ingreso', alertaTipo, alertaMsg);
-
-  const wrap  = document.getElementById('ultimos-ingresos');
-  const tbody = document.querySelector('#tabla-ultimos tbody');
-  tbody.innerHTML = ''; wrap.style.display = 'block';
-  if(misIngresos.length > 0){
-    misIngresos.forEach((ing, i) => {
-      const est = estadoIngreso(ing);
-      const tr  = document.createElement('tr');
-      if(est.fila) tr.className = est.fila;
-      tr.innerHTML = `<td>${i+1}</td><td>${ing.fecha}</td><td>${ing.hora}</td><td>${ing.ticket}</td>
-        <td><span class="badge ${est.clase}">${est.texto}</span></td>`;
+  mostrarAlerta('alerta-ingreso',alertaTipo,alertaMsg);
+  const wrap=document.getElementById('ultimos-ingresos');
+  const tbody=document.querySelector('#tabla-ultimos tbody');
+  tbody.innerHTML='';wrap.style.display='block';
+  if(misIngresos.length>0){
+    misIngresos.forEach((ing,i)=>{
+      const est=estadoIngreso(ing);
+      const tr=document.createElement('tr');
+      if(est.fila) tr.className=est.fila;
+      tr.innerHTML=`<td>${i+1}</td><td>${ing.fecha}</td><td>${ing.hora}</td><td>${ing.ticket}</td><td><span class="badge ${est.clase}">${est.texto}</span></td>`;
       tbody.appendChild(tr);
     });
   } else {
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#aaa;">Sin ingresos previos</td></tr>';
+    tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:#aaa;">Sin ingresos previos</td></tr>';
   }
-
   if(foto){
-    document.getElementById('foto-preview').src = foto;
+    document.getElementById('foto-preview').src=foto;
     document.getElementById('foto-preview-wrap').classList.add('show');
-    document.getElementById('btn-borrar-foto').style.display = 'inline-flex';
-    document.getElementById('foto-preview-dni').textContent = 'DNI: ' + dni + ' ✅';
+    document.getElementById('btn-borrar-foto').style.display='inline-flex';
+    document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅';
   }
 }
 
 function registrarIngreso(){
-  const dni    = document.getElementById('dni-ingreso').value.trim();
-  const ticket = document.getElementById('ticket-ingreso').value.trim();
-  if(!dni)   { mostrarAlerta('alerta-ingreso','error','Ingresá el número de documento.'); return; }
-  if(!ticket){ mostrarAlerta('alerta-ingreso','error','Ingresá el número de ticket.'); return; }
-
-  const ticketExiste = cargarDatos(KEYS.ingresos).find(i => i.ticket.toLowerCase() === ticket.toLowerCase());
+  const dni=document.getElementById('dni-ingreso').value.trim();
+  const ticket=document.getElementById('ticket-ingreso').value.trim();
+  if(!dni){mostrarAlerta('alerta-ingreso','error','Ingresá el número de documento.');return;}
+  if(!ticket){mostrarAlerta('alerta-ingreso','error','Ingresá el número de ticket.');return;}
+  const ticketExiste=cargarDatos(KEYS.ingresos).find(i=>i.ticket.toLowerCase()===ticket.toLowerCase());
   if(ticketExiste){
-    mostrarAlerta('alerta-ingreso','error',
-      `🚫 El ticket <strong>${ticket}</strong> ya fue registrado el <strong>${ticketExiste.fecha}</strong> a las <strong>${ticketExiste.hora}</strong> para el DNI <strong>${ticketExiste.dni}</strong>.`);
+    mostrarAlerta('alerta-ingreso','error',`🚫 El ticket <strong>${ticket}</strong> ya fue registrado el <strong>${ticketExiste.fecha}</strong> a las <strong>${ticketExiste.hora}</strong> para el DNI <strong>${ticketExiste.dni}</strong>.`);
     return;
   }
-  const hoy       = isoFecha(ahoraReal());
-  const suspActiva = cargarDatos(KEYS.suspensiones).find(s => s.dni === dni && hoy >= s.desde && hoy <= s.hasta);
+  const hoy=isoFecha(ahoraReal());
+  const suspActiva=cargarDatos(KEYS.suspensiones).find(s=>s.dni===dni&&hoy>=s.desde&&hoy<=s.hasta);
   if(suspActiva){
-    mostrarAlerta('alerta-ingreso','error',
-      `🚫 No se puede registrar. El invitado está <strong>SUSPENDIDO</strong> hasta <strong>${suspActiva.hasta}</strong>.`);
+    mostrarAlerta('alerta-ingreso','error',`🚫 No se puede registrar. El invitado está <strong>SUSPENDIDO</strong> hasta <strong>${suspActiva.hasta}</strong>.`);
     return;
   }
-
   asociarFotoAlRegistrar(dni);
-
-  const now      = ahoraReal();
-  const ingresos = cargarDatos(KEYS.ingresos);
-  ingresos.push({dni, ticket, fecha: formatFecha(now), hora: formatHora(now), isoFecha: isoFecha(now)});
-  guardarDatos(KEYS.ingresos, ingresos);
-  document.getElementById('aviso-ticket').className = 'alerta';
-  mostrarAlerta('alerta-ingreso','ok',
-    `✅ Ingreso registrado – DNI: <strong>${dni}</strong> | Ticket: <strong>${ticket}</strong> | ${formatFecha(now)} ${formatHora(now)} | Vigente por ${HS_VIGENCIA} hs`);
+  const now=ahoraReal();
+  const ingresos=cargarDatos(KEYS.ingresos);
+  ingresos.push({dni,ticket,fecha:formatFecha(now),hora:formatHora(now),isoFecha:isoFecha(now)});
+  guardarDatos(KEYS.ingresos,ingresos);
+  document.getElementById('aviso-ticket').className='alerta';
+  mostrarAlerta('alerta-ingreso','ok',`✅ Ingreso registrado – DNI: <strong>${dni}</strong> | Ticket: <strong>${ticket}</strong> | ${formatFecha(now)} ${formatHora(now)} | Vigente por ${HS_VIGENCIA} hs`);
   buscarInvitado();
-  document.getElementById('ticket-ingreso').value = '';
+  document.getElementById('ticket-ingreso').value='';
 }
 
 /* ═══════════════════════════════════════════════════════
    SECCIÓN 2 – APERCIBIMIENTO
 ═══════════════════════════════════════════════════════ */
 function registrarApercibimiento(){
-  const dni    = document.getElementById('dni-aperc').value.trim();
-  const nombre = document.getElementById('nombre-aperc').value.trim();
-  const motivo = document.getElementById('motivo-aperc').value.trim();
-  if(!dni)   { mostrarAlerta('alerta-aperc','error','Ingresá el número de documento.'); return; }
-  if(!motivo){ mostrarAlerta('alerta-aperc','error','Ingresá el motivo del apercibimiento.'); return; }
-  const insp = getInspectorActivo();
-  if(!insp){ if(!confirm('⚠️ No hay inspector activo. ¿Registrar el apercibimiento de todas formas?')) return; }
-  const now   = ahoraReal();
-  const lista = cargarDatos(KEYS.apercibimientos);
-  lista.push({id: Date.now(), dni, nombre, motivo, fecha: formatFecha(now), hora: formatHora(now),
-              inspector: insp ? insp.nombre : null, inspectorId: insp ? insp.id : null});
-  guardarDatos(KEYS.apercibimientos, lista);
-  const inspMsg = insp ? ` | Inspector: <strong>${insp.nombre}</strong>` : '';
+  const dni=document.getElementById('dni-aperc').value.trim();
+  const nombre=document.getElementById('nombre-aperc').value.trim();
+  const motivo=document.getElementById('motivo-aperc').value.trim();
+  if(!dni){mostrarAlerta('alerta-aperc','error','Ingresá el número de documento.');return;}
+  if(!motivo){mostrarAlerta('alerta-aperc','error','Ingresá el motivo del apercibimiento.');return;}
+  const insp=getInspectorActivo();
+  if(!insp){if(!confirm('⚠️ No hay inspector activo. ¿Registrar el apercibimiento de todas formas?')) return;}
+  const now=ahoraReal();
+  const lista=cargarDatos(KEYS.apercibimientos);
+  lista.push({id:Date.now(),dni,nombre,motivo,fecha:formatFecha(now),hora:formatHora(now),inspector:insp?insp.nombre:null,inspectorId:insp?insp.id:null});
+  guardarDatos(KEYS.apercibimientos,lista);
+  const inspMsg=insp?` | Inspector: <strong>${insp.nombre}</strong>`:'';
   mostrarAlerta('alerta-aperc','ok',`⚠️ Apercibimiento registrado para DNI <strong>${dni}</strong>${inspMsg}.`);
-  ['dni-aperc','nombre-aperc','motivo-aperc'].forEach(id => { document.getElementById(id).value = ''; });
+  ['dni-aperc','nombre-aperc','motivo-aperc'].forEach(id=>{document.getElementById(id).value='';});
   renderTablaApercibimientos();
 }
 function eliminarApercibimiento(id){
   if(!confirm('¿Eliminar este apercibimiento?')) return;
-  guardarDatos(KEYS.apercibimientos, cargarDatos(KEYS.apercibimientos).filter(a => a.id !== id));
+  guardarDatos(KEYS.apercibimientos,cargarDatos(KEYS.apercibimientos).filter(a=>a.id!==id));
   renderTablaApercibimientos();
 }
 function renderTablaApercibimientos(){
-  const lista = cargarDatos(KEYS.apercibimientos).slice().reverse();
-  const tbody = document.querySelector('#tabla-aperc tbody');
-  tbody.innerHTML = '';
-  if(!lista.length){
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#aaa;">Sin apercibimientos registrados</td></tr>';
-    return;
-  }
-  lista.forEach(a => {
-    const inspBadge = a.inspector
-      ? `<span class="badge badge-azul">👮 ${a.inspector}</span>`
-      : '<span style="color:#aaa;font-size:.8rem">—</span>';
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${fotoThumb(a.dni)}</td>
-      <td>${a.dni}</td>
-      <td>${a.nombre || '—'}</td>
-      <td>${a.fecha} ${a.hora}</td>
-      <td style="max-width:240px">${a.motivo}</td>
-      <td>${inspBadge}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="eliminarApercibimiento(${a.id})">🗑️ Eliminar</button></td>`;
+  const lista=cargarDatos(KEYS.apercibimientos).slice().reverse();
+  const tbody=document.querySelector('#tabla-aperc tbody');
+  tbody.innerHTML='';
+  if(!lista.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:#aaa;">Sin apercibimientos registrados</td></tr>';return;}
+  lista.forEach(a=>{
+    const inspBadge=a.inspector?`<span class="badge badge-azul">👮 ${a.inspector}</span>`:'<span style="color:#aaa;font-size:.8rem">—</span>';
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${fotoThumb(a.dni)}</td><td>${a.dni}</td><td>${a.nombre||'—'}</td><td>${a.fecha} ${a.hora}</td><td style="max-width:240px">${a.motivo}</td><td>${inspBadge}</td><td><button class="btn btn-danger btn-sm" onclick="eliminarApercibimiento(${a.id})">🗑️ Eliminar</button></td>`;
     tbody.appendChild(tr);
   });
 }
@@ -1884,52 +1878,39 @@ function renderTablaApercibimientos(){
    SECCIÓN 3 – SUSPENSIÓN
 ═══════════════════════════════════════════════════════ */
 function registrarSuspension(){
-  const dni    = document.getElementById('dni-susp').value.trim();
-  const nombre = document.getElementById('nombre-susp').value.trim();
-  const desde  = document.getElementById('susp-desde').value;
-  const hasta  = document.getElementById('susp-hasta').value;
-  const motivo = document.getElementById('motivo-susp').value.trim();
-  if(!dni)       { mostrarAlerta('alerta-susp','error','Ingresá el número de documento.'); return; }
-  if(!desde)     { mostrarAlerta('alerta-susp','error','Ingresá la fecha de inicio.'); return; }
-  if(!hasta)     { mostrarAlerta('alerta-susp','error','Ingresá la fecha de fin.'); return; }
-  if(hasta<desde){ mostrarAlerta('alerta-susp','error','La fecha "hasta" debe ser ≥ "desde".'); return; }
-  if(!motivo)    { mostrarAlerta('alerta-susp','error','Ingresá el motivo.'); return; }
-  const lista = cargarDatos(KEYS.suspensiones);
-  lista.push({id: Date.now(), dni, nombre, desde, hasta, motivo});
-  guardarDatos(KEYS.suspensiones, lista);
+  const dni=document.getElementById('dni-susp').value.trim();
+  const nombre=document.getElementById('nombre-susp').value.trim();
+  const desde=document.getElementById('susp-desde').value;
+  const hasta=document.getElementById('susp-hasta').value;
+  const motivo=document.getElementById('motivo-susp').value.trim();
+  if(!dni){mostrarAlerta('alerta-susp','error','Ingresá el número de documento.');return;}
+  if(!desde){mostrarAlerta('alerta-susp','error','Ingresá la fecha de inicio.');return;}
+  if(!hasta){mostrarAlerta('alerta-susp','error','Ingresá la fecha de fin.');return;}
+  if(hasta<desde){mostrarAlerta('alerta-susp','error','La fecha "hasta" debe ser ≥ "desde".');return;}
+  if(!motivo){mostrarAlerta('alerta-susp','error','Ingresá el motivo.');return;}
+  const lista=cargarDatos(KEYS.suspensiones);
+  lista.push({id:Date.now(),dni,nombre,desde,hasta,motivo});
+  guardarDatos(KEYS.suspensiones,lista);
   mostrarAlerta('alerta-susp','ok',`🚫 Suspensión registrada para DNI <strong>${dni}</strong> hasta <strong>${hasta}</strong>.`);
-  ['dni-susp','nombre-susp','susp-desde','susp-hasta','motivo-susp'].forEach(id => { document.getElementById(id).value = ''; });
+  ['dni-susp','nombre-susp','susp-desde','susp-hasta','motivo-susp'].forEach(id=>{document.getElementById(id).value='';});
   renderTablaSuspensiones();
 }
 function eliminarSuspension(id){
   if(!confirm('¿Eliminar esta suspensión?')) return;
-  guardarDatos(KEYS.suspensiones, cargarDatos(KEYS.suspensiones).filter(s => s.id !== id));
+  guardarDatos(KEYS.suspensiones,cargarDatos(KEYS.suspensiones).filter(s=>s.id!==id));
   renderTablaSuspensiones();
 }
 function renderTablaSuspensiones(){
-  const lista = cargarDatos(KEYS.suspensiones).slice().reverse();
-  const hoy   = isoFecha(ahoraReal());
-  const tbody = document.querySelector('#tabla-susp tbody');
-  tbody.innerHTML = '';
-  if(!lista.length){
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#aaa;">Sin suspensiones registradas</td></tr>';
-    return;
-  }
-  lista.forEach(s => {
-    const activa = hoy >= s.desde && hoy <= s.hasta;
-    const badge  = activa
-      ? '<span class="badge badge-rojo">🚫 ACTIVA</span>'
-      : '<span class="badge badge-verde">✔️ Vencida</span>';
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${fotoThumb(s.dni)}</td>
-      <td>${s.dni}</td>
-      <td>${s.nombre || '—'}</td>
-      <td>${s.desde}</td>
-      <td>${s.hasta}</td>
-      <td style="max-width:220px">${s.motivo}</td>
-      <td>${badge}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="eliminarSuspension(${s.id})">🗑️ Eliminar</button></td>`;
+  const lista=cargarDatos(KEYS.suspensiones).slice().reverse();
+  const hoy=isoFecha(ahoraReal());
+  const tbody=document.querySelector('#tabla-susp tbody');
+  tbody.innerHTML='';
+  if(!lista.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:#aaa;">Sin suspensiones registradas</td></tr>';return;}
+  lista.forEach(s=>{
+    const activa=hoy>=s.desde&&hoy<=s.hasta;
+    const badge=activa?'<span class="badge badge-rojo">🚫 ACTIVA</span>':'<span class="badge badge-verde">✔️ Vencida</span>';
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${fotoThumb(s.dni)}</td><td>${s.dni}</td><td>${s.nombre||'—'}</td><td>${s.desde}</td><td>${s.hasta}</td><td style="max-width:220px">${s.motivo}</td><td>${badge}</td><td><button class="btn btn-danger btn-sm" onclick="eliminarSuspension(${s.id})">🗑️ Eliminar</button></td>`;
     tbody.appendChild(tr);
   });
 }
@@ -1938,30 +1919,23 @@ function renderTablaSuspensiones(){
    SECCIÓN 4 – CONSULTA
 ═══════════════════════════════════════════════════════ */
 function consultarIngresos(){
-  const desde = document.getElementById('consulta-desde').value;
-  const hasta = document.getElementById('consulta-hasta').value;
-  const dni   = document.getElementById('consulta-dni').value.trim();
-  if(!desde || !hasta){ mostrarAlerta('alerta-consulta','error','Seleccioná ambas fechas.'); return; }
-  if(hasta < desde)   { mostrarAlerta('alerta-consulta','error','La fecha "hasta" debe ser ≥ "desde".'); return; }
-  let res = cargarDatos(KEYS.ingresos).filter(i => i.isoFecha >= desde && i.isoFecha <= hasta);
-  if(dni) res = res.filter(i => i.dni === dni);
-  res.sort((a,b) => (a.isoFecha + a.hora) > (b.isoFecha + b.hora) ? -1 : 1);
-  document.getElementById('resumen-consulta').textContent =
-    `Se encontraron ${res.length} ingreso(s) entre ${desde} y ${hasta}${dni ? ' para DNI ' + dni : ''}.`;
-  const tbody = document.querySelector('#tabla-consulta tbody');
-  tbody.innerHTML = '';
-  if(!res.length){ tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#aaa;">Sin resultados</td></tr>'; return; }
-  res.forEach(i => {
-    const est = estadoIngreso(i);
-    const tr  = document.createElement('tr');
-    if(est.fila) tr.className = est.fila;
-    tr.innerHTML = `
-      <td>${fotoThumb(i.dni)}</td>
-      <td>${i.dni}</td>
-      <td>${i.ticket}</td>
-      <td>${i.fecha}</td>
-      <td>${i.hora}</td>
-      <td><span class="badge ${est.clase}">${est.texto}</span></td>`;
+  const desde=document.getElementById('consulta-desde').value;
+  const hasta=document.getElementById('consulta-hasta').value;
+  const dni=document.getElementById('consulta-dni').value.trim();
+  if(!desde||!hasta){mostrarAlerta('alerta-consulta','error','Seleccioná ambas fechas.');return;}
+  if(hasta<desde){mostrarAlerta('alerta-consulta','error','La fecha "hasta" debe ser ≥ "desde".');return;}
+  let res=cargarDatos(KEYS.ingresos).filter(i=>i.isoFecha>=desde&&i.isoFecha<=hasta);
+  if(dni) res=res.filter(i=>i.dni===dni);
+  res.sort((a,b)=>(a.isoFecha+a.hora)>(b.isoFecha+b.hora)?-1:1);
+  document.getElementById('resumen-consulta').textContent=`Se encontraron ${res.length} ingreso(s) entre ${desde} y ${hasta}${dni?' para DNI '+dni:''}.`;
+  const tbody=document.querySelector('#tabla-consulta tbody');
+  tbody.innerHTML='';
+  if(!res.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;">Sin resultados</td></tr>';return;}
+  res.forEach(i=>{
+    const est=estadoIngreso(i);
+    const tr=document.createElement('tr');
+    if(est.fila) tr.className=est.fila;
+    tr.innerHTML=`<td>${fotoThumb(i.dni)}</td><td>${i.dni}</td><td>${i.ticket}</td><td>${i.fecha}</td><td>${i.hora}</td><td><span class="badge ${est.clase}">${est.texto}</span></td>`;
     tbody.appendChild(tr);
   });
 }
@@ -1970,205 +1944,124 @@ function consultarIngresos(){
    BACKUP COMPLETO
 ═══════════════════════════════════════════════════════ */
 function datosAXML(){
-  const ingresos        = cargarDatos(KEYS.ingresos);
-  const apercibimientos = cargarDatos(KEYS.apercibimientos);
-  const suspensiones    = cargarDatos(KEYS.suspensiones);
-  const inspectores     = cargarDatos(KEYS.inspectores);
-  const fotosObj        = cargarFotos();
-  const inspActivoId    = cargarItem(KEYS.inspActivo) || '';
-  const now = ahoraReal();
-  const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-
-  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<PejerreyClubQuilmes>\n`;
-  xml += `  <MetaData>\n    <FechaBackup>${formatFecha(now)} ${formatHora(now)}</FechaBackup>\n`;
-  xml += `    <TotalIngresos>${ingresos.length}</TotalIngresos>\n`;
-  xml += `    <TotalApercibimientos>${apercibimientos.length}</TotalApercibimientos>\n`;
-  xml += `    <TotalSuspensiones>${suspensiones.length}</TotalSuspensiones>\n`;
-  xml += `    <TotalInspectores>${inspectores.length}</TotalInspectores>\n`;
-  xml += `    <TotalFotos>${Object.keys(fotosObj).length}</TotalFotos>\n`;
-  xml += `    <InspectorActivoId>${esc(inspActivoId)}</InspectorActivoId>\n  </MetaData>\n`;
-
-  xml += `  <Ingresos>\n`;
-  ingresos.forEach(i => {
-    xml += `    <Ingreso>\n      <DNI>${esc(i.dni)}</DNI>\n      <Ticket>${esc(i.ticket)}</Ticket>\n`;
-    xml += `      <Fecha>${esc(i.fecha)}</Fecha>\n      <Hora>${esc(i.hora)}</Hora>\n`;
-    xml += `      <IsoFecha>${esc(i.isoFecha)}</IsoFecha>\n    </Ingreso>\n`;
-  });
-  xml += `  </Ingresos>\n  <Apercibimientos>\n`;
-  apercibimientos.forEach(a => {
-    xml += `    <Apercibimiento>\n      <ID>${esc(a.id)}</ID>\n      <DNI>${esc(a.dni)}</DNI>\n`;
-    xml += `      <Nombre>${esc(a.nombre)}</Nombre>\n      <Motivo>${esc(a.motivo)}</Motivo>\n`;
-    xml += `      <Fecha>${esc(a.fecha)}</Fecha>\n      <Hora>${esc(a.hora)}</Hora>\n`;
-    xml += `      <Inspector>${esc(a.inspector)}</Inspector>\n`;
-    xml += `      <InspectorId>${esc(a.inspectorId)}</InspectorId>\n    </Apercibimiento>\n`;
-  });
-  xml += `  </Apercibimientos>\n  <Suspensiones>\n`;
-  suspensiones.forEach(s => {
-    xml += `    <Suspension>\n      <ID>${esc(s.id)}</ID>\n      <DNI>${esc(s.dni)}</DNI>\n`;
-    xml += `      <Nombre>${esc(s.nombre)}</Nombre>\n      <Desde>${esc(s.desde)}</Desde>\n`;
-    xml += `      <Hasta>${esc(s.hasta)}</Hasta>\n      <Motivo>${esc(s.motivo)}</Motivo>\n    </Suspension>\n`;
-  });
-  xml += `  </Suspensiones>\n  <Inspectores>\n`;
-  inspectores.forEach(i => {
-    xml += `    <Inspector>\n      <ID>${esc(i.id)}</ID>\n      <Nombre>${esc(i.nombre)}</Nombre>\n`;
-    xml += `      <Tel>${esc(i.tel)}</Tel>\n      <Obs>${esc(i.obs)}</Obs>\n    </Inspector>\n`;
-  });
-  xml += `  </Inspectores>\n`;
-  xml += `  <Fotos>\n`;
-  Object.entries(fotosObj).forEach(([dni, b64]) => {
-    xml += `    <Foto>\n      <DNI>${esc(dni)}</DNI>\n      <Data><![CDATA[${b64}]]></Data>\n    </Foto>\n`;
-  });
-  xml += `  </Fotos>\n</PejerreyClubQuilmes>`;
+  const ingresos=cargarDatos(KEYS.ingresos);
+  const apercibimientos=cargarDatos(KEYS.apercibimientos);
+  const suspensiones=cargarDatos(KEYS.suspensiones);
+  const inspectores=cargarDatos(KEYS.inspectores);
+  const fotosObj=cargarFotos();
+  const inspActivoId=cargarItem(KEYS.inspActivo)||'';
+  const now=ahoraReal();
+  const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  let xml=`<?xml version="1.0" encoding="UTF-8"?>\n<PejerreyClubQuilmes>\n`;
+  xml+=`  <MetaData>\n    <FechaBackup>${formatFecha(now)} ${formatHora(now)}</FechaBackup>\n`;
+  xml+=`    <TotalIngresos>${ingresos.length}</TotalIngresos>\n    <TotalApercibimientos>${apercibimientos.length}</TotalApercibimientos>\n`;
+  xml+=`    <TotalSuspensiones>${suspensiones.length}</TotalSuspensiones>\n    <TotalInspectores>${inspectores.length}</TotalInspectores>\n`;
+  xml+=`    <TotalFotos>${Object.keys(fotosObj).length}</TotalFotos>\n    <InspectorActivoId>${esc(inspActivoId)}</InspectorActivoId>\n  </MetaData>\n`;
+  xml+=`  <Ingresos>\n`;
+  ingresos.forEach(i=>{xml+=`    <Ingreso>\n      <DNI>${esc(i.dni)}</DNI>\n      <Ticket>${esc(i.ticket)}</Ticket>\n      <Fecha>${esc(i.fecha)}</Fecha>\n      <Hora>${esc(i.hora)}</Hora>\n      <IsoFecha>${esc(i.isoFecha)}</IsoFecha>\n    </Ingreso>\n`;});
+  xml+=`  </Ingresos>\n  <Apercibimientos>\n`;
+  apercibimientos.forEach(a=>{xml+=`    <Apercibimiento>\n      <ID>${esc(a.id)}</ID>\n      <DNI>${esc(a.dni)}</DNI>\n      <Nombre>${esc(a.nombre)}</Nombre>\n      <Motivo>${esc(a.motivo)}</Motivo>\n      <Fecha>${esc(a.fecha)}</Fecha>\n      <Hora>${esc(a.hora)}</Hora>\n      <Inspector>${esc(a.inspector)}</Inspector>\n      <InspectorId>${esc(a.inspectorId)}</InspectorId>\n    </Apercibimiento>\n`;});
+  xml+=`  </Apercibimientos>\n  <Suspensiones>\n`;
+  suspensiones.forEach(s=>{xml+=`    <Suspension>\n      <ID>${esc(s.id)}</ID>\n      <DNI>${esc(s.dni)}</DNI>\n      <Nombre>${esc(s.nombre)}</Nombre>\n      <Desde>${esc(s.desde)}</Desde>\n      <Hasta>${esc(s.hasta)}</Hasta>\n      <Motivo>${esc(s.motivo)}</Motivo>\n    </Suspension>\n`;});
+  xml+=`  </Suspensiones>\n  <Inspectores>\n`;
+  inspectores.forEach(i=>{xml+=`    <Inspector>\n      <ID>${esc(i.id)}</ID>\n      <Nombre>${esc(i.nombre)}</Nombre>\n      <Tel>${esc(i.tel)}</Tel>\n      <Obs>${esc(i.obs)}</Obs>\n    </Inspector>\n`;});
+  xml+=`  </Inspectores>\n  <Fotos>\n`;
+  Object.entries(fotosObj).forEach(([dni,b64])=>{xml+=`    <Foto>\n      <DNI>${esc(dni)}</DNI>\n      <Data><![CDATA[${b64}]]></Data>\n    </Foto>\n`;});
+  xml+=`  </Fotos>\n</PejerreyClubQuilmes>`;
   return xml;
 }
 
-function generarBackup(){
-  const xml  = datosAXML();
-  const blob = new Blob([xml], {type:'application/xml'});
-  const url  = URL.createObjectURL(blob);
-  const now  = ahoraReal();
-  const nombre = `PCQ_backup_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.xml`;
-  Object.assign(document.createElement('a'), {href:url, download:nombre}).click();
+async function generarBackup(){
+  const xml=datosAXML();
+  const now=ahoraReal();
+  const nombre=`PCQ_backup_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.xml`;
+
+  // 1. Descarga local
+  const blob=new Blob([xml],{type:'application/xml'});
+  const url=URL.createObjectURL(blob);
+  Object.assign(document.createElement('a'),{href:url,download:nombre}).click();
   URL.revokeObjectURL(url);
-  mostrarAlerta('alerta-backup-gen','ok',`✅ Backup generado: <strong>${nombre}</strong>`);
+
+  // 2. Subir a GitHub
+  mostrarAlerta('alerta-backup-gen','info','⏳ Subiendo backup a GitHub...');
+  const ghResult = await subirXMLaGitHub(
+    xml, nombre,
+    `🎣 PCQ Backup completo – ${formatFecha(now)} ${formatHora(now)}`
+  );
+
+  if(ghResult.ok){
+    mostrarAlerta('alerta-backup-gen','ok',
+      `✅ Backup generado y guardado en GitHub.<br>
+       📁 Archivo: <strong>${nombre}</strong><br>
+       🔗 Repositorio: <strong>${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/backups/</strong>`);
+  } else {
+    mostrarAlerta('alerta-backup-gen','warn',
+      `⬇️ Backup descargado localmente como <strong>${nombre}</strong>.<br>
+       ⚠️ No se pudo subir a GitHub: <strong>${ghResult.error}</strong>`);
+  }
 }
 
 function restaurarBackup(){
-  const archivo = document.getElementById('archivo-bak').files[0];
-  if(!archivo){ mostrarAlerta('alerta-backup-rest','error','Seleccioná un archivo .xml'); return; }
+  const archivo=document.getElementById('archivo-bak').files[0];
+  if(!archivo){mostrarAlerta('alerta-backup-rest','error','Seleccioná un archivo .xml');return;}
   if(!confirm('⚠️ ¿Estás seguro? Esto reemplazará TODOS los datos actuales.')) return;
-  const reader = new FileReader();
-  reader.onload = function(e){
+  const reader=new FileReader();
+  reader.onload=function(e){
     try{
-      const parser = new DOMParser();
-      const doc    = parser.parseFromString(e.target.result, 'application/xml');
+      const parser=new DOMParser();
+      const doc=parser.parseFromString(e.target.result,'application/xml');
       if(doc.querySelector('parsererror')) throw new Error('XML inválido');
-
-      const ingresos = [];
-      doc.querySelectorAll('Ingreso').forEach(n => {
-        ingresos.push({
-          dni:      n.querySelector('DNI')?.textContent     || '',
-          ticket:   n.querySelector('Ticket')?.textContent  || '',
-          fecha:    n.querySelector('Fecha')?.textContent   || '',
-          hora:     n.querySelector('Hora')?.textContent    || '',
-          isoFecha: n.querySelector('IsoFecha')?.textContent|| ''
-        });
-      });
-      const apercs = [];
-      doc.querySelectorAll('Apercibimiento').forEach(n => {
-        apercs.push({
-          id:          Number(n.querySelector('ID')?.textContent)    || Date.now(),
-          dni:         n.querySelector('DNI')?.textContent           || '',
-          nombre:      n.querySelector('Nombre')?.textContent        || '',
-          motivo:      n.querySelector('Motivo')?.textContent        || '',
-          fecha:       n.querySelector('Fecha')?.textContent         || '',
-          hora:        n.querySelector('Hora')?.textContent          || '',
-          inspector:   n.querySelector('Inspector')?.textContent     || null,
-          inspectorId: n.querySelector('InspectorId')?.textContent   || null
-        });
-      });
-      const susps = [];
-      doc.querySelectorAll('Suspension').forEach(n => {
-        susps.push({
-          id:     Number(n.querySelector('ID')?.textContent)   || Date.now(),
-          dni:    n.querySelector('DNI')?.textContent          || '',
-          nombre: n.querySelector('Nombre')?.textContent       || '',
-          desde:  n.querySelector('Desde')?.textContent        || '',
-          hasta:  n.querySelector('Hasta')?.textContent        || '',
-          motivo: n.querySelector('Motivo')?.textContent       || ''
-        });
-      });
-      const insps = [];
-      doc.querySelectorAll('Inspector').forEach(n => {
-        insps.push({
-          id:     Number(n.querySelector('ID')?.textContent)     || Date.now(),
-          nombre: n.querySelector('Nombre')?.textContent         || '',
-          tel:    n.querySelector('Tel')?.textContent            || '',
-          obs:    n.querySelector('Obs')?.textContent            || ''
-        });
-      });
-
-      const fotosRestauradas = {};
-      doc.querySelectorAll('Foto').forEach(n => {
-        const dni  = n.querySelector('DNI')?.textContent  || '';
-        const data = n.querySelector('Data')?.textContent || '';
-        if(dni && data) fotosRestauradas[dni] = data;
-      });
-
-      const inspActivoId = doc.querySelector('InspectorActivoId')?.textContent || '';
-
-      guardarDatos(KEYS.ingresos,        ingresos);
-      guardarDatos(KEYS.apercibimientos, apercs);
-      guardarDatos(KEYS.suspensiones,    susps);
-      guardarDatos(KEYS.inspectores,     insps);
+      const ingresos=[];
+      doc.querySelectorAll('Ingreso').forEach(n=>{ingresos.push({dni:n.querySelector('DNI')?.textContent||'',ticket:n.querySelector('Ticket')?.textContent||'',fecha:n.querySelector('Fecha')?.textContent||'',hora:n.querySelector('Hora')?.textContent||'',isoFecha:n.querySelector('IsoFecha')?.textContent||''});});
+      const apercs=[];
+      doc.querySelectorAll('Apercibimiento').forEach(n=>{apercs.push({id:Number(n.querySelector('ID')?.textContent)||Date.now(),dni:n.querySelector('DNI')?.textContent||'',nombre:n.querySelector('Nombre')?.textContent||'',motivo:n.querySelector('Motivo')?.textContent||'',fecha:n.querySelector('Fecha')?.textContent||'',hora:n.querySelector('Hora')?.textContent||'',inspector:n.querySelector('Inspector')?.textContent||null,inspectorId:n.querySelector('InspectorId')?.textContent||null});});
+      const susps=[];
+      doc.querySelectorAll('Suspension').forEach(n=>{susps.push({id:Number(n.querySelector('ID')?.textContent)||Date.now(),dni:n.querySelector('DNI')?.textContent||'',nombre:n.querySelector('Nombre')?.textContent||'',desde:n.querySelector('Desde')?.textContent||'',hasta:n.querySelector('Hasta')?.textContent||'',motivo:n.querySelector('Motivo')?.textContent||''});});
+      const insps=[];
+      doc.querySelectorAll('Inspector').forEach(n=>{insps.push({id:Number(n.querySelector('ID')?.textContent)||Date.now(),nombre:n.querySelector('Nombre')?.textContent||'',tel:n.querySelector('Tel')?.textContent||'',obs:n.querySelector('Obs')?.textContent||''});});
+      const fotosRestauradas={};
+      doc.querySelectorAll('Foto').forEach(n=>{const dni=n.querySelector('DNI')?.textContent||'';const data=n.querySelector('Data')?.textContent||'';if(dni&&data) fotosRestauradas[dni]=data;});
+      const inspActivoId=doc.querySelector('InspectorActivoId')?.textContent||'';
+      guardarDatos(KEYS.ingresos,ingresos);guardarDatos(KEYS.apercibimientos,apercs);
+      guardarDatos(KEYS.suspensiones,susps);guardarDatos(KEYS.inspectores,insps);
       guardarFotos(fotosRestauradas);
-
-      const inspExiste = inspActivoId && insps.find(i => String(i.id) === String(inspActivoId));
-      if(inspExiste) guardarItem(KEYS.inspActivo, inspActivoId);
+      const inspExiste=inspActivoId&&insps.find(i=>String(i.id)===String(inspActivoId));
+      if(inspExiste) guardarItem(KEYS.inspActivo,inspActivoId);
       else           localStorage.removeItem(KEYS.inspActivo);
-
-      actualizarUIInspectorActivo();
-      actualizarEstadoBloqueo();
-
-      const totalFotos = Object.keys(fotosRestauradas).length;
-      mostrarAlerta('alerta-backup-rest','ok',
-        `✅ Backup restaurado.<br>
-         Ingresos: <strong>${ingresos.length}</strong> | Apercibimientos: <strong>${apercs.length}</strong> |
-         Suspensiones: <strong>${susps.length}</strong> | Inspectores: <strong>${insps.length}</strong> |
-         Fotos: <strong>${totalFotos}</strong>`);
+      actualizarUIInspectorActivo();actualizarEstadoBloqueo();
+      const totalFotos=Object.keys(fotosRestauradas).length;
+      mostrarAlerta('alerta-backup-rest','ok',`✅ Backup restaurado.<br>Ingresos: <strong>${ingresos.length}</strong> | Apercibimientos: <strong>${apercs.length}</strong> | Suspensiones: <strong>${susps.length}</strong> | Inspectores: <strong>${insps.length}</strong> | Fotos: <strong>${totalFotos}</strong>`);
       renderEstadisticas();
-      document.getElementById('archivo-bak').value = '';
+      document.getElementById('archivo-bak').value='';
     }catch(ex){
-      mostrarAlerta('alerta-backup-rest','error','❌ Error al leer el archivo: ' + ex.message);
+      mostrarAlerta('alerta-backup-rest','error','❌ Error al leer el archivo: '+ex.message);
     }
   };
   reader.readAsText(archivo);
 }
 
 function renderEstadisticas(){
-  const i   = cargarDatos(KEYS.ingresos).length;
-  const a   = cargarDatos(KEYS.apercibimientos).length;
-  const s   = cargarDatos(KEYS.suspensiones).length;
-  const ins = cargarDatos(KEYS.inspectores).length;
-  const f   = Object.keys(cargarFotos()).length;
-  const hoy = isoFecha(ahoraReal());
-  const sa  = cargarDatos(KEYS.suspensiones).filter(x => hoy >= x.desde && hoy <= x.hasta).length;
-  const now = ahoraReal();
-  const lim = HS_VIGENCIA * 3600000;
-  const prev = lim - MIN_POR_VENCER * 60000;
-  const venc = cargarDatos(KEYS.ingresos).filter(x => {
-    const ms = now.getTime() - parseFechaHora(x.fecha, x.hora).getTime();
-    return ms >= lim;
-  }).length;
-  const porVenc = cargarDatos(KEYS.ingresos).filter(x => {
-    const ms = now.getTime() - parseFechaHora(x.fecha, x.hora).getTime();
-    return ms >= prev && ms < lim;
-  }).length;
-  document.getElementById('estadisticas').innerHTML = `
-    <div style="background:linear-gradient(135deg,#1a3a1a,#2d6e2d);border:2px solid var(--dorado);border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;">
-      <div style="font-size:1.8rem;font-weight:700;color:var(--dorado);font-family:'Oswald',sans-serif">${i}</div>
-      <div style="font-size:.8rem;color:#cce8cc;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Ingresos totales</div></div>
-    <div style="background:linear-gradient(135deg,#3a2a0a,#7a5a1a);border:2px solid var(--naranja);border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;">
-      <div style="font-size:1.8rem;font-weight:700;color:#ffcc88;font-family:'Oswald',sans-serif">${porVenc}</div>
-      <div style="font-size:.8rem;color:#ffddaa;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Por vencer (&lt;1h)</div></div>
-    <div style="background:linear-gradient(135deg,#3a0a0a,#7a1a1a);border:2px solid var(--rojo);border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;">
-      <div style="font-size:1.8rem;font-weight:700;color:#ff8888;font-family:'Oswald',sans-serif">${venc}</div>
-      <div style="font-size:.8rem;color:#ffaaaa;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Ingresos vencidos</div></div>
-    <div style="background:linear-gradient(135deg,#3a2a0a,#7a5a1a);border:2px solid var(--naranja);border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;">
-      <div style="font-size:1.8rem;font-weight:700;color:#ffcc88;font-family:'Oswald',sans-serif">${a}</div>
-      <div style="font-size:.8rem;color:#ffddaa;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Apercibimientos</div></div>
-    <div style="background:linear-gradient(135deg,#3a0a0a,#7a1a1a);border:2px solid var(--rojo);border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;">
-      <div style="font-size:1.8rem;font-weight:700;color:#ff8888;font-family:'Oswald',sans-serif">${s}</div>
-      <div style="font-size:.8rem;color:#ffaaaa;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Suspensiones totales</div></div>
-    <div style="background:linear-gradient(135deg,#2a0a2a,#5a1a5a);border:2px solid #cc44cc;border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;">
-      <div style="font-size:1.8rem;font-weight:700;color:#ff88ff;font-family:'Oswald',sans-serif">${sa}</div>
-      <div style="font-size:.8rem;color:#ffaaff;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Suspensiones activas</div></div>
-    <div style="background:linear-gradient(135deg,#1a2a3a,#1a4a6a);border:2px solid #4488cc;border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;">
-      <div style="font-size:1.8rem;font-weight:700;color:#88ccff;font-family:'Oswald',sans-serif">${ins}</div>
-      <div style="font-size:.8rem;color:#aaddff;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Inspectores</div></div>
-    <div style="background:linear-gradient(135deg,#1a1a3a,#2a2a6a);border:2px solid #8888cc;border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;">
-      <div style="font-size:1.8rem;font-weight:700;color:#bbbbff;font-family:'Oswald',sans-serif">${f}</div>
-      <div style="font-size:.8rem;color:#ccccff;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Fotos guardadas</div></div>`;
+  const i=cargarDatos(KEYS.ingresos).length;
+  const a=cargarDatos(KEYS.apercibimientos).length;
+  const s=cargarDatos(KEYS.suspensiones).length;
+  const ins=cargarDatos(KEYS.inspectores).length;
+  const f=Object.keys(cargarFotos()).length;
+  const hoy=isoFecha(ahoraReal());
+  const sa=cargarDatos(KEYS.suspensiones).filter(x=>hoy>=x.desde&&hoy<=x.hasta).length;
+  const now=ahoraReal();
+  const lim=HS_VIGENCIA*3600000;
+  const prev=lim-MIN_POR_VENCER*60000;
+  const venc=cargarDatos(KEYS.ingresos).filter(x=>{const ms=now.getTime()-parseFechaHora(x.fecha,x.hora).getTime();return ms>=lim;}).length;
+  const porVenc=cargarDatos(KEYS.ingresos).filter(x=>{const ms=now.getTime()-parseFechaHora(x.fecha,x.hora).getTime();return ms>=prev&&ms<lim;}).length;
+  document.getElementById('estadisticas').innerHTML=`
+    <div style="background:linear-gradient(135deg,#1a3a1a,#2d6e2d);border:2px solid var(--dorado);border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;"><div style="font-size:1.8rem;font-weight:700;color:var(--dorado);font-family:'Oswald',sans-serif">${i}</div><div style="font-size:.8rem;color:#cce8cc;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Ingresos totales</div></div>
+    <div style="background:linear-gradient(135deg,#3a2a0a,#7a5a1a);border:2px solid var(--naranja);border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;"><div style="font-size:1.8rem;font-weight:700;color:#ffcc88;font-family:'Oswald',sans-serif">${porVenc}</div><div style="font-size:.8rem;color:#ffddaa;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Por vencer (&lt;1h)</div></div>
+    <div style="background:linear-gradient(135deg,#3a0a0a,#7a1a1a);border:2px solid var(--rojo);border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;"><div style="font-size:1.8rem;font-weight:700;color:#ff8888;font-family:'Oswald',sans-serif">${venc}</div><div style="font-size:.8rem;color:#ffaaaa;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Ingresos vencidos</div></div>
+    <div style="background:linear-gradient(135deg,#3a2a0a,#7a5a1a);border:2px solid var(--naranja);border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;"><div style="font-size:1.8rem;font-weight:700;color:#ffcc88;font-family:'Oswald',sans-serif">${a}</div><div style="font-size:.8rem;color:#ffddaa;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Apercibimientos</div></div>
+    <div style="background:linear-gradient(135deg,#3a0a0a,#7a1a1a);border:2px solid var(--rojo);border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;"><div style="font-size:1.8rem;font-weight:700;color:#ff8888;font-family:'Oswald',sans-serif">${s}</div><div style="font-size:.8rem;color:#ffaaaa;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Suspensiones totales</div></div>
+    <div style="background:linear-gradient(135deg,#2a0a2a,#5a1a5a);border:2px solid #cc44cc;border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;"><div style="font-size:1.8rem;font-weight:700;color:#ff88ff;font-family:'Oswald',sans-serif">${sa}</div><div style="font-size:.8rem;color:#ffaaff;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Suspensiones activas</div></div>
+    <div style="background:linear-gradient(135deg,#1a2a3a,#1a4a6a);border:2px solid #4488cc;border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;"><div style="font-size:1.8rem;font-weight:700;color:#88ccff;font-family:'Oswald',sans-serif">${ins}</div><div style="font-size:.8rem;color:#aaddff;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Inspectores</div></div>
+    <div style="background:linear-gradient(135deg,#1a1a3a,#2a2a6a);border:2px solid #8888cc;border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;"><div style="font-size:1.8rem;font-weight:700;color:#bbbbff;font-family:'Oswald',sans-serif">${f}</div><div style="font-size:.8rem;color:#ccccff;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Fotos guardadas</div></div>`;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -2177,18 +2070,16 @@ function renderEstadisticas(){
 (async function init(){
   await sincronizarHora();
   tickReloj();
-  setInterval(tickReloj, 1000);
-  setInterval(sincronizarHora, 5 * 60 * 1000);
-
+  setInterval(tickReloj,1000);
+  setInterval(sincronizarHora,5*60*1000);
   verificarContextoYMostrarAviso();
   actualizarUIInspectorActivo();
   actualizarEstadoBloqueo();
-
   if(getInspectorActivo()){
-    _navegarSeccion('ingreso', document.getElementById('btn-nav-ingreso'));
+    _navegarSeccion('ingreso',document.getElementById('btn-nav-ingreso'));
   } else {
-    document.getElementById('banner-activar').style.display = 'block';
-    _navegarSeccion('inspectores', document.getElementById('btn-nav-inspectores'));
+    document.getElementById('banner-activar').style.display='block';
+    _navegarSeccion('inspectores',document.getElementById('btn-nav-inspectores'));
   }
 })();
 </script>
