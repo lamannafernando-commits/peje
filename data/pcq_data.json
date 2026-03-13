@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-03-13T21:37:33.125Z",
+  "updatedAt": "2026-03-13T21:38:24.469Z",
   "ingresos": [
     {
       "dni": "7858",
@@ -38,7 +38,18 @@
       "isoFecha": "2026-03-13"
     }
   ],
-  "apercibimientos": [],
+  "apercibimientos": [
+    {
+      "id": 1773437905484,
+      "dni": "22222",
+      "nombre": "",
+      "motivo": "2cañas",
+      "fecha": "13/03/2026",
+      "hora": "18:38:24",
+      "inspector": "fer",
+      "inspectorId": 1773420770408
+    }
+  ],
   "suspensiones": [],
   "inspectores": [
     {
