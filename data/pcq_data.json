@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-03-13T21:38:42.762Z",
+  "updatedAt": "2026-03-13T21:39:19.566Z",
   "ingresos": [
     {
       "dni": "7858",
@@ -57,7 +57,16 @@
       "inspectorId": 1773420770408
     }
   ],
-  "suspensiones": [],
+  "suspensiones": [
+    {
+      "id": 1773437960585,
+      "dni": "22222",
+      "nombre": "",
+      "desde": "2026-03-13",
+      "hasta": "2026-03-31",
+      "motivo": "Dddd"
+    }
+  ],
   "inspectores": [
     {
       "id": 1773420770408,
