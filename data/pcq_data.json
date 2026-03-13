@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-03-13T17:19:18.331Z",
+  "updatedAt": "2026-03-13T17:21:08.402Z",
   "ingresos": [],
   "apercibimientos": [],
   "suspensiones": [],
@@ -19,6 +19,6 @@
     }
   ],
   "fotos": {},
-  "inspActivo": "",
-  "turnoInicio": ""
+  "inspActivo": "1773420770408",
+  "turnoInicio": "2026-03-13T17:21:08.401Z"
 }
