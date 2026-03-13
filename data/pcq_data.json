@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-03-13T17:17:36.405Z",
+  "updatedAt": "2026-03-13T17:19:18.331Z",
   "ingresos": [],
   "apercibimientos": [],
   "suspensiones": [],
@@ -8,6 +8,12 @@
     {
       "id": 1773420770408,
       "nombre": "fer",
+      "tel": "",
+      "obs": ""
+    },
+    {
+      "id": 1773422359341,
+      "nombre": "Oepe",
       "tel": "",
       "obs": ""
     }
