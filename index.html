@@ -86,6 +86,22 @@
     #header-inspector.sin-inspector {
       background: rgba(180,30,30,.35); border-color: var(--rojo-claro); color: #ffaaaa;
     }
+    /* SYNC STATUS BADGE */
+    #sync-badge {
+      font-size: .78rem; color: var(--blanco);
+      background: rgba(0,0,0,.4); border: 1px solid #555;
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 14px; border-radius: 20px; font-family: 'Oswald', sans-serif;
+      letter-spacing: .5px; transition: background .3s, border-color .3s;
+    }
+    #sync-badge.sync-ok     { background: rgba(26,107,26,.6); border-color: #2a8a2a; }
+    #sync-badge.sync-error  { background: rgba(180,30,30,.5); border-color: var(--rojo-claro); }
+    #sync-badge.sync-syncing{ background: rgba(26,90,138,.5); border-color: #2a7aaa; }
+    #sync-dot { width:8px; height:8px; border-radius:50%; background:#888; display:inline-block; }
+    #sync-badge.sync-ok     #sync-dot { background: #4aff4a; box-shadow: 0 0 6px #4aff4a; }
+    #sync-badge.sync-error  #sync-dot { background: var(--rojo-claro); box-shadow: 0 0 6px var(--rojo-claro); }
+    #sync-badge.sync-syncing #sync-dot { background: #88ccff; box-shadow: 0 0 6px #88ccff; animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
     nav {
       display: flex; flex-wrap: wrap; gap: 4px;
@@ -349,7 +365,7 @@
       background: linear-gradient(90deg, transparent, var(--dorado), transparent);
     }
 
-    /* ── FOTO ── */
+    /* FOTO */
     .foto-section {
       background: #f0f5f0; border: 2px dashed #8aaa8a;
       border-radius: 10px; padding: 16px; margin: 14px 0;
@@ -363,15 +379,12 @@
     .foto-controles {
       display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; align-items: center;
     }
-
     #cam-status {
       font-size: .8rem; color: #4a6a4a; font-style: italic;
       margin-bottom: 6px; min-height: 1.2em;
     }
-
     #camara-wrap {
-      display: none; flex-direction: column; align-items: center; gap: 8px;
-      margin: 10px 0;
+      display: none; flex-direction: column; align-items: center; gap: 8px; margin: 10px 0;
     }
     #camara-wrap.show { display: flex; }
     #video-camara {
@@ -379,7 +392,6 @@
       border: 2px solid var(--verde-logo); background: #000;
     }
     #canvas-foto { display: none; }
-
     #foto-preview-wrap {
       display: none; flex-direction: column; align-items: center; gap: 8px; margin-top: 8px;
     }
@@ -389,19 +401,10 @@
       border-radius: 8px; border: 3px solid var(--verde-logo);
       box-shadow: 0 2px 8px rgba(0,0,0,.2);
     }
-    #foto-preview.alerta-foto {
-      border-color: var(--rojo);
-      box-shadow: 0 0 0 4px rgba(204,34,34,.25), 0 2px 8px rgba(0,0,0,.2);
-    }
-    #foto-preview.warn-foto {
-      border-color: var(--naranja);
-      box-shadow: 0 0 0 4px rgba(212,132,26,.25), 0 2px 8px rgba(0,0,0,.2);
-    }
     .foto-dni-label {
       font-size: .72rem; font-weight: 700; color: #4a6a4a;
       font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: .5px;
     }
-
     .estado-foto-wrap {
       float: right; margin: 0 0 10px 14px;
       display: flex; flex-direction: column; align-items: center; gap: 4px;
@@ -417,49 +420,45 @@
     .estado-foto.foto-por-vencer { border-color: var(--naranja); box-shadow: 0 0 0 3px rgba(212,132,26,.25); }
     .estado-foto-label {
       font-size: .68rem; font-weight: 700; color: #4a6a4a;
-      font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: .4px;
-      text-align: center;
+      font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: .4px; text-align: center;
     }
-
     .foto-thumb {
       width: 44px; height: 44px; object-fit: cover;
       border-radius: 5px; border: 2px solid #ccc;
       vertical-align: middle; cursor: pointer;
       transition: transform .15s, box-shadow .15s;
     }
-    .foto-thumb:hover {
-      transform: scale(1.12);
-      box-shadow: 0 4px 12px rgba(0,0,0,.3);
-      border-color: var(--dorado);
-    }
+    .foto-thumb:hover { transform: scale(1.12); box-shadow: 0 4px 12px rgba(0,0,0,.3); border-color: var(--dorado); }
     .foto-thumb-placeholder {
       display: inline-flex; align-items: center; justify-content: center;
       width: 44px; height: 44px; border-radius: 5px;
       background: #e8ede8; border: 2px dashed #aaaaaa;
       color: #aaaaaa; font-size: 1.2rem; vertical-align: middle;
     }
-
     .aviso-https {
       background: #fff3cd; border: 2px solid var(--naranja);
       border-radius: 8px; padding: 10px 14px; margin-bottom: 10px;
-      font-size: .82rem; color: #92400e; font-weight: 600;
-      display: none;
+      font-size: .82rem; color: #92400e; font-weight: 600; display: none;
     }
     .aviso-https.show { display: block; }
 
-    /* ── GITHUB STATUS ── */
-    #github-status-bar {
-      background: rgba(0,0,0,.4); border-top: 1px solid var(--dorado);
-      text-align: center; padding: 4px 12px;
-      font-size: .75rem; color: #aacfaa;
-      font-family: 'Oswald', sans-serif; letter-spacing: .5px;
-      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
-      display: none;
+    /* SYNC OVERLAY */
+    #sync-loading {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(10,25,10,.92);
+      align-items: center; justify-content: center; flex-direction: column; gap: 16px;
     }
-    #github-status-bar.show { display: block; }
-    #github-status-bar.gh-ok    { color: #6ee7b7; }
-    #github-status-bar.gh-error { color: #fca5a5; }
-    #github-status-bar.gh-info  { color: #93c5fd; }
+    #sync-loading.show { display: flex; }
+    .sync-spinner {
+      width: 48px; height: 48px; border: 5px solid rgba(200,168,75,.3);
+      border-top-color: var(--dorado); border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .sync-loading-txt {
+      font-family: 'Oswald', sans-serif; font-size: 1.1rem;
+      color: var(--dorado); letter-spacing: 2px;
+    }
 
     @media(max-width:600px){
       header h1 { font-size: 1.15rem; }
@@ -473,8 +472,20 @@
 </head>
 <body>
 
-<!-- BARRA DE ESTADO GITHUB -->
-<div id="github-status-bar"></div>
+<!-- SYNC LOADING OVERLAY -->
+<div id="sync-loading">
+  <div class="bloqueo-logo">
+    <svg class="logo-fish" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="10,10 10,70 55,40" fill="none" stroke="#2d6e2d" stroke-width="5" stroke-linejoin="round"/>
+      <ellipse cx="120" cy="40" rx="70" ry="28" fill="none" stroke="#2d6e2d" stroke-width="5"/>
+      <circle cx="168" cy="34" r="5" fill="#2d6e2d"/>
+      <path d="M90,18 Q120,10 150,18" fill="none" stroke="#2d6e2d" stroke-width="3"/>
+    </svg>
+    <div class="logo-club-text">PEJERREY CLUB</div>
+  </div>
+  <div class="sync-spinner"></div>
+  <div class="sync-loading-txt" id="sync-loading-txt">🔄 Sincronizando datos desde GitHub...</div>
+</div>
 
 <!-- PANTALLA DE BLOQUEO -->
 <div id="bloqueo-overlay">
@@ -525,6 +536,10 @@
   <div class="header-info-row">
     <div id="reloj-header">Cargando hora...</div>
     <div id="header-inspector" class="sin-inspector">🔒 Sin inspector activo</div>
+    <div id="sync-badge">
+      <span id="sync-dot"></span>
+      <span id="sync-txt">Conectando...</span>
+    </div>
   </div>
 </header>
 
@@ -549,7 +564,6 @@
       <div id="fecha-grande">--/--/----</div>
       <div class="fuente-hora" id="fuente-hora">Sincronizando hora...</div>
       <br/>
-
       <div class="form-row">
         <label>Nº Documento (DNI)
           <input type="text" id="dni-ingreso" placeholder="Ej: 30123456" maxlength="12"
@@ -619,7 +633,7 @@
     </div>
   </section>
 
-  <!-- APERCIBIMIENTO -->
+  <!-- APERCIBAMIENTO -->
   <section id="sec-apercibamiento" class="seccion">
     <div class="card">
       <h2>⚠️ Registrar Apercibimiento</h2>
@@ -794,18 +808,30 @@
   <!-- BACKUP -->
   <section id="sec-backup" class="seccion">
     <div class="card">
-      <h2>💾 Generar Backup</h2>
+      <h2>☁️ Estado de Sincronización GitHub</h2>
       <p style="font-size:.9rem;color:#4a6a4a;margin-bottom:14px;">
-        Exporta todos los datos (incluidas las fotos) en un archivo <strong>.xml</strong>.<br/>
-        El archivo se descarga localmente <strong>y también se guarda automáticamente en GitHub</strong> 📂.
+        Todos los datos se sincronizan automáticamente con GitHub en tiempo real.<br/>
+        Repositorio: <strong style="color:var(--verde-oscuro);">lamannafernando-commits/peje → data/pcq_data.json</strong>
+      </p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+        <button class="btn btn-primary" onclick="sincronizarDesdeGitHub(true)">🔄 Sincronizar ahora</button>
+        <button class="btn btn-info" onclick="verificarConexionGitHub()">🔍 Verificar conexión</button>
+      </div>
+      <div id="alerta-github" class="alerta"></div>
+      <div id="ultimo-sync-info" style="font-size:.82rem;color:#4a6a4a;margin-top:8px;"></div>
+    </div>
+    <div class="card">
+      <h2>💾 Backup XML Manual</h2>
+      <p style="font-size:.9rem;color:#4a6a4a;margin-bottom:14px;">
+        Descargá una copia local de todos los datos en formato <strong>.xml</strong>.
       </p>
       <div class="backup-row">
-        <button class="btn btn-success" onclick="generarBackup()">⬇️ Descargar + Guardar en GitHub</button>
+        <button class="btn btn-success" onclick="generarBackup()">⬇️ Descargar XML local</button>
       </div>
       <div id="alerta-backup-gen" class="alerta"></div>
     </div>
     <div class="card">
-      <h2>♻️ Restaurar Backup</h2>
+      <h2>♻️ Restaurar Backup XML</h2>
       <p style="font-size:.9rem;color:#4a6a4a;margin-bottom:14px;">
         Seleccioná un archivo <strong>.xml</strong> generado previamente.<br/>
         <strong style="color:var(--rojo);">⚠️ Atención: esto reemplazará todos los datos actuales.</strong>
@@ -816,15 +842,6 @@
         <button class="btn btn-warning" onclick="restaurarBackup()">⬆️ Restaurar Backup</button>
       </div>
       <div id="alerta-backup-rest" class="alerta"></div>
-    </div>
-    <div class="card">
-      <h2>🐙 Estado GitHub</h2>
-      <p style="font-size:.9rem;color:#4a6a4a;margin-bottom:14px;">
-        Los backups y cierres de turno se guardan en:<br/>
-        <strong style="color:var(--verde-oscuro);">📁 lamannafernando-commits / peje → carpeta <code>backups/</code></strong>
-      </p>
-      <button class="btn btn-info" onclick="verificarConexionGitHub()">🔍 Verificar conexión con GitHub</button>
-      <div id="alerta-github" class="alerta"></div>
     </div>
     <div class="card">
       <h2>📊 Estadísticas de Datos Actuales</h2>
@@ -855,7 +872,7 @@
     <h3>📋 Resumen de Turno – <span id="mc-inspector-nombre"></span></h3>
     <div id="mc-resumen" style="font-size:.88rem;color:#444;margin:12px 0;line-height:1.7;"></div>
     <p style="font-size:.8rem;color:#666;margin-bottom:6px;">
-      Se descargará el XML del turno, se guardará en GitHub y se abrirá WhatsApp con el resumen.
+      Se descargará el XML del turno y se abrirá WhatsApp con el resumen.
     </p>
     <div id="alerta-modal-cierre" class="alerta"></div>
     <div class="modal-acciones">
@@ -877,16 +894,17 @@
 
 <script>
 /* ═══════════════════════════════════════════════════════
-   CONFIGURACIÓN GITHUB
-   IMPORTANTE: Regenerá el token en github.com/settings/tokens
-   si lo compartiste públicamente.
+   CONFIGURACIÓN GITHUB — BASE DE DATOS EN LA NUBE
+   El archivo data/pcq_data.json actúa como base de datos
+   compartida entre todos los dispositivos.
 ═══════════════════════════════════════════════════════ */
 const GITHUB_CONFIG = {
   owner:  'lamannafernando-commits',
   repo:   'peje',
-  branch: 'main',           // cambiá a 'master' si tu rama principal se llama así
-  folder: 'backups',        // carpeta dentro del repo donde se guardan los XML
-  token:  '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'  // ← pegá acá el token NUEVO que generaste
+  branch: 'main',
+  dataFile: 'data/pcq_data.json',   // ← archivo de base de datos principal
+  backupFolder: 'backups',
+  token:  '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'
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -899,177 +917,316 @@ const KEYS = {
   inspectores:     'pcq_inspectores',
   fotos:           'pcq_fotos',
   inspActivo:      'pcq_inspector_activo',
-  turnoInicio:     'pcq_turno_inicio'
+  turnoInicio:     'pcq_turno_inicio',
+  lastSync:        'pcq_last_sync'
 };
 const HS_VIGENCIA       = 24;
 const MIN_POR_VENCER    = 60;
 const WA_NUMERO         = '541162544509';
 const FOTO_MAX_W        = 320;
 const FOTO_QUALITY      = 0.72;
-let offsetMs            = 0;
-let _editInspId         = null;
-let _inspDesactivando   = null;
-let _streamCamara       = null;
+const SYNC_INTERVAL_MS  = 30000; // auto-sync cada 30 segundos
+
+let offsetMs          = 0;
+let _editInspId       = null;
+let _inspDesactivando = null;
+let _streamCamara     = null;
+let _syncEnCurso      = false;
+let _ultimoSyncTs     = null;
 
 /* ═══════════════════════════════════════════════════════
-   GITHUB API — GUARDAR XML EN REPOSITORIO
+   UTILIDADES BASE64 / UTF-8 PARA GITHUB API
 ═══════════════════════════════════════════════════════ */
-
-/**
- * Muestra un mensaje en la barra de estado de GitHub (fija abajo).
- */
-function ghStatusBar(msg, tipo){
-  const bar = document.getElementById('github-status-bar');
-  bar.textContent = msg;
-  bar.className   = 'show gh-' + (tipo || 'info');
-  clearTimeout(bar._timer);
-  bar._timer = setTimeout(() => { bar.className = ''; }, 7000);
+function utf8ToBase64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  bytes.forEach(b => { bin += String.fromCharCode(b); });
+  return btoa(bin);
+}
+function base64ToUtf8(b64) {
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
 }
 
-/**
- * Convierte una cadena UTF-8 a Base64 compatible con la API de GitHub.
- * btoa() falla con caracteres no-ASCII, por eso usamos TextEncoder.
- */
-function utf8ToBase64(str){
-  const bytes  = new TextEncoder().encode(str);
-  let binary   = '';
-  bytes.forEach(b => { binary += String.fromCharCode(b); });
-  return btoa(binary);
+/* ═══════════════════════════════════════════════════════
+   ESTADO VISUAL DEL BADGE DE SYNC
+═══════════════════════════════════════════════════════ */
+function setSyncBadge(estado, texto) {
+  const badge = document.getElementById('sync-badge');
+  const txt   = document.getElementById('sync-txt');
+  badge.className = 'sync-' + estado;
+  txt.textContent = texto;
 }
 
-/**
- * Obtiene el SHA de un archivo existente en GitHub (necesario para actualizarlo).
- * Retorna null si el archivo no existe aún.
- */
-async function obtenerSHAArchivo(path){
-  const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${path}?ref=${GITHUB_CONFIG.branch}`;
-  try{
+/* ═══════════════════════════════════════════════════════
+   GITHUB API — OBTENER SHA DE ARCHIVO
+═══════════════════════════════════════════════════════ */
+async function obtenerSHAArchivo(path) {
+  const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${path}?ref=${GITHUB_CONFIG.branch}&t=${Date.now()}`;
+  try {
     const r = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${GITHUB_CONFIG.token}`,
-        'Accept':        'application/vnd.github+json',
+        'Accept': 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28'
       }
     });
-    if(r.status === 404) return null;
-    if(!r.ok) return null;
+    if (r.status === 404) return { sha: null, content: null };
+    if (!r.ok) return { sha: null, content: null };
     const data = await r.json();
-    return data.sha || null;
-  }catch(e){
-    return null;
+    return { sha: data.sha || null, content: data.content || null };
+  } catch(e) {
+    return { sha: null, content: null };
   }
 }
 
-/**
- * Sube (crea o actualiza) un archivo XML al repositorio de GitHub.
- * @param {string} contenidoXML  - El XML como string
- * @param {string} nombreArchivo - Nombre del archivo (sin ruta), ej: "backup_20250313.xml"
- * @param {string} mensaje       - Mensaje del commit
- * @returns {Promise<{ok:boolean, url:string|null, error:string|null}>}
- */
-async function subirXMLaGitHub(contenidoXML, nombreArchivo, mensaje){
-  if(!GITHUB_CONFIG.token || GITHUB_CONFIG.token === 'REEMPLAZA_CON_TU_NUEVO_TOKEN'){
-    return { ok: false, url: null, error: 'Token de GitHub no configurado.' };
-  }
-
-  const path   = `${GITHUB_CONFIG.folder}/${nombreArchivo}`;
+/* ═══════════════════════════════════════════════════════
+   GITHUB API — SUBIR ARCHIVO
+═══════════════════════════════════════════════════════ */
+async function subirArchivoGitHub(path, contenido, mensaje, sha) {
   const apiURL = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${path}`;
-
-  ghStatusBar('⏳ Subiendo XML a GitHub...', 'info');
-
-  // Obtener SHA si el archivo ya existe (para actualizarlo en vez de crearlo)
-  const sha = await obtenerSHAArchivo(path);
-
   const body = {
-    message: mensaje || `PCQ: ${nombreArchivo}`,
-    content: utf8ToBase64(contenidoXML),
-    branch:  GITHUB_CONFIG.branch
+    message: mensaje,
+    content: utf8ToBase64(contenido),
+    branch: GITHUB_CONFIG.branch
   };
-  if(sha) body.sha = sha; // Si existe, incluir SHA para sobrescribir
+  if (sha) body.sha = sha;
+  const r = await fetch(apiURL, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${GITHUB_CONFIG.token}`,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json',
+      'X-GitHub-Api-Version': '2022-11-28'
+    },
+    body: JSON.stringify(body)
+  });
+  const data = await r.json();
+  if (r.ok) return { ok: true, sha: data.content?.sha || null, error: null };
+  return { ok: false, sha: null, error: data.message || `HTTP ${r.status}` };
+}
 
-  try{
-    const r = await fetch(apiURL, {
-      method:  'PUT',
-      headers: {
-        'Authorization':        `Bearer ${GITHUB_CONFIG.token}`,
-        'Accept':               'application/vnd.github+json',
-        'Content-Type':         'application/json',
-        'X-GitHub-Api-Version': '2022-11-28'
-      },
-      body: JSON.stringify(body)
-    });
+/* ═══════════════════════════════════════════════════════
+   CONSTRUIR OBJETO DE DATOS COMPLETO DESDE LOCALSTORAGE
+═══════════════════════════════════════════════════════ */
+function construirObjetoDatos() {
+  return {
+    version: 2,
+    updatedAt: ahoraReal().toISOString(),
+    ingresos:        cargarDatos(KEYS.ingresos),
+    apercibimientos: cargarDatos(KEYS.apercibimientos),
+    suspensiones:    cargarDatos(KEYS.suspensiones),
+    inspectores:     cargarDatos(KEYS.inspectores),
+    fotos:           cargarFotos(),
+    inspActivo:      cargarItem(KEYS.inspActivo) || '',
+    turnoInicio:     cargarItem(KEYS.turnoInicio) || ''
+  };
+}
 
-    const data = await r.json();
+/* ═══════════════════════════════════════════════════════
+   APLICAR DATOS REMOTOS AL LOCALSTORAGE
+═══════════════════════════════════════════════════════ */
+function aplicarDatosRemotos(datos) {
+  if (!datos || typeof datos !== 'object') return false;
+  guardarDatos(KEYS.ingresos,        datos.ingresos        || []);
+  guardarDatos(KEYS.apercibimientos, datos.apercibimientos || []);
+  guardarDatos(KEYS.suspensiones,    datos.suspensiones    || []);
+  guardarDatos(KEYS.inspectores,     datos.inspectores     || []);
+  guardarFotos(datos.fotos || {});
+  if (datos.inspActivo) guardarItem(KEYS.inspActivo, datos.inspActivo);
+  else localStorage.removeItem(KEYS.inspActivo);
+  if (datos.turnoInicio) guardarItem(KEYS.turnoInicio, datos.turnoInicio);
+  else localStorage.removeItem(KEYS.turnoInicio);
+  return true;
+}
 
-    if(r.ok){
-      const htmlUrl = data.content?.html_url || null;
-      ghStatusBar(`✅ Guardado en GitHub: ${nombreArchivo}`, 'ok');
-      return { ok: true, url: htmlUrl, error: null };
-    } else {
-      const errMsg = data.message || `HTTP ${r.status}`;
-      ghStatusBar(`❌ Error GitHub: ${errMsg}`, 'error');
-      return { ok: false, url: null, error: errMsg };
+/* ═══════════════════════════════════════════════════════
+   GUARDAR TODOS LOS DATOS EN GITHUB (BASE DE DATOS)
+   Se llama automáticamente cada vez que se modifica algo.
+═══════════════════════════════════════════════════════ */
+let _shaDataFile = null; // caché del SHA para no pedir siempre
+
+async function guardarEnGitHub(silencioso = false) {
+  if (_syncEnCurso) return { ok: false, error: 'Sync en curso' };
+  _syncEnCurso = true;
+  if (!silencioso) setSyncBadge('syncing', '⏳ Guardando...');
+
+  try {
+    const datos = construirObjetoDatos();
+    const json  = JSON.stringify(datos, null, 2);
+    const path  = GITHUB_CONFIG.dataFile;
+    const now   = ahoraReal();
+    const msg   = `PCQ sync ${formatFecha(now)} ${formatHora(now)}`;
+
+    // Si no tenemos el SHA cacheado, lo pedimos
+    if (!_shaDataFile) {
+      const info = await obtenerSHAArchivo(path);
+      _shaDataFile = info.sha;
     }
-  }catch(e){
-    const errMsg = 'Sin conexión o error de red: ' + e.message;
-    ghStatusBar('❌ ' + errMsg, 'error');
-    return { ok: false, url: null, error: errMsg };
+
+    const res = await subirArchivoGitHub(path, json, msg, _shaDataFile);
+    if (res.ok) {
+      _shaDataFile = res.sha;
+      _ultimoSyncTs = ahoraReal();
+      guardarItem(KEYS.lastSync, _ultimoSyncTs.toISOString());
+      setSyncBadge('ok', '✅ Sincronizado ' + formatHora(_ultimoSyncTs));
+      _actualizarInfoSync();
+      return { ok: true };
+    } else {
+      // Si falló por SHA desactualizado (conflicto), refrescamos el SHA y reintentamos
+      if (res.error && res.error.includes('sha')) {
+        _shaDataFile = null;
+        _syncEnCurso = false;
+        return guardarEnGitHub(silencioso);
+      }
+      setSyncBadge('error', '❌ Error al guardar');
+      return { ok: false, error: res.error };
+    }
+  } catch(e) {
+    setSyncBadge('error', '❌ Sin conexión');
+    return { ok: false, error: e.message };
+  } finally {
+    _syncEnCurso = false;
   }
 }
 
-/**
- * Verifica la conexión con GitHub y muestra el resultado.
- */
-async function verificarConexionGitHub(){
-  mostrarAlerta('alerta-github','info','⏳ Verificando conexión con GitHub...');
-  if(!GITHUB_CONFIG.token || GITHUB_CONFIG.token === 'REEMPLAZA_CON_TU_NUEVO_TOKEN'){
-    mostrarAlerta('alerta-github','error','❌ Token no configurado. Editá GITHUB_CONFIG.token en el código.');
-    return;
+function _actualizarInfoSync() {
+  const el = document.getElementById('ultimo-sync-info');
+  if (!el) return;
+  if (_ultimoSyncTs) {
+    el.textContent = `🕐 Última sincronización: ${formatFecha(_ultimoSyncTs)} ${formatHora(_ultimoSyncTs)}`;
   }
-  try{
+}
+
+/* ═══════════════════════════════════════════════════════
+   LEER DATOS DESDE GITHUB Y APLICARLOS
+═══════════════════════════════════════════════════════ */
+async function sincronizarDesdeGitHub(mostrarUI = false) {
+  if (_syncEnCurso) return;
+  _syncEnCurso = true;
+  setSyncBadge('syncing', '🔄 Sincronizando...');
+  if (mostrarUI) mostrarAlerta('alerta-github', 'info', '⏳ Sincronizando datos desde GitHub...');
+
+  try {
+    const info = await obtenerSHAArchivo(GITHUB_CONFIG.dataFile);
+    if (!info.content) {
+      // El archivo no existe aún en GitHub → subimos los datos locales
+      _syncEnCurso = false;
+      await guardarEnGitHub(true);
+      if (mostrarUI) mostrarAlerta('alerta-github', 'ok', '✅ No había datos en GitHub. Se subieron los datos locales.');
+      return;
+    }
+
+    _shaDataFile = info.sha;
+    const jsonStr = base64ToUtf8(info.content.replace(/\n/g, ''));
+    const datosRemotos = JSON.parse(jsonStr);
+
+    // Estrategia: el más reciente gana
+    const tsRemoto = datosRemotos.updatedAt ? new Date(datosRemotos.updatedAt).getTime() : 0;
+    const tsLocal  = cargarItem(KEYS.lastSync) ? new Date(cargarItem(KEYS.lastSync)).getTime() : 0;
+
+    if (tsRemoto > tsLocal) {
+      // Los datos de GitHub son más nuevos → los aplicamos
+      aplicarDatosRemotos(datosRemotos);
+      _ultimoSyncTs = new Date(datosRemotos.updatedAt);
+      guardarItem(KEYS.lastSync, datosRemotos.updatedAt);
+      setSyncBadge('ok', '✅ Sincronizado ' + formatHora(_ultimoSyncTs));
+      _actualizarInfoSync();
+      // Refrescar UI
+      actualizarUIInspectorActivo();
+      actualizarEstadoBloqueo();
+      if (mostrarUI) {
+        mostrarAlerta('alerta-github', 'ok',
+          `✅ Datos sincronizados desde GitHub.<br>
+           📅 Actualizado: <strong>${formatFecha(_ultimoSyncTs)} ${formatHora(_ultimoSyncTs)}</strong><br>
+           🚪 Ingresos: <strong>${datosRemotos.ingresos?.length||0}</strong> |
+           ⚠️ Apercibimientos: <strong>${datosRemotos.apercibimientos?.length||0}</strong> |
+           🚫 Suspensiones: <strong>${datosRemotos.suspensiones?.length||0}</strong>`);
+      }
+    } else {
+      // Los datos locales son iguales o más nuevos → subimos los locales
+      _syncEnCurso = false;
+      await guardarEnGitHub(true);
+      if (mostrarUI) mostrarAlerta('alerta-github', 'ok', '✅ Datos locales ya estaban actualizados. Se confirmaron en GitHub.');
+    }
+  } catch(e) {
+    setSyncBadge('error', '❌ Error de sync');
+    if (mostrarUI) mostrarAlerta('alerta-github', 'error', '❌ Error al sincronizar: ' + e.message);
+  } finally {
+    _syncEnCurso = false;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   WRAPPER: GUARDAR DATOS + SYNC AUTOMÁTICO A GITHUB
+   Reemplaza a guardarDatos() para todas las operaciones
+   que modifican datos.
+═══════════════════════════════════════════════════════ */
+async function guardarDatosYSync(key, arr) {
+  guardarDatos(key, arr);
+  await guardarEnGitHub(true);
+}
+async function setFotoYSync(dni, base64) {
+  setFoto(dni, base64);
+  await guardarEnGitHub(true);
+}
+async function deleteFotoYSync(dni) {
+  deleteFoto(dni);
+  await guardarEnGitHub(true);
+}
+
+/* ═══════════════════════════════════════════════════════
+   VERIFICAR CONEXIÓN CON GITHUB
+═══════════════════════════════════════════════════════ */
+async function verificarConexionGitHub() {
+  mostrarAlerta('alerta-github', 'info', '⏳ Verificando conexión con GitHub...');
+  try {
     const r = await fetch(
       `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`,
       {
         headers: {
-          'Authorization':        `Bearer ${GITHUB_CONFIG.token}`,
-          'Accept':               'application/vnd.github+json',
+          'Authorization': `Bearer ${GITHUB_CONFIG.token}`,
+          'Accept': 'application/vnd.github+json',
           'X-GitHub-Api-Version': '2022-11-28'
         }
       }
     );
     const data = await r.json();
-    if(r.ok){
-      mostrarAlerta('alerta-github','ok',
-        `✅ Conexión exitosa con GitHub.<br>
+    if (r.ok) {
+      mostrarAlerta('alerta-github', 'ok',
+        `✅ Conexión exitosa.<br>
          Repositorio: <strong>${data.full_name}</strong> |
-         Rama por defecto: <strong>${data.default_branch}</strong> |
-         Privado: <strong>${data.private ? 'Sí' : 'No'}</strong>`);
+         Rama: <strong>${GITHUB_CONFIG.branch}</strong> |
+         Privado: <strong>${data.private ? 'Sí' : 'No'}</strong><br>
+         📁 Archivo de datos: <strong>${GITHUB_CONFIG.dataFile}</strong>`);
     } else {
-      mostrarAlerta('alerta-github','error',`❌ Error: ${data.message || 'HTTP ' + r.status}`);
+      mostrarAlerta('alerta-github', 'error', `❌ Error: ${data.message || 'HTTP ' + r.status}`);
     }
-  }catch(e){
-    mostrarAlerta('alerta-github','error','❌ Sin conexión: ' + e.message);
+  } catch(e) {
+    mostrarAlerta('alerta-github', 'error', '❌ Sin conexión: ' + e.message);
   }
 }
 
 /* ═══════════════════════════════════════════════════════
-   PERSISTENCIA
+   PERSISTENCIA LOCAL
 ═══════════════════════════════════════════════════════ */
-function cargarDatos(key){ return JSON.parse(localStorage.getItem(key)||'[]'); }
-function guardarDatos(key,arr){ localStorage.setItem(key,JSON.stringify(arr)); }
-function cargarItem(key){ return localStorage.getItem(key)||null; }
-function guardarItem(key,val){ localStorage.setItem(key,val); }
+function cargarDatos(key) { return JSON.parse(localStorage.getItem(key) || '[]'); }
+function guardarDatos(key, arr) { localStorage.setItem(key, JSON.stringify(arr)); }
+function cargarItem(key) { return localStorage.getItem(key) || null; }
+function guardarItem(key, val) { localStorage.setItem(key, val); }
 
-function cargarFotos(){ return JSON.parse(localStorage.getItem(KEYS.fotos)||'{}'); }
-function guardarFotos(obj){ localStorage.setItem(KEYS.fotos,JSON.stringify(obj)); }
-function getFoto(dni){ return cargarFotos()[String(dni)]||null; }
-function setFoto(dni,base64){
-  const fotos=cargarFotos();
-  fotos[String(dni)]=base64;
+function cargarFotos() { return JSON.parse(localStorage.getItem(KEYS.fotos) || '{}'); }
+function guardarFotos(obj) { localStorage.setItem(KEYS.fotos, JSON.stringify(obj)); }
+function getFoto(dni) { return cargarFotos()[String(dni)] || null; }
+function setFoto(dni, base64) {
+  const fotos = cargarFotos();
+  fotos[String(dni)] = base64;
   guardarFotos(fotos);
 }
-function deleteFoto(dni){
-  const fotos=cargarFotos();
+function deleteFoto(dni) {
+  const fotos = cargarFotos();
   delete fotos[String(dni)];
   guardarFotos(fotos);
 }
@@ -1077,414 +1234,387 @@ function deleteFoto(dni){
 /* ═══════════════════════════════════════════════════════
    HORA DESDE INTERNET
 ═══════════════════════════════════════════════════════ */
-async function sincronizarHora(){
-  const apis=[
+async function sincronizarHora() {
+  const apis = [
     'https://timeapi.io/api/time/current/zone?timeZone=America%2FArgentina%2FBuenos_Aires',
     'https://worldtimeapi.org/api/timezone/America/Argentina/Buenos_Aires'
   ];
-  for(const url of apis){
-    try{
-      const r=await fetch(url,{signal:AbortSignal.timeout(5000)});
-      if(!r.ok) continue;
-      const d=await r.json();
-      const raw=d.dateTime||d.datetime;
-      if(!raw) continue;
-      const dt=new Date(raw);
-      if(isNaN(dt)) continue;
-      offsetMs=dt.getTime()-Date.now();
-      document.getElementById('fuente-hora').textContent='🌐 Hora sincronizada desde internet (Argentina)';
+  for (const url of apis) {
+    try {
+      const r = await fetch(url, { signal: AbortSignal.timeout(5000) });
+      if (!r.ok) continue;
+      const d = await r.json();
+      const raw = d.dateTime || d.datetime;
+      if (!raw) continue;
+      const dt = new Date(raw);
+      if (isNaN(dt)) continue;
+      offsetMs = dt.getTime() - Date.now();
+      document.getElementById('fuente-hora').textContent = '🌐 Hora sincronizada desde internet (Argentina)';
       return;
-    }catch(e){}
+    } catch(e) {}
   }
-  offsetMs=0;
-  document.getElementById('fuente-hora').textContent='⚠️ Sin conexión – usando hora local del dispositivo';
+  offsetMs = 0;
+  document.getElementById('fuente-hora').textContent = '⚠️ Sin conexión – usando hora local del dispositivo';
 }
 
-function ahoraReal(){ return new Date(Date.now()+offsetMs); }
-function pad(n){ return String(n).padStart(2,'0'); }
-function formatFecha(dt){ return `${pad(dt.getDate())}/${pad(dt.getMonth()+1)}/${dt.getFullYear()}`; }
-function formatHora(dt) { return `${pad(dt.getHours())}:${pad(dt.getMinutes())}:${pad(dt.getSeconds())}`; }
-function isoFecha(dt)   { return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`; }
+function ahoraReal() { return new Date(Date.now() + offsetMs); }
+function pad(n) { return String(n).padStart(2, '0'); }
+function formatFecha(dt) { return `${pad(dt.getDate())}/${pad(dt.getMonth()+1)}/${dt.getFullYear()}`; }
+function formatHora(dt)  { return `${pad(dt.getHours())}:${pad(dt.getMinutes())}:${pad(dt.getSeconds())}`; }
+function isoFecha(dt)    { return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`; }
 
-function parseFechaHora(fecha,hora){
-  const [d,m,y]=fecha.split('/');
+function parseFechaHora(fecha, hora) {
+  const [d, m, y] = fecha.split('/');
   return new Date(`${y}-${m}-${d}T${hora}`);
 }
-function tiempoTranscurrido(ms){
-  const h=Math.floor(ms/3600000);
-  const min=Math.floor((ms%3600000)/60000);
-  if(h>=24){ const dias=Math.floor(h/24); const hr=h%24; return `${dias}d ${hr}h ${min}m`; }
+function tiempoTranscurrido(ms) {
+  const h = Math.floor(ms / 3600000);
+  const min = Math.floor((ms % 3600000) / 60000);
+  if (h >= 24) { const dias = Math.floor(h/24); const hr = h%24; return `${dias}d ${hr}h ${min}m`; }
   return `${h}h ${min}m`;
 }
 
-function tickReloj(){
-  const now=ahoraReal();
-  const horaStr=formatHora(now);
-  const fechaStr=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][now.getDay()]+', '+formatFecha(now);
-  document.getElementById('reloj-grande').textContent=horaStr;
-  document.getElementById('fecha-grande').textContent=fechaStr;
-  document.getElementById('reloj-header').textContent=formatFecha(now)+'  '+horaStr;
-  document.getElementById('bloqueo-reloj').textContent=horaStr;
-  document.getElementById('bloqueo-fecha').textContent=fechaStr;
+function tickReloj() {
+  const now = ahoraReal();
+  const horaStr  = formatHora(now);
+  const fechaStr = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][now.getDay()] + ', ' + formatFecha(now);
+  document.getElementById('reloj-grande').textContent  = horaStr;
+  document.getElementById('fecha-grande').textContent  = fechaStr;
+  document.getElementById('reloj-header').textContent  = formatFecha(now) + '  ' + horaStr;
+  document.getElementById('bloqueo-reloj').textContent = horaStr;
+  document.getElementById('bloqueo-fecha').textContent = fechaStr;
 }
 
 /* ═══════════════════════════════════════════════════════
    VIGENCIA DE ENTRADAS
 ═══════════════════════════════════════════════════════ */
-function msDesdeIngreso(ing){
-  return ahoraReal().getTime()-parseFechaHora(ing.fecha,ing.hora).getTime();
+function msDesdeIngreso(ing) {
+  return ahoraReal().getTime() - parseFechaHora(ing.fecha, ing.hora).getTime();
 }
-function estadoIngreso(ing){
+function estadoIngreso(ing) {
   const ms   = msDesdeIngreso(ing);
   const lim  = HS_VIGENCIA * 3600000;
   const prev = lim - MIN_POR_VENCER * 60000;
-  if(ms < 0)    return {texto:'⏳ Pendiente',   clase:'badge-azul',    fila:''};
-  if(ms >= lim) return {texto:'⏰ Vencido',     clase:'badge-rojo',    fila:'vencido'};
-  if(ms >= prev){
+  if (ms < 0)    return { texto: '⏳ Pendiente',   clase: 'badge-azul',    fila: '' };
+  if (ms >= lim) return { texto: '⏰ Vencido',     clase: 'badge-rojo',    fila: 'vencido' };
+  if (ms >= prev) {
     const restMin = Math.ceil((lim - ms) / 60000);
-    return {texto:`⚠️ Vence en ${restMin} min`, clase:'badge-naranja', fila:'por-vencer'};
+    return { texto: `⚠️ Vence en ${restMin} min`, clase: 'badge-naranja', fila: 'por-vencer' };
   }
-  return         {texto:'✅ Vigente',           clase:'badge-verde',   fila:''};
+  return { texto: '✅ Vigente', clase: 'badge-verde', fila: '' };
 }
 
 /* ═══════════════════════════════════════════════════════
    VALIDACIÓN TICKET DUPLICADO
 ═══════════════════════════════════════════════════════ */
-function validarTicketDuplicado(){
-  const ticket=document.getElementById('ticket-ingreso').value.trim();
-  const aviso =document.getElementById('aviso-ticket');
-  if(!ticket){aviso.className='alerta';return;}
-  const existe=cargarDatos(KEYS.ingresos).find(i=>i.ticket.toLowerCase()===ticket.toLowerCase());
-  if(existe){
-    aviso.className='alerta show alerta-error';
-    aviso.innerHTML=`🚫 El ticket <strong>${ticket}</strong> ya fue registrado el <strong>${existe.fecha}</strong> a las <strong>${existe.hora}</strong> para el DNI <strong>${existe.dni}</strong>.`;
+function validarTicketDuplicado() {
+  const ticket = document.getElementById('ticket-ingreso').value.trim();
+  const aviso  = document.getElementById('aviso-ticket');
+  if (!ticket) { aviso.className = 'alerta'; return; }
+  const existe = cargarDatos(KEYS.ingresos).find(i => i.ticket.toLowerCase() === ticket.toLowerCase());
+  if (existe) {
+    aviso.className = 'alerta show alerta-error';
+    aviso.innerHTML = `🚫 El ticket <strong>${ticket}</strong> ya fue registrado el <strong>${existe.fecha}</strong> a las <strong>${existe.hora}</strong> para el DNI <strong>${existe.dni}</strong>.`;
   } else {
-    aviso.className='alerta show alerta-ok';
-    aviso.innerHTML=`✅ Ticket <strong>${ticket}</strong> disponible.`;
+    aviso.className = 'alerta show alerta-ok';
+    aviso.innerHTML = `✅ Ticket <strong>${ticket}</strong> disponible.`;
   }
 }
 
 /* ═══════════════════════════════════════════════════════
    MÓDULO DE CÁMARA
 ═══════════════════════════════════════════════════════ */
-function _setCamStatus(msg, color){
+function _setCamStatus(msg, color) {
   const el = document.getElementById('cam-status');
-  if(!el) return;
+  if (!el) return;
   el.textContent = msg;
   el.style.color = color || '#4a6a4a';
 }
-
-function esContextoSeguro(){
+function esContextoSeguro() {
   return location.protocol === 'https:' ||
          location.hostname === 'localhost' ||
          location.hostname === '127.0.0.1' ||
          location.hostname === '';
 }
-
-function verificarContextoYMostrarAviso(){
+function verificarContextoYMostrarAviso() {
   const sinSoporte = !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia;
   const inseguro   = !esContextoSeguro();
-  if(sinSoporte || inseguro){
-    document.getElementById('aviso-https').classList.add('show');
-  } else {
-    document.getElementById('aviso-https').classList.remove('show');
-  }
+  if (sinSoporte || inseguro) document.getElementById('aviso-https').classList.add('show');
+  else document.getElementById('aviso-https').classList.remove('show');
 }
-
-async function abrirCamara(){
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+async function abrirCamara() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     document.getElementById('aviso-https').classList.add('show');
-    mostrarAlerta('alerta-foto','warn',
-      '📁 Cámara directa no disponible. Usá el botón <strong>"Cargar / Tomar Foto"</strong>.');
+    mostrarAlerta('alerta-foto', 'warn', '📁 Cámara directa no disponible. Usá el botón <strong>"Cargar / Tomar Foto"</strong>.');
     return;
   }
   _cerrarStreamCamara();
   _setCamStatus('⏳ Solicitando acceso a la cámara...', '#1a5a8a');
   const intentos = [
     { video: { facingMode: { ideal: 'environment' } }, audio: false },
-    { video: { facingMode: { ideal: 'user'        } }, audio: false },
-    { video: true,                                      audio: false }
+    { video: { facingMode: { ideal: 'user' } }, audio: false },
+    { video: true, audio: false }
   ];
   let stream = null, ultimoError = null;
-  for(const constraints of intentos){
-    try{
-      stream = await navigator.mediaDevices.getUserMedia(constraints);
-      break;
-    }catch(e){
-      ultimoError = e;
-      if(e.name === 'NotAllowedError' || e.name === 'PermissionDeniedError') break;
-    }
+  for (const constraints of intentos) {
+    try { stream = await navigator.mediaDevices.getUserMedia(constraints); break; }
+    catch(e) { ultimoError = e; if (e.name === 'NotAllowedError' || e.name === 'PermissionDeniedError') break; }
   }
-  if(!stream){ _setCamStatus('', ''); _mostrarErrorCamara(ultimoError); return; }
+  if (!stream) { _setCamStatus('', ''); _mostrarErrorCamara(ultimoError); return; }
   _streamCamara = stream;
   const video = document.getElementById('video-camara');
   video.srcObject = stream;
   await new Promise(resolve => {
-    if(video.readyState >= 1){ resolve(); return; }
+    if (video.readyState >= 1) { resolve(); return; }
     video.addEventListener('loadedmetadata', resolve, { once: true });
     setTimeout(resolve, 3000);
   });
-  try{ await video.play(); }catch(e){ console.warn('video.play() rechazado:', e.message); }
+  try { await video.play(); } catch(e) {}
   document.getElementById('camara-wrap').classList.add('show');
   _setCamStatus('✅ Cámara activa — encuadrá al invitado y presioná Capturar', '#1a6b1a');
-  mostrarAlerta('alerta-foto','info','📷 Cámara activa. Encuadrá al invitado y presioná Capturar.');
+  mostrarAlerta('alerta-foto', 'info', '📷 Cámara activa. Encuadrá al invitado y presioná Capturar.');
 }
-
-function _mostrarErrorCamara(e){
-  if(!e){ mostrarAlerta('alerta-foto','error','⚠️ No se pudo acceder a la cámara.'); return; }
+function _mostrarErrorCamara(e) {
+  if (!e) { mostrarAlerta('alerta-foto', 'error', '⚠️ No se pudo acceder a la cámara.'); return; }
   let msg = '';
-  switch(e.name){
-    case 'NotAllowedError':
-    case 'PermissionDeniedError':
+  switch(e.name) {
+    case 'NotAllowedError': case 'PermissionDeniedError':
       msg = '🚫 <strong>Permiso de cámara denegado.</strong><br/>💡 Usá <strong>"📁 Cargar / Tomar Foto"</strong>.'; break;
-    case 'NotFoundError':
-    case 'DevicesNotFoundError':
+    case 'NotFoundError': case 'DevicesNotFoundError':
       msg = '📷 No se encontró cámara.<br/>💡 Usá <strong>"📁 Cargar / Tomar Foto"</strong>.'; break;
     default:
       msg = `⚠️ No se pudo acceder a la cámara (${e.name||'Error'}).<br/>💡 Usá <strong>"📁 Cargar / Tomar Foto"</strong>.`;
   }
-  mostrarAlerta('alerta-foto','error', msg);
+  mostrarAlerta('alerta-foto', 'error', msg);
 }
-
-function _cerrarStreamCamara(){
-  if(_streamCamara){ _streamCamara.getTracks().forEach(t=>t.stop()); _streamCamara=null; }
+function _cerrarStreamCamara() {
+  if (_streamCamara) { _streamCamara.getTracks().forEach(t => t.stop()); _streamCamara = null; }
 }
-
-function cerrarCamara(){
+function cerrarCamara() {
   _cerrarStreamCamara();
-  const video=document.getElementById('video-camara');
-  video.srcObject=null;
+  const video = document.getElementById('video-camara');
+  video.srcObject = null;
   document.getElementById('camara-wrap').classList.remove('show');
-  document.getElementById('alerta-foto').className='alerta';
-  _setCamStatus('','');
+  document.getElementById('alerta-foto').className = 'alerta';
+  _setCamStatus('', '');
 }
-
-function capturarFoto(){
-  const video=document.getElementById('video-camara');
-  if(!video.srcObject||!_streamCamara){ mostrarAlerta('alerta-foto','error','La cámara no está activa.'); return; }
-  if(video.readyState<1){ mostrarAlerta('alerta-foto','warn','⏳ La cámara aún está iniciando...'); return; }
-  if(!video.videoWidth||!video.videoHeight){
-    _setCamStatus('⏳ Esperando imagen...','#b45309');
-    setTimeout(()=>{
-      if(video.videoWidth&&video.videoHeight){ const b=comprimirImagenABase64(video); cerrarCamara(); _guardarFotoCapturada(b); }
-      else{ mostrarAlerta('alerta-foto','error','No se pudo obtener imagen. Intentá de nuevo.'); _setCamStatus('',''); }
-    },500); return;
+function capturarFoto() {
+  const video = document.getElementById('video-camara');
+  if (!video.srcObject || !_streamCamara) { mostrarAlerta('alerta-foto', 'error', 'La cámara no está activa.'); return; }
+  if (video.readyState < 1) { mostrarAlerta('alerta-foto', 'warn', '⏳ La cámara aún está iniciando...'); return; }
+  if (!video.videoWidth || !video.videoHeight) {
+    _setCamStatus('⏳ Esperando imagen...', '#b45309');
+    setTimeout(() => {
+      if (video.videoWidth && video.videoHeight) { const b = comprimirImagenABase64(video); cerrarCamara(); _guardarFotoCapturada(b); }
+      else { mostrarAlerta('alerta-foto', 'error', 'No se pudo obtener imagen. Intentá de nuevo.'); _setCamStatus('', ''); }
+    }, 500); return;
   }
-  const base64=comprimirImagenABase64(video);
+  const base64 = comprimirImagenABase64(video);
   cerrarCamara();
   _guardarFotoCapturada(base64);
 }
-
-function comprimirImagenABase64(source){
-  const canvas=document.createElement('canvas');
-  let w=source.videoWidth||source.naturalWidth||source.width||320;
-  let h=source.videoHeight||source.naturalHeight||source.height||240;
-  if(w>FOTO_MAX_W){h=Math.round(h*FOTO_MAX_W/w);w=FOTO_MAX_W;}
-  canvas.width=w;canvas.height=h;
-  canvas.getContext('2d').drawImage(source,0,0,w,h);
-  return canvas.toDataURL('image/jpeg',FOTO_QUALITY);
+function comprimirImagenABase64(source) {
+  const canvas = document.createElement('canvas');
+  let w = source.videoWidth || source.naturalWidth || source.width || 320;
+  let h = source.videoHeight || source.naturalHeight || source.height || 240;
+  if (w > FOTO_MAX_W) { h = Math.round(h * FOTO_MAX_W / w); w = FOTO_MAX_W; }
+  canvas.width = w; canvas.height = h;
+  canvas.getContext('2d').drawImage(source, 0, 0, w, h);
+  return canvas.toDataURL('image/jpeg', FOTO_QUALITY);
 }
-
-function cargarFotoArchivo(event){
-  const file=event.target.files[0];
-  if(!file) return;
-  const reader=new FileReader();
-  reader.onload=function(e){
-    const img=new Image();
-    img.onload=function(){_guardarFotoCapturada(comprimirImagenABase64(img));};
-    img.src=e.target.result;
+function cargarFotoArchivo(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() { _guardarFotoCapturada(comprimirImagenABase64(img)); };
+    img.src = e.target.result;
   };
   reader.readAsDataURL(file);
-  event.target.value='';
+  event.target.value = '';
 }
-
-function _guardarFotoCapturada(base64){
-  const preview=document.getElementById('foto-preview');
-  preview.src=base64;
+async function _guardarFotoCapturada(base64) {
+  const preview = document.getElementById('foto-preview');
+  preview.src = base64;
   document.getElementById('foto-preview-wrap').classList.add('show');
-  document.getElementById('btn-borrar-foto').style.display='inline-flex';
-  document.getElementById('alerta-foto').className='alerta';
-  const dni=document.getElementById('dni-ingreso').value.trim();
-  if(dni){
-    setFoto(dni,base64);
-    document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅ guardada';
-    mostrarAlerta('alerta-foto','ok','✅ Foto guardada para DNI '+dni+'.');
+  document.getElementById('btn-borrar-foto').style.display = 'inline-flex';
+  document.getElementById('alerta-foto').className = 'alerta';
+  const dni = document.getElementById('dni-ingreso').value.trim();
+  if (dni) {
+    setFoto(dni, base64);
+    document.getElementById('foto-preview-dni').textContent = 'DNI: ' + dni + ' ✅ guardada';
+    mostrarAlerta('alerta-foto', 'info', '📤 Guardando foto en GitHub...');
+    await guardarEnGitHub(true);
+    mostrarAlerta('alerta-foto', 'ok', '✅ Foto guardada y sincronizada para DNI ' + dni + '.');
   } else {
-    document.getElementById('foto-preview-dni').textContent='⚠️ Ingresá el DNI para asociar la foto';
-    mostrarAlerta('alerta-foto','warn','⚠️ Ingresá el DNI del invitado para asociar la foto.');
+    document.getElementById('foto-preview-dni').textContent = '⚠️ Ingresá el DNI para asociar la foto';
+    mostrarAlerta('alerta-foto', 'warn', '⚠️ Ingresá el DNI del invitado para asociar la foto.');
   }
 }
-
-function borrarFoto(){
-  const dni=document.getElementById('dni-ingreso').value.trim();
-  if(dni&&getFoto(dni)){ if(!confirm(`¿Eliminar la foto del DNI ${dni}?`)) return; deleteFoto(dni); }
-  document.getElementById('foto-preview').src='';
+async function borrarFoto() {
+  const dni = document.getElementById('dni-ingreso').value.trim();
+  if (dni && getFoto(dni)) { if (!confirm(`¿Eliminar la foto del DNI ${dni}?`)) return; deleteFoto(dni); await guardarEnGitHub(true); }
+  document.getElementById('foto-preview').src = '';
   document.getElementById('foto-preview-wrap').classList.remove('show');
-  document.getElementById('btn-borrar-foto').style.display='none';
-  document.getElementById('foto-preview-dni').textContent='DNI: --';
-  mostrarAlerta('alerta-foto','warn','🗑️ Foto eliminada.');
+  document.getElementById('btn-borrar-foto').style.display = 'none';
+  document.getElementById('foto-preview-dni').textContent = 'DNI: --';
+  mostrarAlerta('alerta-foto', 'warn', '🗑️ Foto eliminada.');
 }
-
-function onDniIngresoChange(){
-  const dni=document.getElementById('dni-ingreso').value.trim();
-  const foto=dni?getFoto(dni):null;
-  if(foto){
-    document.getElementById('foto-preview').src=foto;
+function onDniIngresoChange() {
+  const dni = document.getElementById('dni-ingreso').value.trim();
+  const foto = dni ? getFoto(dni) : null;
+  if (foto) {
+    document.getElementById('foto-preview').src = foto;
     document.getElementById('foto-preview-wrap').classList.add('show');
-    document.getElementById('btn-borrar-foto').style.display='inline-flex';
-    document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅';
+    document.getElementById('btn-borrar-foto').style.display = 'inline-flex';
+    document.getElementById('foto-preview-dni').textContent = 'DNI: ' + dni + ' ✅';
   } else {
-    document.getElementById('foto-preview').src='';
+    document.getElementById('foto-preview').src = '';
     document.getElementById('foto-preview-wrap').classList.remove('show');
-    document.getElementById('btn-borrar-foto').style.display='none';
-    document.getElementById('foto-preview-dni').textContent='DNI: --';
+    document.getElementById('btn-borrar-foto').style.display = 'none';
+    document.getElementById('foto-preview-dni').textContent = 'DNI: --';
   }
 }
-
-function asociarFotoAlRegistrar(dni){
-  const previewSrc=document.getElementById('foto-preview').src;
-  if(previewSrc&&previewSrc!==window.location.href&&!getFoto(dni)){ setFoto(dni,previewSrc); }
+function asociarFotoAlRegistrar(dni) {
+  const previewSrc = document.getElementById('foto-preview').src;
+  if (previewSrc && previewSrc !== window.location.href && !getFoto(dni)) { setFoto(dni, previewSrc); }
 }
 
 /* ═══════════════════════════════════════════════════════
    FOTOS EN TABLAS
 ═══════════════════════════════════════════════════════ */
-function fotoThumb(dni,claseExtra){
-  const foto=getFoto(String(dni));
-  if(foto){
-    return `<img src="${foto}" class="foto-thumb ${claseExtra||''}" onclick="verFotoGrande('${dni}')" title="Ver foto – DNI ${dni}" alt="Foto DNI ${dni}"/>`;
-  }
+function fotoThumb(dni, claseExtra) {
+  const foto = getFoto(String(dni));
+  if (foto) return `<img src="${foto}" class="foto-thumb ${claseExtra||''}" onclick="verFotoGrande('${dni}')" title="Ver foto – DNI ${dni}" alt="Foto DNI ${dni}"/>`;
   return `<span class="foto-thumb-placeholder" title="Sin foto – DNI ${dni}">👤</span>`;
 }
-
-function verFotoGrande(dni){
-  const foto=getFoto(String(dni));
-  if(!foto) return;
-  document.getElementById('modal-foto-img').src=foto;
-  document.getElementById('modal-foto-info').textContent='DNI: '+dni;
+function verFotoGrande(dni) {
+  const foto = getFoto(String(dni));
+  if (!foto) return;
+  document.getElementById('modal-foto-img').src = foto;
+  document.getElementById('modal-foto-info').textContent = 'DNI: ' + dni;
   document.getElementById('modal-foto').classList.add('show');
 }
-function cerrarModalFoto(){ document.getElementById('modal-foto').classList.remove('show'); }
+function cerrarModalFoto() { document.getElementById('modal-foto').classList.remove('show'); }
 
 /* ═══════════════════════════════════════════════════════
    BLOQUEO / DESBLOQUEO
 ═══════════════════════════════════════════════════════ */
-function getInspectorActivo(){
-  const id=cargarItem(KEYS.inspActivo);
-  if(!id) return null;
-  return cargarDatos(KEYS.inspectores).find(i=>String(i.id)===String(id))||null;
+function getInspectorActivo() {
+  const id = cargarItem(KEYS.inspActivo);
+  if (!id) return null;
+  return cargarDatos(KEYS.inspectores).find(i => String(i.id) === String(id)) || null;
 }
-
-function actualizarEstadoBloqueo(){
-  const tieneInspector=!!getInspectorActivo();
-  const overlay=document.getElementById('bloqueo-overlay');
-  if(tieneInspector){ overlay.classList.remove('show'); }
-  else              { overlay.classList.add('show'); }
+function actualizarEstadoBloqueo() {
+  const tieneInspector = !!getInspectorActivo();
+  const overlay = document.getElementById('bloqueo-overlay');
+  if (tieneInspector) overlay.classList.remove('show');
+  else overlay.classList.add('show');
   ['btn-nav-ingreso','btn-nav-apercibamiento','btn-nav-suspension',
-   'btn-nav-consulta','btn-nav-vencidos','btn-nav-backup'].forEach(id=>{
-    const btn=document.getElementById(id);
-    if(!btn) return;
-    tieneInspector?btn.classList.remove('nav-bloqueado'):btn.classList.add('nav-bloqueado');
+   'btn-nav-consulta','btn-nav-vencidos','btn-nav-backup'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    tieneInspector ? btn.classList.remove('nav-bloqueado') : btn.classList.add('nav-bloqueado');
   });
 }
-
-function irAInspectores(){
+function irAInspectores() {
   document.getElementById('bloqueo-overlay').classList.remove('show');
-  document.getElementById('banner-activar').style.display='block';
-  const btn=document.getElementById('btn-nav-inspectores');
-  _navegarSeccion('inspectores',btn);
-  window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('banner-activar').style.display = 'block';
+  const btn = document.getElementById('btn-nav-inspectores');
+  _navegarSeccion('inspectores', btn);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
-function navClick(id,btn){
-  if(!getInspectorActivo()&&id!=='inspectores') return;
-  _navegarSeccion(id,btn);
+function navClick(id, btn) {
+  if (!getInspectorActivo() && id !== 'inspectores') return;
+  _navegarSeccion(id, btn);
 }
-
-function _navegarSeccion(id,btn){
-  document.querySelectorAll('.seccion').forEach(s=>s.classList.remove('activa'));
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('activo'));
-  document.getElementById('sec-'+id).classList.add('activa');
-  if(btn) btn.classList.add('activo');
-  if(id==='apercibamiento'){ renderTablaApercibimientos(); actualizarUIInspectorActivo(); }
-  if(id==='suspension')      renderTablaSuspensiones();
-  if(id==='backup')          renderEstadisticas();
-  if(id==='inspectores'){    renderInspectores(); actualizarUIInspectorActivo(); }
-  if(id==='vencidos')        renderVencidos();
-  if(id==='consulta')        setFechasConsultaHoy();
-  if(id==='ingreso')         verificarContextoYMostrarAviso();
+function _navegarSeccion(id, btn) {
+  document.querySelectorAll('.seccion').forEach(s => s.classList.remove('activa'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('activo'));
+  document.getElementById('sec-' + id).classList.add('activa');
+  if (btn) btn.classList.add('activo');
+  if (id === 'apercibamiento') { renderTablaApercibimientos(); actualizarUIInspectorActivo(); }
+  if (id === 'suspension')       renderTablaSuspensiones();
+  if (id === 'backup')           { renderEstadisticas(); _actualizarInfoSync(); }
+  if (id === 'inspectores')      { renderInspectores(); actualizarUIInspectorActivo(); }
+  if (id === 'vencidos')         renderVencidos();
+  if (id === 'consulta')         setFechasConsultaHoy();
+  if (id === 'ingreso')          verificarContextoYMostrarAviso();
 }
 
 /* ═══════════════════════════════════════════════════════
    INSPECTOR ACTIVO – UI
 ═══════════════════════════════════════════════════════ */
-function actualizarUIInspectorActivo(){
-  const insp=getInspectorActivo();
-  const hi=document.getElementById('header-inspector');
-  if(insp){ hi.textContent=`👮 ${insp.nombre}`; hi.classList.remove('sin-inspector'); }
-  else    { hi.textContent='🔒 Sin inspector activo'; hi.classList.add('sin-inspector'); }
+function actualizarUIInspectorActivo() {
+  const insp = getInspectorActivo();
+  const hi = document.getElementById('header-inspector');
+  if (insp) { hi.textContent = `👮 ${insp.nombre}`; hi.classList.remove('sin-inspector'); }
+  else { hi.textContent = '🔒 Sin inspector activo'; hi.classList.add('sin-inspector'); }
 
-  const pA=document.getElementById('aperc-inspector-panel');
-  if(insp){
-    document.getElementById('aperc-inspector-nombre').textContent=insp.nombre;
-    document.getElementById('aperc-inspector-sub').textContent=insp.tel?`📞 ${insp.tel}`:'Inspector activo';
+  const pA = document.getElementById('aperc-inspector-panel');
+  if (insp) {
+    document.getElementById('aperc-inspector-nombre').textContent = insp.nombre;
+    document.getElementById('aperc-inspector-sub').textContent = insp.tel ? `📞 ${insp.tel}` : 'Inspector activo';
     pA.classList.remove('sin-inspector');
   } else {
-    document.getElementById('aperc-inspector-nombre').textContent='Sin inspector activo';
-    document.getElementById('aperc-inspector-sub').textContent='Asigná un inspector en la sección Inspectores';
+    document.getElementById('aperc-inspector-nombre').textContent = 'Sin inspector activo';
+    document.getElementById('aperc-inspector-sub').textContent = 'Asigná un inspector en la sección Inspectores';
     pA.classList.add('sin-inspector');
   }
 
-  const pI=document.getElementById('insp-activo-panel');
-  const bD=document.getElementById('btn-desactivar');
-  if(insp){
-    document.getElementById('insp-activo-nombre').textContent=insp.nombre;
-    document.getElementById('insp-activo-sub').textContent=insp.obs||'Inspector de turno activo';
-    pI.classList.remove('sin-inspector'); bD.style.display='inline-flex';
+  const pI = document.getElementById('insp-activo-panel');
+  const bD = document.getElementById('btn-desactivar');
+  if (insp) {
+    document.getElementById('insp-activo-nombre').textContent = insp.nombre;
+    document.getElementById('insp-activo-sub').textContent = insp.obs || 'Inspector de turno activo';
+    pI.classList.remove('sin-inspector'); bD.style.display = 'inline-flex';
   } else {
-    document.getElementById('insp-activo-nombre').textContent='Sin inspector activo';
-    document.getElementById('insp-activo-sub').textContent='Seleccioná un inspector y presioná "Activar"';
-    pI.classList.add('sin-inspector'); bD.style.display='none';
+    document.getElementById('insp-activo-nombre').textContent = 'Sin inspector activo';
+    document.getElementById('insp-activo-sub').textContent = 'Seleccioná un inspector y presioná "Activar"';
+    pI.classList.add('sin-inspector'); bD.style.display = 'none';
   }
 }
 
-function activarInspector(id){
-  const anteriorId=cargarItem(KEYS.inspActivo);
-  if(anteriorId&&anteriorId!==String(id)){ localStorage.removeItem(KEYS.inspActivo); localStorage.removeItem(KEYS.turnoInicio); }
-  guardarItem(KEYS.inspActivo,String(id));
-  guardarItem(KEYS.turnoInicio,ahoraReal().toISOString());
-  document.getElementById('banner-activar').style.display='none';
+async function activarInspector(id) {
+  const anteriorId = cargarItem(KEYS.inspActivo);
+  if (anteriorId && anteriorId !== String(id)) { localStorage.removeItem(KEYS.inspActivo); localStorage.removeItem(KEYS.turnoInicio); }
+  guardarItem(KEYS.inspActivo, String(id));
+  guardarItem(KEYS.turnoInicio, ahoraReal().toISOString());
+  document.getElementById('banner-activar').style.display = 'none';
   actualizarUIInspectorActivo();
   actualizarEstadoBloqueo();
   renderInspectores();
-  mostrarAlerta('alerta-insp','ok','✅ Inspector activado. ¡Sistema habilitado!');
-  _navegarSeccion('ingreso',document.getElementById('btn-nav-ingreso'));
+  mostrarAlerta('alerta-insp', 'info', '⏳ Activando inspector y sincronizando...');
+  await guardarEnGitHub(false);
+  mostrarAlerta('alerta-insp', 'ok', '✅ Inspector activado y sincronizado. ¡Sistema habilitado!');
+  _navegarSeccion('ingreso', document.getElementById('btn-nav-ingreso'));
 }
 
 /* ═══════════════════════════════════════════════════════
    DESACTIVAR INSPECTOR
 ═══════════════════════════════════════════════════════ */
-function desactivarInspector(){
-  const insp=getInspectorActivo();
-  if(!insp) return;
-  _inspDesactivando=insp;
-  const turnoInicioStr=cargarItem(KEYS.turnoInicio);
-  const turnoInicio=turnoInicioStr?new Date(turnoInicioStr):null;
-  const now=ahoraReal();
-  const desde=turnoInicio||new Date(isoFecha(now)+'T00:00:00');
-  const todosIngresos=cargarDatos(KEYS.ingresos);
-  const ingTurno=todosIngresos.filter(i=>{const dt=parseFechaHora(i.fecha,i.hora);return dt>=desde;});
-  const apercTurno=cargarDatos(KEYS.apercibimientos).filter(a=>{const dt=parseFechaHora(a.fecha,a.hora);return dt>=desde;});
-  const suspTurno=cargarDatos(KEYS.suspensiones).filter(s=>Number(s.id)>=desde.getTime());
-  const lim=HS_VIGENCIA*3600000;
-  const vencidosTurno=todosIngresos.filter(i=>(now.getTime()-parseFechaHora(i.fecha,i.hora).getTime())>lim);
-  _inspDesactivando._turno={
-    ingresos:ingTurno,apercibimientos:apercTurno,suspensiones:suspTurno,vencidos:vencidosTurno,
-    inicio:turnoInicio?formatFecha(turnoInicio)+' '+formatHora(turnoInicio):'Inicio del día',
-    fin:formatFecha(now)+' '+formatHora(now)
+function desactivarInspector() {
+  const insp = getInspectorActivo();
+  if (!insp) return;
+  _inspDesactivando = insp;
+  const turnoInicioStr = cargarItem(KEYS.turnoInicio);
+  const turnoInicio = turnoInicioStr ? new Date(turnoInicioStr) : null;
+  const now = ahoraReal();
+  const desde = turnoInicio || new Date(isoFecha(now) + 'T00:00:00');
+  const todosIngresos = cargarDatos(KEYS.ingresos);
+  const ingTurno    = todosIngresos.filter(i => { const dt = parseFechaHora(i.fecha, i.hora); return dt >= desde; });
+  const apercTurno  = cargarDatos(KEYS.apercibimientos).filter(a => { const dt = parseFechaHora(a.fecha, a.hora); return dt >= desde; });
+  const suspTurno   = cargarDatos(KEYS.suspensiones).filter(s => Number(s.id) >= desde.getTime());
+  const lim = HS_VIGENCIA * 3600000;
+  const vencidosTurno = todosIngresos.filter(i => (now.getTime() - parseFechaHora(i.fecha, i.hora).getTime()) > lim);
+  _inspDesactivando._turno = {
+    ingresos: ingTurno, apercibimientos: apercTurno, suspensiones: suspTurno, vencidos: vencidosTurno,
+    inicio: turnoInicio ? formatFecha(turnoInicio) + ' ' + formatHora(turnoInicio) : 'Inicio del día',
+    fin: formatFecha(now) + ' ' + formatHora(now)
   };
-  document.getElementById('mc-inspector-nombre').textContent=insp.nombre;
-  document.getElementById('mc-resumen').innerHTML=`
+  document.getElementById('mc-inspector-nombre').textContent = insp.nombre;
+  document.getElementById('mc-resumen').innerHTML = `
     <table style="width:100%;border-collapse:collapse;font-size:.87rem;">
       <tr style="background:#f0f5f0;"><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">🕐 Inicio de turno</td><td style="padding:6px 10px;">${_inspDesactivando._turno.inicio}</td></tr>
       <tr><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">🕐 Cierre de turno</td><td style="padding:6px 10px;">${_inspDesactivando._turno.fin}</td></tr>
@@ -1493,158 +1623,152 @@ function desactivarInspector(){
       <tr style="background:#f0f5f0;"><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">🚫 Suspensiones en el turno</td><td style="padding:6px 10px;">${suspTurno.length}</td></tr>
       <tr><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">⏰ Ingresos vencidos actuales</td><td style="padding:6px 10px;">${vencidosTurno.length}</td></tr>
     </table>`;
-  document.getElementById('alerta-modal-cierre').className='alerta';
+  document.getElementById('alerta-modal-cierre').className = 'alerta';
   document.getElementById('modal-cierre').classList.add('show');
 }
+function cerrarModalCierre() { document.getElementById('modal-cierre').classList.remove('show'); _inspDesactivando = null; }
 
-function cerrarModalCierre(){
-  document.getElementById('modal-cierre').classList.remove('show');
-  _inspDesactivando=null;
-}
+async function confirmarDesactivar() {
+  if (!_inspDesactivando) return;
+  const insp = _inspDesactivando, turno = insp._turno, now = ahoraReal();
+  const xml = generarXMLTurno(insp, turno, now);
+  const nombre = `PCQ_turno_${insp.nombre.replace(/\s+/g,'_')}_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.xml`;
 
-async function confirmarDesactivar(){
-  if(!_inspDesactivando) return;
-  const insp=_inspDesactivando, turno=insp._turno, now=ahoraReal();
-  const xml=generarXMLTurno(insp,turno,now);
-  const nombre=`PCQ_turno_${insp.nombre.replace(/\s+/g,'_')}_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.xml`;
-
-  // 1. Descarga local
-  const blob=new Blob([xml],{type:'application/xml'});
-  const url=URL.createObjectURL(blob);
-  Object.assign(document.createElement('a'),{href:url,download:nombre}).click();
+  // Descarga local XML
+  const blob = new Blob([xml], { type: 'application/xml' });
+  const url  = URL.createObjectURL(blob);
+  Object.assign(document.createElement('a'), { href: url, download: nombre }).click();
   URL.revokeObjectURL(url);
 
-  // 2. Subir a GitHub
-  mostrarAlerta('alerta-modal-cierre','info','⏳ Subiendo XML de turno a GitHub...');
-  const ghResult = await subirXMLaGitHub(
-    xml, nombre,
-    `🎣 PCQ Cierre de turno – ${insp.nombre} – ${formatFecha(now)}`
-  );
-  if(ghResult.ok){
-    mostrarAlerta('alerta-modal-cierre','ok',`✅ XML guardado en GitHub correctamente.`);
-  } else {
-    mostrarAlerta('alerta-modal-cierre','warn',`⚠️ No se pudo subir a GitHub: ${ghResult.error}. El archivo sí se descargó localmente.`);
-  }
-
-  // 3. WhatsApp
-  const waURL=`https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(armarMensajeWA(insp,turno))}`;
+  // Desactivar inspector y sincronizar
   localStorage.removeItem(KEYS.inspActivo);
   localStorage.removeItem(KEYS.turnoInicio);
+  _shaDataFile = null;
+  mostrarAlerta('alerta-modal-cierre', 'info', '⏳ Sincronizando cierre de turno con GitHub...');
+  await guardarEnGitHub(false);
+  mostrarAlerta('alerta-modal-cierre', 'ok', '✅ Turno cerrado y sincronizado correctamente.');
+
+  // WhatsApp
+  const waURL = `https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(armarMensajeWA(insp, turno))}`;
   actualizarUIInspectorActivo();
   actualizarEstadoBloqueo();
   renderInspectores();
   cerrarModalCierre();
-  document.getElementById('banner-activar').style.display='block';
-  _navegarSeccion('inspectores',document.getElementById('btn-nav-inspectores'));
-  mostrarAlerta('alerta-insp','ok','✅ Turno cerrado. XML descargado y subido a GitHub. Abriendo WhatsApp...');
-  setTimeout(()=>window.open(waURL,'_blank'),800);
+  document.getElementById('banner-activar').style.display = 'block';
+  _navegarSeccion('inspectores', document.getElementById('btn-nav-inspectores'));
+  mostrarAlerta('alerta-insp', 'ok', '✅ Turno cerrado. Abriendo WhatsApp...');
+  setTimeout(() => window.open(waURL, '_blank'), 800);
 }
 
-function generarXMLTurno(insp,turno,now){
-  const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  let xml=`<?xml version="1.0" encoding="UTF-8"?>\n<TurnoPCQ>\n`;
-  xml+=`  <MetaData>\n    <Inspector>${esc(insp.nombre)}</Inspector>\n    <InicioTurno>${esc(turno.inicio)}</InicioTurno>\n    <CierreTurno>${esc(turno.fin)}</CierreTurno>\n    <TotalIngresos>${turno.ingresos.length}</TotalIngresos>\n    <TotalApercibimientos>${turno.apercibimientos.length}</TotalApercibimientos>\n    <TotalSuspensiones>${turno.suspensiones.length}</TotalSuspensiones>\n    <TotalVencidos>${turno.vencidos.length}</TotalVencidos>\n  </MetaData>\n`;
-  xml+=`  <Ingresos>\n`;
-  turno.ingresos.forEach(i=>{xml+=`    <Ingreso><DNI>${esc(i.dni)}</DNI><Ticket>${esc(i.ticket)}</Ticket><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora></Ingreso>\n`;});
-  xml+=`  </Ingresos>\n  <Apercibimientos>\n`;
-  turno.apercibimientos.forEach(a=>{xml+=`    <Apercibimiento><DNI>${esc(a.dni)}</DNI><Nombre>${esc(a.nombre)}</Nombre><Motivo>${esc(a.motivo)}</Motivo><Fecha>${esc(a.fecha)}</Fecha><Hora>${esc(a.hora)}</Hora></Apercibimiento>\n`;});
-  xml+=`  </Apercibimientos>\n  <Suspensiones>\n`;
-  turno.suspensiones.forEach(s=>{xml+=`    <Suspension><DNI>${esc(s.dni)}</DNI><Nombre>${esc(s.nombre)}</Nombre><Desde>${esc(s.desde)}</Desde><Hasta>${esc(s.hasta)}</Hasta><Motivo>${esc(s.motivo)}</Motivo></Suspension>\n`;});
-  xml+=`  </Suspensiones>\n  <IngresosVencidos>\n`;
-  turno.vencidos.forEach(i=>{const ms=ahoraReal().getTime()-parseFechaHora(i.fecha,i.hora).getTime();xml+=`    <Vencido><DNI>${esc(i.dni)}</DNI><Ticket>${esc(i.ticket)}</Ticket><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora><Transcurrido>${tiempoTranscurrido(ms)}</Transcurrido></Vencido>\n`;});
-  xml+=`  </IngresosVencidos>\n</TurnoPCQ>`;
+function generarXMLTurno(insp, turno, now) {
+  const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<TurnoPCQ>\n`;
+  xml += `  <MetaData>\n    <Inspector>${esc(insp.nombre)}</Inspector>\n    <InicioTurno>${esc(turno.inicio)}</InicioTurno>\n    <CierreTurno>${esc(turno.fin)}</CierreTurno>\n    <TotalIngresos>${turno.ingresos.length}</TotalIngresos>\n    <TotalApercibimientos>${turno.apercibimientos.length}</TotalApercibimientos>\n    <TotalSuspensiones>${turno.suspensiones.length}</TotalSuspensiones>\n    <TotalVencidos>${turno.vencidos.length}</TotalVencidos>\n  </MetaData>\n`;
+  xml += `  <Ingresos>\n`;
+  turno.ingresos.forEach(i => { xml += `    <Ingreso><DNI>${esc(i.dni)}</DNI><Ticket>${esc(i.ticket)}</Ticket><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora></Ingreso>\n`; });
+  xml += `  </Ingresos>\n  <Apercibimientos>\n`;
+  turno.apercibimientos.forEach(a => { xml += `    <Apercibimiento><DNI>${esc(a.dni)}</DNI><Nombre>${esc(a.nombre)}</Nombre><Motivo>${esc(a.motivo)}</Motivo><Fecha>${esc(a.fecha)}</Fecha><Hora>${esc(a.hora)}</Hora></Apercibimiento>\n`; });
+  xml += `  </Apercibimientos>\n  <Suspensiones>\n`;
+  turno.suspensiones.forEach(s => { xml += `    <Suspension><DNI>${esc(s.dni)}</DNI><Nombre>${esc(s.nombre)}</Nombre><Desde>${esc(s.desde)}</Desde><Hasta>${esc(s.hasta)}</Hasta><Motivo>${esc(s.motivo)}</Motivo></Suspension>\n`; });
+  xml += `  </Suspensiones>\n  <IngresosVencidos>\n`;
+  turno.vencidos.forEach(i => { const ms = ahoraReal().getTime() - parseFechaHora(i.fecha, i.hora).getTime(); xml += `    <Vencido><DNI>${esc(i.dni)}</DNI><Ticket>${esc(i.ticket)}</Ticket><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora><Transcurrido>${tiempoTranscurrido(ms)}</Transcurrido></Vencido>\n`; });
+  xml += `  </IngresosVencidos>\n</TurnoPCQ>`;
   return xml;
 }
 
-function armarMensajeWA(insp,turno){
-  let msg=`🎣 *Pejerrey Club Quilmes*\n📋 *Cierre de Turno*\n👮 Inspector: *${insp.nombre}*\n🕐 Inicio: ${turno.inicio}\n🕐 Cierre: ${turno.fin}\n──────────────────\n🚪 Ingresos del turno: *${turno.ingresos.length}*\n`;
-  turno.ingresos.forEach(i=>{msg+=`  • DNI ${i.dni} – Ticket ${i.ticket} (${i.fecha} ${i.hora})\n`;});
-  msg+=`──────────────────\n⚠️ Apercibimientos del turno: *${turno.apercibimientos.length}*\n`;
-  turno.apercibimientos.forEach(a=>{msg+=`  • DNI ${a.dni}${a.nombre?' ('+a.nombre+')':''} – ${a.motivo} (${a.fecha})\n`;});
-  msg+=`──────────────────\n🚫 Suspensiones del turno: *${turno.suspensiones.length}*\n`;
-  turno.suspensiones.forEach(s=>{msg+=`  • DNI ${s.dni}${s.nombre?' ('+s.nombre+')':''} – hasta ${s.hasta} – ${s.motivo}\n`;});
-  msg+=`──────────────────\n⏰ Ingresos vencidos (>24hs): *${turno.vencidos.length}*\n`;
-  turno.vencidos.forEach(i=>{const ms=ahoraReal().getTime()-parseFechaHora(i.fecha,i.hora).getTime();msg+=`  • DNI ${i.dni} – Ticket ${i.ticket} – hace ${tiempoTranscurrido(ms)}\n`;});
-  msg+=`──────────────────\n✅ Turno cerrado correctamente.`;
+function armarMensajeWA(insp, turno) {
+  let msg = `🎣 *Pejerrey Club Quilmes*\n📋 *Cierre de Turno*\n👮 Inspector: *${insp.nombre}*\n🕐 Inicio: ${turno.inicio}\n🕐 Cierre: ${turno.fin}\n──────────────────\n🚪 Ingresos del turno: *${turno.ingresos.length}*\n`;
+  turno.ingresos.forEach(i => { msg += `  • DNI ${i.dni} – Ticket ${i.ticket} (${i.fecha} ${i.hora})\n`; });
+  msg += `──────────────────\n⚠️ Apercibimientos del turno: *${turno.apercibimientos.length}*\n`;
+  turno.apercibimientos.forEach(a => { msg += `  • DNI ${a.dni}${a.nombre?' ('+a.nombre+')':''} – ${a.motivo} (${a.fecha})\n`; });
+  msg += `──────────────────\n🚫 Suspensiones del turno: *${turno.suspensiones.length}*\n`;
+  turno.suspensiones.forEach(s => { msg += `  • DNI ${s.dni}${s.nombre?' ('+s.nombre+')':''} – hasta ${s.hasta} – ${s.motivo}\n`; });
+  msg += `──────────────────\n⏰ Ingresos vencidos (>24hs): *${turno.vencidos.length}*\n`;
+  turno.vencidos.forEach(i => { const ms = ahoraReal().getTime() - parseFechaHora(i.fecha, i.hora).getTime(); msg += `  • DNI ${i.dni} – Ticket ${i.ticket} – hace ${tiempoTranscurrido(ms)}\n`; });
+  msg += `──────────────────\n✅ Turno cerrado correctamente.`;
   return msg;
 }
 
 /* ═══════════════════════════════════════════════════════
    ABM INSPECTORES
 ═══════════════════════════════════════════════════════ */
-function guardarInspector(){
-  const nombre=document.getElementById('insp-nombre').value.trim();
-  const tel=document.getElementById('insp-tel').value.trim();
-  const obs=document.getElementById('insp-obs').value.trim();
-  if(!nombre){mostrarAlerta('alerta-insp','error','Ingresá el nombre del inspector.');return;}
-  const lista=cargarDatos(KEYS.inspectores);
-  if(lista.find(i=>i.nombre.toLowerCase()===nombre.toLowerCase())){mostrarAlerta('alerta-insp','error','Ya existe un inspector con ese nombre.');return;}
-  lista.push({id:Date.now(),nombre,tel,obs});
-  guardarDatos(KEYS.inspectores,lista);
-  mostrarAlerta('alerta-insp','ok',`✅ Inspector <strong>${nombre}</strong> registrado.`);
-  ['insp-nombre','insp-tel','insp-obs'].forEach(id=>{document.getElementById(id).value='';});
+async function guardarInspector() {
+  const nombre = document.getElementById('insp-nombre').value.trim();
+  const tel    = document.getElementById('insp-tel').value.trim();
+  const obs    = document.getElementById('insp-obs').value.trim();
+  if (!nombre) { mostrarAlerta('alerta-insp', 'error', 'Ingresá el nombre del inspector.'); return; }
+  const lista = cargarDatos(KEYS.inspectores);
+  if (lista.find(i => i.nombre.toLowerCase() === nombre.toLowerCase())) { mostrarAlerta('alerta-insp', 'error', 'Ya existe un inspector con ese nombre.'); return; }
+  lista.push({ id: Date.now(), nombre, tel, obs });
+  guardarDatos(KEYS.inspectores, lista);
+  mostrarAlerta('alerta-insp', 'info', '⏳ Guardando inspector en GitHub...');
+  await guardarEnGitHub(false);
+  mostrarAlerta('alerta-insp', 'ok', `✅ Inspector <strong>${nombre}</strong> registrado y sincronizado.`);
+  ['insp-nombre','insp-tel','insp-obs'].forEach(id => { document.getElementById(id).value = ''; });
   renderInspectores();
 }
 
-function editarInspector(id){
-  const insp=cargarDatos(KEYS.inspectores).find(i=>i.id===id);
-  if(!insp) return;
-  _editInspId=id;
-  document.getElementById('m-insp-nombre').value=insp.nombre;
-  document.getElementById('m-insp-tel').value=insp.tel||'';
-  document.getElementById('m-insp-obs').value=insp.obs||'';
-  document.getElementById('alerta-modal-insp').className='alerta';
+function editarInspector(id) {
+  const insp = cargarDatos(KEYS.inspectores).find(i => i.id === id);
+  if (!insp) return;
+  _editInspId = id;
+  document.getElementById('m-insp-nombre').value = insp.nombre;
+  document.getElementById('m-insp-tel').value    = insp.tel || '';
+  document.getElementById('m-insp-obs').value    = insp.obs || '';
+  document.getElementById('alerta-modal-insp').className = 'alerta';
   document.getElementById('modal-insp').classList.add('show');
 }
-function cerrarModalInspector(){document.getElementById('modal-insp').classList.remove('show');_editInspId=null;}
-function guardarModalInspector(){
-  const nombre=document.getElementById('m-insp-nombre').value.trim();
-  const tel=document.getElementById('m-insp-tel').value.trim();
-  const obs=document.getElementById('m-insp-obs').value.trim();
-  if(!nombre){mostrarAlerta('alerta-modal-insp','error','Ingresá el nombre.');return;}
-  const lista=cargarDatos(KEYS.inspectores);
-  if(lista.find(i=>i.nombre.toLowerCase()===nombre.toLowerCase()&&i.id!==_editInspId)){mostrarAlerta('alerta-modal-insp','error','Ya existe un inspector con ese nombre.');return;}
-  const idx=lista.findIndex(i=>i.id===_editInspId);
-  if(idx===-1){cerrarModalInspector();return;}
-  lista[idx]={...lista[idx],nombre,tel,obs};
-  guardarDatos(KEYS.inspectores,lista);
-  cerrarModalInspector();actualizarUIInspectorActivo();renderInspectores();
-  mostrarAlerta('alerta-insp','ok','✅ Inspector actualizado correctamente.');
+function cerrarModalInspector() { document.getElementById('modal-insp').classList.remove('show'); _editInspId = null; }
+async function guardarModalInspector() {
+  const nombre = document.getElementById('m-insp-nombre').value.trim();
+  const tel    = document.getElementById('m-insp-tel').value.trim();
+  const obs    = document.getElementById('m-insp-obs').value.trim();
+  if (!nombre) { mostrarAlerta('alerta-modal-insp', 'error', 'Ingresá el nombre.'); return; }
+  const lista = cargarDatos(KEYS.inspectores);
+  if (lista.find(i => i.nombre.toLowerCase() === nombre.toLowerCase() && i.id !== _editInspId)) { mostrarAlerta('alerta-modal-insp', 'error', 'Ya existe un inspector con ese nombre.'); return; }
+  const idx = lista.findIndex(i => i.id === _editInspId);
+  if (idx === -1) { cerrarModalInspector(); return; }
+  lista[idx] = { ...lista[idx], nombre, tel, obs };
+  guardarDatos(KEYS.inspectores, lista);
+  await guardarEnGitHub(false);
+  cerrarModalInspector(); actualizarUIInspectorActivo(); renderInspectores();
+  mostrarAlerta('alerta-insp', 'ok', '✅ Inspector actualizado y sincronizado.');
 }
-function eliminarInspector(id){
-  const insp=cargarDatos(KEYS.inspectores).find(i=>i.id===id);
-  if(!insp) return;
-  if(!confirm(`¿Eliminar al inspector "${insp.nombre}"?`)) return;
-  if(cargarItem(KEYS.inspActivo)===String(id)){localStorage.removeItem(KEYS.inspActivo);localStorage.removeItem(KEYS.turnoInicio);}
-  guardarDatos(KEYS.inspectores,cargarDatos(KEYS.inspectores).filter(i=>i.id!==id));
-  actualizarUIInspectorActivo();actualizarEstadoBloqueo();renderInspectores();
-  mostrarAlerta('alerta-insp','warn','⚠️ Inspector eliminado.');
+async function eliminarInspector(id) {
+  const insp = cargarDatos(KEYS.inspectores).find(i => i.id === id);
+  if (!insp) return;
+  if (!confirm(`¿Eliminar al inspector "${insp.nombre}"?`)) return;
+  if (cargarItem(KEYS.inspActivo) === String(id)) { localStorage.removeItem(KEYS.inspActivo); localStorage.removeItem(KEYS.turnoInicio); }
+  guardarDatos(KEYS.inspectores, cargarDatos(KEYS.inspectores).filter(i => i.id !== id));
+  await guardarEnGitHub(false);
+  actualizarUIInspectorActivo(); actualizarEstadoBloqueo(); renderInspectores();
+  mostrarAlerta('alerta-insp', 'warn', '⚠️ Inspector eliminado y sincronizado.');
 }
-function renderInspectores(){
-  const lista=cargarDatos(KEYS.inspectores);
-  const activoId=cargarItem(KEYS.inspActivo);
-  const grid=document.getElementById('insp-grid');
-  const vacio=document.getElementById('insp-vacio');
-  grid.innerHTML='';
-  if(!lista.length){vacio.style.display='block';grid.style.display='none';return;}
-  vacio.style.display='none';grid.style.display='grid';
-  lista.forEach(insp=>{
-    const esActivo=String(insp.id)===String(activoId);
-    const card=document.createElement('div');
-    card.className='insp-card'+(esActivo?' activo':'');
-    card.innerHTML=`
+function renderInspectores() {
+  const lista    = cargarDatos(KEYS.inspectores);
+  const activoId = cargarItem(KEYS.inspActivo);
+  const grid  = document.getElementById('insp-grid');
+  const vacio = document.getElementById('insp-vacio');
+  grid.innerHTML = '';
+  if (!lista.length) { vacio.style.display = 'block'; grid.style.display = 'none'; return; }
+  vacio.style.display = 'none'; grid.style.display = 'grid';
+  lista.forEach(insp => {
+    const esActivo = String(insp.id) === String(activoId);
+    const card = document.createElement('div');
+    card.className = 'insp-card' + (esActivo ? ' activo' : '');
+    card.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;">
         <div>
           <div class="ic-nombre">👮 ${insp.nombre}</div>
-          ${insp.tel?`<div class="ic-sub">📞 ${insp.tel}</div>`:''}
-          ${insp.obs?`<div class="ic-sub">📝 ${insp.obs}</div>`:''}
+          ${insp.tel ? `<div class="ic-sub">📞 ${insp.tel}</div>` : ''}
+          ${insp.obs ? `<div class="ic-sub">📝 ${insp.obs}</div>` : ''}
         </div>
-        ${esActivo?'<span class="badge badge-dorado">✅ ACTIVO</span>':''}
+        ${esActivo ? '<span class="badge badge-dorado">✅ ACTIVO</span>' : ''}
       </div>
       <div class="ic-acciones">
         ${!esActivo
-          ?`<button class="btn btn-gold btn-sm" onclick="activarInspector(${insp.id})">⚡ Activar</button>`
-          :`<button class="btn btn-secondary btn-sm" onclick="desactivarInspector()">✖ Desactivar</button>`}
+          ? `<button class="btn btn-gold btn-sm" onclick="activarInspector(${insp.id})">⚡ Activar</button>`
+          : `<button class="btn btn-secondary btn-sm" onclick="desactivarInspector()">✖ Desactivar</button>`}
         <button class="btn btn-warning btn-sm" onclick="editarInspector(${insp.id})">✏️ Editar</button>
         <button class="btn btn-danger  btn-sm" onclick="eliminarInspector(${insp.id})">🗑️ Eliminar</button>
       </div>`;
@@ -1655,221 +1779,229 @@ function renderInspectores(){
 /* ═══════════════════════════════════════════════════════
    SECCIÓN INGRESOS VENCIDOS
 ═══════════════════════════════════════════════════════ */
-function renderVencidos(){
-  const ingresos=cargarDatos(KEYS.ingresos);
-  const now=ahoraReal();
-  const lim=HS_VIGENCIA*3600000;
-  const prev=lim-MIN_POR_VENCER*60000;
-  const vencidos=ingresos.filter(i=>{const ms=now.getTime()-parseFechaHora(i.fecha,i.hora).getTime();return ms>=lim;}).sort((a,b)=>parseFechaHora(a.fecha,a.hora)-parseFechaHora(b.fecha,b.hora));
-  const porVencer=ingresos.filter(i=>{const ms=now.getTime()-parseFechaHora(i.fecha,i.hora).getTime();return ms>=prev&&ms<lim;}).sort((a,b)=>parseFechaHora(a.fecha,a.hora)-parseFechaHora(b.fecha,b.hora));
-  const contPV=document.getElementById('contador-por-vencer');
-  if(porVencer.length>0){contPV.style.display='flex';document.getElementById('cpv-num').textContent=porVencer.length;}
-  else contPV.style.display='none';
-  const contV=document.getElementById('contador-vencidos');
-  if(vencidos.length>0){contV.style.display='flex';document.getElementById('cv-num').textContent=vencidos.length;}
-  else contV.style.display='none';
-  const tbody=document.querySelector('#tabla-vencidos tbody');
-  tbody.innerHTML='';
-  const todos=[...porVencer,...vencidos];
-  if(!todos.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:#aaa;">✅ No hay ingresos vencidos ni por vencer</td></tr>';return;}
-  todos.forEach(ing=>{
-    const ms=now.getTime()-parseFechaHora(ing.fecha,ing.hora).getTime();
-    const est=estadoIngreso(ing);
-    const tr=document.createElement('tr');
-    tr.className=est.fila;
-    tr.innerHTML=`<td>${fotoThumb(ing.dni)}</td><td>${ing.dni}</td><td>${ing.ticket}</td><td>${ing.fecha}</td><td>${ing.hora}</td><td>${tiempoTranscurrido(ms)}</td><td><span class="badge ${est.clase}">${est.texto}</span></td><td><button class="btn btn-danger btn-sm" onclick="eliminarIngreso('${ing.ticket}')">🗑️ Dar de baja</button></td>`;
+function renderVencidos() {
+  const ingresos = cargarDatos(KEYS.ingresos);
+  const now = ahoraReal();
+  const lim  = HS_VIGENCIA * 3600000;
+  const prev = lim - MIN_POR_VENCER * 60000;
+  const vencidos   = ingresos.filter(i => { const ms = now.getTime() - parseFechaHora(i.fecha, i.hora).getTime(); return ms >= lim; }).sort((a,b) => parseFechaHora(a.fecha,a.hora) - parseFechaHora(b.fecha,b.hora));
+  const porVencer  = ingresos.filter(i => { const ms = now.getTime() - parseFechaHora(i.fecha, i.hora).getTime(); return ms >= prev && ms < lim; }).sort((a,b) => parseFechaHora(a.fecha,a.hora) - parseFechaHora(b.fecha,b.hora));
+  const contPV = document.getElementById('contador-por-vencer');
+  if (porVencer.length > 0) { contPV.style.display = 'flex'; document.getElementById('cpv-num').textContent = porVencer.length; }
+  else contPV.style.display = 'none';
+  const contV = document.getElementById('contador-vencidos');
+  if (vencidos.length > 0) { contV.style.display = 'flex'; document.getElementById('cv-num').textContent = vencidos.length; }
+  else contV.style.display = 'none';
+  const tbody = document.querySelector('#tabla-vencidos tbody');
+  tbody.innerHTML = '';
+  const todos = [...porVencer, ...vencidos];
+  if (!todos.length) { tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#aaa;">✅ No hay ingresos vencidos ni por vencer</td></tr>'; return; }
+  todos.forEach(ing => {
+    const ms  = now.getTime() - parseFechaHora(ing.fecha, ing.hora).getTime();
+    const est = estadoIngreso(ing);
+    const tr  = document.createElement('tr');
+    tr.className = est.fila;
+    tr.innerHTML = `<td>${fotoThumb(ing.dni)}</td><td>${ing.dni}</td><td>${ing.ticket}</td><td>${ing.fecha}</td><td>${ing.hora}</td><td>${tiempoTranscurrido(ms)}</td><td><span class="badge ${est.clase}">${est.texto}</span></td><td><button class="btn btn-danger btn-sm" onclick="eliminarIngreso('${ing.ticket}')">🗑️ Dar de baja</button></td>`;
     tbody.appendChild(tr);
   });
 }
-
-function eliminarIngreso(ticket){
-  if(!confirm(`¿Dar de baja el ingreso del ticket "${ticket}"?`)) return;
-  guardarDatos(KEYS.ingresos,cargarDatos(KEYS.ingresos).filter(i=>i.ticket!==ticket));
+async function eliminarIngreso(ticket) {
+  if (!confirm(`¿Dar de baja el ingreso del ticket "${ticket}"?`)) return;
+  guardarDatos(KEYS.ingresos, cargarDatos(KEYS.ingresos).filter(i => i.ticket !== ticket));
+  await guardarEnGitHub(true);
   renderVencidos();
-  mostrarAlerta('alerta-vencidos','ok',`✅ Ingreso del ticket <strong>${ticket}</strong> eliminado.`);
+  mostrarAlerta('alerta-vencidos', 'ok', `✅ Ingreso del ticket <strong>${ticket}</strong> eliminado.`);
 }
-function limpiarVencidos(){
-  const ingresos=cargarDatos(KEYS.ingresos);
-  const now=ahoraReal();const lim=HS_VIGENCIA*3600000;
-  const vigentes=ingresos.filter(i=>(now.getTime()-parseFechaHora(i.fecha,i.hora).getTime())<lim);
-  const cant=ingresos.length-vigentes.length;
-  if(!cant){mostrarAlerta('alerta-vencidos','info','No hay ingresos vencidos para eliminar.');return;}
-  if(!confirm(`¿Eliminar los ${cant} ingreso(s) vencido(s)?`)) return;
-  guardarDatos(KEYS.ingresos,vigentes);renderVencidos();
-  mostrarAlerta('alerta-vencidos','ok',`✅ Se eliminaron <strong>${cant}</strong> ingreso(s) vencido(s).`);
+async function limpiarVencidos() {
+  const ingresos = cargarDatos(KEYS.ingresos);
+  const now = ahoraReal(); const lim = HS_VIGENCIA * 3600000;
+  const vigentes = ingresos.filter(i => (now.getTime() - parseFechaHora(i.fecha, i.hora).getTime()) < lim);
+  const cant = ingresos.length - vigentes.length;
+  if (!cant) { mostrarAlerta('alerta-vencidos', 'info', 'No hay ingresos vencidos para eliminar.'); return; }
+  if (!confirm(`¿Eliminar los ${cant} ingreso(s) vencido(s)?`)) return;
+  guardarDatos(KEYS.ingresos, vigentes);
+  await guardarEnGitHub(true);
+  renderVencidos();
+  mostrarAlerta('alerta-vencidos', 'ok', `✅ Se eliminaron <strong>${cant}</strong> ingreso(s) vencido(s).`);
 }
 
 /* ═══════════════════════════════════════════════════════
    FECHAS CONSULTA
 ═══════════════════════════════════════════════════════ */
-function setFechasConsultaHoy(){
-  const hoy=isoFecha(ahoraReal());
-  const d=document.getElementById('consulta-desde');
-  const h=document.getElementById('consulta-hasta');
-  if(!d.value) d.value=hoy;
-  if(!h.value) h.value=hoy;
+function setFechasConsultaHoy() {
+  const hoy = isoFecha(ahoraReal());
+  const d = document.getElementById('consulta-desde');
+  const h = document.getElementById('consulta-hasta');
+  if (!d.value) d.value = hoy;
+  if (!h.value) h.value = hoy;
 }
 
 /* ═══════════════════════════════════════════════════════
    ALERTAS
 ═══════════════════════════════════════════════════════ */
-function mostrarAlerta(id,tipo,msg){
-  const el=document.getElementById(id);
-  if(!el) return;
-  el.className='alerta show alerta-'+tipo;
-  el.innerHTML=msg;
-  setTimeout(()=>{el.className='alerta';},8000);
+function mostrarAlerta(id, tipo, msg) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.className = 'alerta show alerta-' + tipo;
+  el.innerHTML = msg;
+  clearTimeout(el._timer);
+  el._timer = setTimeout(() => { el.className = 'alerta'; }, 8000);
 }
 
 /* ═══════════════════════════════════════════════════════
    SECCIÓN 1 – INGRESO
 ═══════════════════════════════════════════════════════ */
-function buscarInvitado(){
-  const dni=document.getElementById('dni-ingreso').value.trim();
-  if(!dni){mostrarAlerta('alerta-ingreso','error','Ingresá el número de documento.');return;}
-  const ingresos=cargarDatos(KEYS.ingresos);
-  const apercibimientos=cargarDatos(KEYS.apercibimientos);
-  const suspensiones=cargarDatos(KEYS.suspensiones);
-  const hoy=isoFecha(ahoraReal());
-  const misIngresos=ingresos.filter(i=>i.dni===dni).slice(-10).reverse();
-  const misAperc=apercibimientos.filter(a=>a.dni===dni);
-  const misSuspActivas=suspensiones.filter(s=>s.dni===dni&&hoy>=s.desde&&hoy<=s.hasta);
-  const lim=HS_VIGENCIA*3600000;
-  const prev=lim-MIN_POR_VENCER*60000;
-  const now=ahoraReal();
-  const ultimoIngreso=ingresos.filter(i=>i.dni===dni).slice(-1)[0];
-  let msUltimo=ultimoIngreso?now.getTime()-parseFechaHora(ultimoIngreso.fecha,ultimoIngreso.hora).getTime():-1;
-  const tieneVencido=msUltimo>=lim;
-  const tienePorVencer=msUltimo>=prev&&msUltimo<lim;
-  const panel=document.getElementById('panel-estado');
-  const badges=document.getElementById('estado-badges');
-  const detalles=document.getElementById('estado-detalles');
-  const fotoContenedor=document.getElementById('estado-foto-contenedor');
+function buscarInvitado() {
+  const dni = document.getElementById('dni-ingreso').value.trim();
+  if (!dni) { mostrarAlerta('alerta-ingreso', 'error', 'Ingresá el número de documento.'); return; }
+  const ingresos        = cargarDatos(KEYS.ingresos);
+  const apercibimientos = cargarDatos(KEYS.apercibimientos);
+  const suspensiones    = cargarDatos(KEYS.suspensiones);
+  const hoy = isoFecha(ahoraReal());
+  const misIngresos    = ingresos.filter(i => i.dni === dni).slice(-10).reverse();
+  const misAperc       = apercibimientos.filter(a => a.dni === dni);
+  const misSuspActivas = suspensiones.filter(s => s.dni === dni && hoy >= s.desde && hoy <= s.hasta);
+  const lim  = HS_VIGENCIA * 3600000;
+  const prev = lim - MIN_POR_VENCER * 60000;
+  const now  = ahoraReal();
+  const ultimoIngreso  = ingresos.filter(i => i.dni === dni).slice(-1)[0];
+  let msUltimo = ultimoIngreso ? now.getTime() - parseFechaHora(ultimoIngreso.fecha, ultimoIngreso.hora).getTime() : -1;
+  const tieneVencido   = msUltimo >= lim;
+  const tienePorVencer = msUltimo >= prev && msUltimo < lim;
+  const panel     = document.getElementById('panel-estado');
+  const badges    = document.getElementById('estado-badges');
+  const detalles  = document.getElementById('estado-detalles');
+  const fotoContenedor = document.getElementById('estado-foto-contenedor');
   panel.classList.add('show');
-  document.getElementById('estado-nombre').textContent='DNI: '+dni;
-  badges.innerHTML='';fotoContenedor.innerHTML='';
-  let alertaTipo='info',alertaMsg=`✅ Invitado DNI <strong>${dni}</strong> sin restricciones.`;
-  let fotoClase='';
-  if(misSuspActivas.length>0){
-    const s=misSuspActivas[0];
-    badges.innerHTML+=`<span class="badge badge-rojo">🚫 SUSPENDIDO hasta ${s.hasta}</span>`;
-    detalles.innerHTML=`<strong>Motivo suspensión:</strong> ${s.motivo}`;
-    alertaTipo='error';alertaMsg=`🚫 <strong>SUSPENDIDO</strong> – No puede ingresar. Vigente hasta <strong>${s.hasta}</strong>.`;
-    panel.style.borderColor='var(--rojo)';fotoClase='foto-suspendido';
-  } else if(misAperc.length>0){
-    badges.innerHTML+=`<span class="badge badge-naranja">⚠️ ${misAperc.length} apercibimiento(s)</span>`;
-    if(tieneVencido) badges.innerHTML+=`<span class="badge badge-rojo">⏰ Ingreso vencido</span>`;
-    else if(tienePorVencer){const rm=Math.ceil((lim-msUltimo)/60000);badges.innerHTML+=`<span class="badge badge-naranja">⏳ Vence en ${rm} min</span>`;}
-    detalles.innerHTML=misAperc.map(a=>`<div>• ${a.fecha} – ${a.motivo}${a.inspector?` <span class="badge badge-azul">👮 ${a.inspector}</span>`:''}</div>`).join('');
-    alertaTipo='warn';alertaMsg=`⚠️ El invitado tiene <strong>${misAperc.length} apercibimiento(s)</strong>. Puede ingresar con advertencia.`;
-    panel.style.borderColor='var(--naranja)';fotoClase='foto-apercibido';
-  } else if(tieneVencido){
-    badges.innerHTML+=`<span class="badge badge-rojo">⏰ Ingreso vencido</span>`;
-    detalles.innerHTML='<span style="color:#991b1b;">Tiene un ingreso vencido (más de 24hs).</span>';
-    alertaTipo='warn';alertaMsg=`⏰ El invitado tiene un <strong>ingreso vencido</strong>.`;
-    panel.style.borderColor='#888';fotoClase='foto-vencido';
-  } else if(tienePorVencer){
-    const restMin=Math.ceil((lim-msUltimo)/60000);
-    badges.innerHTML+=`<span class="badge badge-naranja">⏳ Vence en ${restMin} min</span>`;
-    detalles.innerHTML=`<span style="color:#92400e;">El ingreso activo vence en menos de 1 hora (${restMin} minutos).</span>`;
-    alertaTipo='warn';alertaMsg=`⏳ El invitado tiene un ingreso que <strong>vence en ${restMin} minutos</strong>.`;
-    panel.style.borderColor='var(--naranja)';fotoClase='foto-por-vencer';
+  document.getElementById('estado-nombre').textContent = 'DNI: ' + dni;
+  badges.innerHTML = ''; fotoContenedor.innerHTML = '';
+  let alertaTipo = 'info', alertaMsg = `✅ Invitado DNI <strong>${dni}</strong> sin restricciones.`;
+  let fotoClase = '';
+  if (misSuspActivas.length > 0) {
+    const s = misSuspActivas[0];
+    badges.innerHTML += `<span class="badge badge-rojo">🚫 SUSPENDIDO hasta ${s.hasta}</span>`;
+    detalles.innerHTML = `<strong>Motivo suspensión:</strong> ${s.motivo}`;
+    alertaTipo = 'error'; alertaMsg = `🚫 <strong>SUSPENDIDO</strong> – No puede ingresar. Vigente hasta <strong>${s.hasta}</strong>.`;
+    panel.style.borderColor = 'var(--rojo)'; fotoClase = 'foto-suspendido';
+  } else if (misAperc.length > 0) {
+    badges.innerHTML += `<span class="badge badge-naranja">⚠️ ${misAperc.length} apercibimiento(s)</span>`;
+    if (tieneVencido) badges.innerHTML += `<span class="badge badge-rojo">⏰ Ingreso vencido</span>`;
+    else if (tienePorVencer) { const rm = Math.ceil((lim-msUltimo)/60000); badges.innerHTML += `<span class="badge badge-naranja">⏳ Vence en ${rm} min</span>`; }
+    detalles.innerHTML = misAperc.map(a => `<div>• ${a.fecha} – ${a.motivo}${a.inspector?` <span class="badge badge-azul">👮 ${a.inspector}</span>`:''}</div>`).join('');
+    alertaTipo = 'warn'; alertaMsg = `⚠️ El invitado tiene <strong>${misAperc.length} apercibimiento(s)</strong>. Puede ingresar con advertencia.`;
+    panel.style.borderColor = 'var(--naranja)'; fotoClase = 'foto-apercibido';
+  } else if (tieneVencido) {
+    badges.innerHTML += `<span class="badge badge-rojo">⏰ Ingreso vencido</span>`;
+    detalles.innerHTML = '<span style="color:#991b1b;">Tiene un ingreso vencido (más de 24hs).</span>';
+    alertaTipo = 'warn'; alertaMsg = `⏰ El invitado tiene un <strong>ingreso vencido</strong>.`;
+    panel.style.borderColor = '#888'; fotoClase = 'foto-vencido';
+  } else if (tienePorVencer) {
+    const restMin = Math.ceil((lim-msUltimo)/60000);
+    badges.innerHTML += `<span class="badge badge-naranja">⏳ Vence en ${restMin} min</span>`;
+    detalles.innerHTML = `<span style="color:#92400e;">El ingreso activo vence en menos de 1 hora (${restMin} minutos).</span>`;
+    alertaTipo = 'warn'; alertaMsg = `⏳ El invitado tiene un ingreso que <strong>vence en ${restMin} minutos</strong>.`;
+    panel.style.borderColor = 'var(--naranja)'; fotoClase = 'foto-por-vencer';
   } else {
-    badges.innerHTML=`<span class="badge badge-verde">✅ Sin restricciones</span>`;
-    detalles.innerHTML='';panel.style.borderColor='var(--dorado)';
+    badges.innerHTML = `<span class="badge badge-verde">✅ Sin restricciones</span>`;
+    detalles.innerHTML = ''; panel.style.borderColor = 'var(--dorado)';
   }
-  const foto=getFoto(dni);
-  if(foto){
-    fotoContenedor.innerHTML=`
+  const foto = getFoto(dni);
+  if (foto) {
+    fotoContenedor.innerHTML = `
       <div class="estado-foto-wrap">
         <img src="${foto}" class="estado-foto ${fotoClase}" onclick="verFotoGrande('${dni}')" style="cursor:pointer" title="Clic para ver foto completa"/>
         <span class="estado-foto-label">📷 DNI ${dni}</span>
       </div>`;
   }
-  mostrarAlerta('alerta-ingreso',alertaTipo,alertaMsg);
-  const wrap=document.getElementById('ultimos-ingresos');
-  const tbody=document.querySelector('#tabla-ultimos tbody');
-  tbody.innerHTML='';wrap.style.display='block';
-  if(misIngresos.length>0){
-    misIngresos.forEach((ing,i)=>{
-      const est=estadoIngreso(ing);
-      const tr=document.createElement('tr');
-      if(est.fila) tr.className=est.fila;
-      tr.innerHTML=`<td>${i+1}</td><td>${ing.fecha}</td><td>${ing.hora}</td><td>${ing.ticket}</td><td><span class="badge ${est.clase}">${est.texto}</span></td>`;
+  mostrarAlerta('alerta-ingreso', alertaTipo, alertaMsg);
+  const wrap  = document.getElementById('ultimos-ingresos');
+  const tbody = document.querySelector('#tabla-ultimos tbody');
+  tbody.innerHTML = ''; wrap.style.display = 'block';
+  if (misIngresos.length > 0) {
+    misIngresos.forEach((ing, i) => {
+      const est = estadoIngreso(ing);
+      const tr  = document.createElement('tr');
+      if (est.fila) tr.className = est.fila;
+      tr.innerHTML = `<td>${i+1}</td><td>${ing.fecha}</td><td>${ing.hora}</td><td>${ing.ticket}</td><td><span class="badge ${est.clase}">${est.texto}</span></td>`;
       tbody.appendChild(tr);
     });
   } else {
-    tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:#aaa;">Sin ingresos previos</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#aaa;">Sin ingresos previos</td></tr>';
   }
-  if(foto){
-    document.getElementById('foto-preview').src=foto;
+  if (foto) {
+    document.getElementById('foto-preview').src = foto;
     document.getElementById('foto-preview-wrap').classList.add('show');
-    document.getElementById('btn-borrar-foto').style.display='inline-flex';
-    document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅';
+    document.getElementById('btn-borrar-foto').style.display = 'inline-flex';
+    document.getElementById('foto-preview-dni').textContent = 'DNI: ' + dni + ' ✅';
   }
 }
 
-function registrarIngreso(){
-  const dni=document.getElementById('dni-ingreso').value.trim();
-  const ticket=document.getElementById('ticket-ingreso').value.trim();
-  if(!dni){mostrarAlerta('alerta-ingreso','error','Ingresá el número de documento.');return;}
-  if(!ticket){mostrarAlerta('alerta-ingreso','error','Ingresá el número de ticket.');return;}
-  const ticketExiste=cargarDatos(KEYS.ingresos).find(i=>i.ticket.toLowerCase()===ticket.toLowerCase());
-  if(ticketExiste){
-    mostrarAlerta('alerta-ingreso','error',`🚫 El ticket <strong>${ticket}</strong> ya fue registrado el <strong>${ticketExiste.fecha}</strong> a las <strong>${ticketExiste.hora}</strong> para el DNI <strong>${ticketExiste.dni}</strong>.`);
+async function registrarIngreso() {
+  const dni    = document.getElementById('dni-ingreso').value.trim();
+  const ticket = document.getElementById('ticket-ingreso').value.trim();
+  if (!dni)    { mostrarAlerta('alerta-ingreso', 'error', 'Ingresá el número de documento.'); return; }
+  if (!ticket) { mostrarAlerta('alerta-ingreso', 'error', 'Ingresá el número de ticket.'); return; }
+  const ticketExiste = cargarDatos(KEYS.ingresos).find(i => i.ticket.toLowerCase() === ticket.toLowerCase());
+  if (ticketExiste) {
+    mostrarAlerta('alerta-ingreso', 'error', `🚫 El ticket <strong>${ticket}</strong> ya fue registrado el <strong>${ticketExiste.fecha}</strong> a las <strong>${ticketExiste.hora}</strong> para el DNI <strong>${ticketExiste.dni}</strong>.`);
     return;
   }
-  const hoy=isoFecha(ahoraReal());
-  const suspActiva=cargarDatos(KEYS.suspensiones).find(s=>s.dni===dni&&hoy>=s.desde&&hoy<=s.hasta);
-  if(suspActiva){
-    mostrarAlerta('alerta-ingreso','error',`🚫 No se puede registrar. El invitado está <strong>SUSPENDIDO</strong> hasta <strong>${suspActiva.hasta}</strong>.`);
+  const hoy = isoFecha(ahoraReal());
+  const suspActiva = cargarDatos(KEYS.suspensiones).find(s => s.dni === dni && hoy >= s.desde && hoy <= s.hasta);
+  if (suspActiva) {
+    mostrarAlerta('alerta-ingreso', 'error', `🚫 No se puede registrar. El invitado está <strong>SUSPENDIDO</strong> hasta <strong>${suspActiva.hasta}</strong>.`);
     return;
   }
   asociarFotoAlRegistrar(dni);
-  const now=ahoraReal();
-  const ingresos=cargarDatos(KEYS.ingresos);
-  ingresos.push({dni,ticket,fecha:formatFecha(now),hora:formatHora(now),isoFecha:isoFecha(now)});
-  guardarDatos(KEYS.ingresos,ingresos);
-  document.getElementById('aviso-ticket').className='alerta';
-  mostrarAlerta('alerta-ingreso','ok',`✅ Ingreso registrado – DNI: <strong>${dni}</strong> | Ticket: <strong>${ticket}</strong> | ${formatFecha(now)} ${formatHora(now)} | Vigente por ${HS_VIGENCIA} hs`);
+  const now = ahoraReal();
+  const ingresos = cargarDatos(KEYS.ingresos);
+  ingresos.push({ dni, ticket, fecha: formatFecha(now), hora: formatHora(now), isoFecha: isoFecha(now) });
+  guardarDatos(KEYS.ingresos, ingresos);
+  document.getElementById('aviso-ticket').className = 'alerta';
+  mostrarAlerta('alerta-ingreso', 'info', '⏳ Guardando ingreso en GitHub...');
+  await guardarEnGitHub(false);
+  mostrarAlerta('alerta-ingreso', 'ok', `✅ Ingreso registrado y sincronizado – DNI: <strong>${dni}</strong> | Ticket: <strong>${ticket}</strong> | ${formatFecha(now)} ${formatHora(now)} | Vigente por ${HS_VIGENCIA} hs`);
   buscarInvitado();
-  document.getElementById('ticket-ingreso').value='';
+  document.getElementById('ticket-ingreso').value = '';
 }
 
 /* ═══════════════════════════════════════════════════════
-   SECCIÓN 2 – APERCIBIMIENTO
+   SECCIÓN 2 – APERCIBAMIENTO
 ═══════════════════════════════════════════════════════ */
-function registrarApercibimiento(){
-  const dni=document.getElementById('dni-aperc').value.trim();
-  const nombre=document.getElementById('nombre-aperc').value.trim();
-  const motivo=document.getElementById('motivo-aperc').value.trim();
-  if(!dni){mostrarAlerta('alerta-aperc','error','Ingresá el número de documento.');return;}
-  if(!motivo){mostrarAlerta('alerta-aperc','error','Ingresá el motivo del apercibimiento.');return;}
-  const insp=getInspectorActivo();
-  if(!insp){if(!confirm('⚠️ No hay inspector activo. ¿Registrar el apercibimiento de todas formas?')) return;}
-  const now=ahoraReal();
-  const lista=cargarDatos(KEYS.apercibimientos);
-  lista.push({id:Date.now(),dni,nombre,motivo,fecha:formatFecha(now),hora:formatHora(now),inspector:insp?insp.nombre:null,inspectorId:insp?insp.id:null});
-  guardarDatos(KEYS.apercibimientos,lista);
-  const inspMsg=insp?` | Inspector: <strong>${insp.nombre}</strong>`:'';
-  mostrarAlerta('alerta-aperc','ok',`⚠️ Apercibimiento registrado para DNI <strong>${dni}</strong>${inspMsg}.`);
-  ['dni-aperc','nombre-aperc','motivo-aperc'].forEach(id=>{document.getElementById(id).value='';});
+async function registrarApercibimiento() {
+  const dni    = document.getElementById('dni-aperc').value.trim();
+  const nombre = document.getElementById('nombre-aperc').value.trim();
+  const motivo = document.getElementById('motivo-aperc').value.trim();
+  if (!dni)    { mostrarAlerta('alerta-aperc', 'error', 'Ingresá el número de documento.'); return; }
+  if (!motivo) { mostrarAlerta('alerta-aperc', 'error', 'Ingresá el motivo del apercibimiento.'); return; }
+  const insp = getInspectorActivo();
+  if (!insp) { if (!confirm('⚠️ No hay inspector activo. ¿Registrar el apercibimiento de todas formas?')) return; }
+  const now = ahoraReal();
+  const lista = cargarDatos(KEYS.apercibimientos);
+  lista.push({ id: Date.now(), dni, nombre, motivo, fecha: formatFecha(now), hora: formatHora(now), inspector: insp ? insp.nombre : null, inspectorId: insp ? insp.id : null });
+  guardarDatos(KEYS.apercibimientos, lista);
+  mostrarAlerta('alerta-aperc', 'info', '⏳ Guardando apercibimiento en GitHub...');
+  await guardarEnGitHub(false);
+  const inspMsg = insp ? ` | Inspector: <strong>${insp.nombre}</strong>` : '';
+  mostrarAlerta('alerta-aperc', 'ok', `⚠️ Apercibimiento registrado y sincronizado para DNI <strong>${dni}</strong>${inspMsg}.`);
+  ['dni-aperc','nombre-aperc','motivo-aperc'].forEach(id => { document.getElementById(id).value = ''; });
   renderTablaApercibimientos();
 }
-function eliminarApercibimiento(id){
-  if(!confirm('¿Eliminar este apercibimiento?')) return;
-  guardarDatos(KEYS.apercibimientos,cargarDatos(KEYS.apercibimientos).filter(a=>a.id!==id));
+async function eliminarApercibimiento(id) {
+  if (!confirm('¿Eliminar este apercibimiento?')) return;
+  guardarDatos(KEYS.apercibimientos, cargarDatos(KEYS.apercibimientos).filter(a => a.id !== id));
+  await guardarEnGitHub(true);
   renderTablaApercibimientos();
 }
-function renderTablaApercibimientos(){
-  const lista=cargarDatos(KEYS.apercibimientos).slice().reverse();
-  const tbody=document.querySelector('#tabla-aperc tbody');
-  tbody.innerHTML='';
-  if(!lista.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:#aaa;">Sin apercibimientos registrados</td></tr>';return;}
-  lista.forEach(a=>{
-    const inspBadge=a.inspector?`<span class="badge badge-azul">👮 ${a.inspector}</span>`:'<span style="color:#aaa;font-size:.8rem">—</span>';
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td>${fotoThumb(a.dni)}</td><td>${a.dni}</td><td>${a.nombre||'—'}</td><td>${a.fecha} ${a.hora}</td><td style="max-width:240px">${a.motivo}</td><td>${inspBadge}</td><td><button class="btn btn-danger btn-sm" onclick="eliminarApercibimiento(${a.id})">🗑️ Eliminar</button></td>`;
+function renderTablaApercibimientos() {
+  const lista = cargarDatos(KEYS.apercibimientos).slice().reverse();
+  const tbody = document.querySelector('#tabla-aperc tbody');
+  tbody.innerHTML = '';
+  if (!lista.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#aaa;">Sin apercibimientos registrados</td></tr>'; return; }
+  lista.forEach(a => {
+    const inspBadge = a.inspector ? `<span class="badge badge-azul">👮 ${a.inspector}</span>` : '<span style="color:#aaa;font-size:.8rem">—</span>';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${fotoThumb(a.dni)}</td><td>${a.dni}</td><td>${a.nombre||'—'}</td><td>${a.fecha} ${a.hora}</td><td style="max-width:240px">${a.motivo}</td><td>${inspBadge}</td><td><button class="btn btn-danger btn-sm" onclick="eliminarApercibimiento(${a.id})">🗑️ Eliminar</button></td>`;
     tbody.appendChild(tr);
   });
 }
@@ -1877,40 +2009,43 @@ function renderTablaApercibimientos(){
 /* ═══════════════════════════════════════════════════════
    SECCIÓN 3 – SUSPENSIÓN
 ═══════════════════════════════════════════════════════ */
-function registrarSuspension(){
-  const dni=document.getElementById('dni-susp').value.trim();
-  const nombre=document.getElementById('nombre-susp').value.trim();
-  const desde=document.getElementById('susp-desde').value;
-  const hasta=document.getElementById('susp-hasta').value;
-  const motivo=document.getElementById('motivo-susp').value.trim();
-  if(!dni){mostrarAlerta('alerta-susp','error','Ingresá el número de documento.');return;}
-  if(!desde){mostrarAlerta('alerta-susp','error','Ingresá la fecha de inicio.');return;}
-  if(!hasta){mostrarAlerta('alerta-susp','error','Ingresá la fecha de fin.');return;}
-  if(hasta<desde){mostrarAlerta('alerta-susp','error','La fecha "hasta" debe ser ≥ "desde".');return;}
-  if(!motivo){mostrarAlerta('alerta-susp','error','Ingresá el motivo.');return;}
-  const lista=cargarDatos(KEYS.suspensiones);
-  lista.push({id:Date.now(),dni,nombre,desde,hasta,motivo});
-  guardarDatos(KEYS.suspensiones,lista);
-  mostrarAlerta('alerta-susp','ok',`🚫 Suspensión registrada para DNI <strong>${dni}</strong> hasta <strong>${hasta}</strong>.`);
-  ['dni-susp','nombre-susp','susp-desde','susp-hasta','motivo-susp'].forEach(id=>{document.getElementById(id).value='';});
+async function registrarSuspension() {
+  const dni    = document.getElementById('dni-susp').value.trim();
+  const nombre = document.getElementById('nombre-susp').value.trim();
+  const desde  = document.getElementById('susp-desde').value;
+  const hasta  = document.getElementById('susp-hasta').value;
+  const motivo = document.getElementById('motivo-susp').value.trim();
+  if (!dni)   { mostrarAlerta('alerta-susp', 'error', 'Ingresá el número de documento.'); return; }
+  if (!desde) { mostrarAlerta('alerta-susp', 'error', 'Ingresá la fecha de inicio.'); return; }
+  if (!hasta) { mostrarAlerta('alerta-susp', 'error', 'Ingresá la fecha de fin.'); return; }
+  if (hasta < desde) { mostrarAlerta('alerta-susp', 'error', 'La fecha "hasta" debe ser ≥ "desde".'); return; }
+  if (!motivo) { mostrarAlerta('alerta-susp', 'error', 'Ingresá el motivo.'); return; }
+  const lista = cargarDatos(KEYS.suspensiones);
+  lista.push({ id: Date.now(), dni, nombre, desde, hasta, motivo });
+  guardarDatos(KEYS.suspensiones, lista);
+  mostrarAlerta('alerta-susp', 'info', '⏳ Guardando suspensión en GitHub...');
+  await guardarEnGitHub(false);
+  mostrarAlerta('alerta-susp', 'ok', `🚫 Suspensión registrada y sincronizada para DNI <strong>${dni}</strong> hasta <strong>${hasta}</strong>.`);
+  ['dni-susp','nombre-susp','susp-desde','susp-hasta','motivo-susp'].forEach(id => { document.getElementById(id).value = ''; });
   renderTablaSuspensiones();
 }
-function eliminarSuspension(id){
-  if(!confirm('¿Eliminar esta suspensión?')) return;
-  guardarDatos(KEYS.suspensiones,cargarDatos(KEYS.suspensiones).filter(s=>s.id!==id));
+async function eliminarSuspension(id) {
+  if (!confirm('¿Eliminar esta suspensión?')) return;
+  guardarDatos(KEYS.suspensiones, cargarDatos(KEYS.suspensiones).filter(s => s.id !== id));
+  await guardarEnGitHub(true);
   renderTablaSuspensiones();
 }
-function renderTablaSuspensiones(){
-  const lista=cargarDatos(KEYS.suspensiones).slice().reverse();
-  const hoy=isoFecha(ahoraReal());
-  const tbody=document.querySelector('#tabla-susp tbody');
-  tbody.innerHTML='';
-  if(!lista.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:#aaa;">Sin suspensiones registradas</td></tr>';return;}
-  lista.forEach(s=>{
-    const activa=hoy>=s.desde&&hoy<=s.hasta;
-    const badge=activa?'<span class="badge badge-rojo">🚫 ACTIVA</span>':'<span class="badge badge-verde">✔️ Vencida</span>';
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td>${fotoThumb(s.dni)}</td><td>${s.dni}</td><td>${s.nombre||'—'}</td><td>${s.desde}</td><td>${s.hasta}</td><td style="max-width:220px">${s.motivo}</td><td>${badge}</td><td><button class="btn btn-danger btn-sm" onclick="eliminarSuspension(${s.id})">🗑️ Eliminar</button></td>`;
+function renderTablaSuspensiones() {
+  const lista = cargarDatos(KEYS.suspensiones).slice().reverse();
+  const hoy   = isoFecha(ahoraReal());
+  const tbody = document.querySelector('#tabla-susp tbody');
+  tbody.innerHTML = '';
+  if (!lista.length) { tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#aaa;">Sin suspensiones registradas</td></tr>'; return; }
+  lista.forEach(s => {
+    const activa = hoy >= s.desde && hoy <= s.hasta;
+    const badge  = activa ? '<span class="badge badge-rojo">🚫 ACTIVA</span>' : '<span class="badge badge-verde">✔️ Vencida</span>';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${fotoThumb(s.dni)}</td><td>${s.dni}</td><td>${s.nombre||'—'}</td><td>${s.desde}</td><td>${s.hasta}</td><td style="max-width:220px">${s.motivo}</td><td>${badge}</td><td><button class="btn btn-danger btn-sm" onclick="eliminarSuspension(${s.id})">🗑️ Eliminar</button></td>`;
     tbody.appendChild(tr);
   });
 }
@@ -1918,142 +2053,128 @@ function renderTablaSuspensiones(){
 /* ═══════════════════════════════════════════════════════
    SECCIÓN 4 – CONSULTA
 ═══════════════════════════════════════════════════════ */
-function consultarIngresos(){
-  const desde=document.getElementById('consulta-desde').value;
-  const hasta=document.getElementById('consulta-hasta').value;
-  const dni=document.getElementById('consulta-dni').value.trim();
-  if(!desde||!hasta){mostrarAlerta('alerta-consulta','error','Seleccioná ambas fechas.');return;}
-  if(hasta<desde){mostrarAlerta('alerta-consulta','error','La fecha "hasta" debe ser ≥ "desde".');return;}
-  let res=cargarDatos(KEYS.ingresos).filter(i=>i.isoFecha>=desde&&i.isoFecha<=hasta);
-  if(dni) res=res.filter(i=>i.dni===dni);
-  res.sort((a,b)=>(a.isoFecha+a.hora)>(b.isoFecha+b.hora)?-1:1);
-  document.getElementById('resumen-consulta').textContent=`Se encontraron ${res.length} ingreso(s) entre ${desde} y ${hasta}${dni?' para DNI '+dni:''}.`;
-  const tbody=document.querySelector('#tabla-consulta tbody');
-  tbody.innerHTML='';
-  if(!res.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;">Sin resultados</td></tr>';return;}
-  res.forEach(i=>{
-    const est=estadoIngreso(i);
-    const tr=document.createElement('tr');
-    if(est.fila) tr.className=est.fila;
-    tr.innerHTML=`<td>${fotoThumb(i.dni)}</td><td>${i.dni}</td><td>${i.ticket}</td><td>${i.fecha}</td><td>${i.hora}</td><td><span class="badge ${est.clase}">${est.texto}</span></td>`;
+function consultarIngresos() {
+  const desde = document.getElementById('consulta-desde').value;
+  const hasta = document.getElementById('consulta-hasta').value;
+  const dni   = document.getElementById('consulta-dni').value.trim();
+  if (!desde || !hasta) { mostrarAlerta('alerta-consulta', 'error', 'Seleccioná ambas fechas.'); return; }
+  if (hasta < desde) { mostrarAlerta('alerta-consulta', 'error', 'La fecha "hasta" debe ser ≥ "desde".'); return; }
+  let res = cargarDatos(KEYS.ingresos).filter(i => i.isoFecha >= desde && i.isoFecha <= hasta);
+  if (dni) res = res.filter(i => i.dni === dni);
+  res.sort((a, b) => (a.isoFecha + a.hora) > (b.isoFecha + b.hora) ? -1 : 1);
+  document.getElementById('resumen-consulta').textContent = `Se encontraron ${res.length} ingreso(s) entre ${desde} y ${hasta}${dni?' para DNI '+dni:''}.`;
+  const tbody = document.querySelector('#tabla-consulta tbody');
+  tbody.innerHTML = '';
+  if (!res.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#aaa;">Sin resultados</td></tr>'; return; }
+  res.forEach(i => {
+    const est = estadoIngreso(i);
+    const tr  = document.createElement('tr');
+    if (est.fila) tr.className = est.fila;
+    tr.innerHTML = `<td>${fotoThumb(i.dni)}</td><td>${i.dni}</td><td>${i.ticket}</td><td>${i.fecha}</td><td>${i.hora}</td><td><span class="badge ${est.clase}">${est.texto}</span></td>`;
     tbody.appendChild(tr);
   });
 }
 
 /* ═══════════════════════════════════════════════════════
-   BACKUP COMPLETO
+   BACKUP XML MANUAL (descarga local)
 ═══════════════════════════════════════════════════════ */
-function datosAXML(){
-  const ingresos=cargarDatos(KEYS.ingresos);
-  const apercibimientos=cargarDatos(KEYS.apercibimientos);
-  const suspensiones=cargarDatos(KEYS.suspensiones);
-  const inspectores=cargarDatos(KEYS.inspectores);
-  const fotosObj=cargarFotos();
-  const inspActivoId=cargarItem(KEYS.inspActivo)||'';
-  const now=ahoraReal();
-  const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  let xml=`<?xml version="1.0" encoding="UTF-8"?>\n<PejerreyClubQuilmes>\n`;
-  xml+=`  <MetaData>\n    <FechaBackup>${formatFecha(now)} ${formatHora(now)}</FechaBackup>\n`;
-  xml+=`    <TotalIngresos>${ingresos.length}</TotalIngresos>\n    <TotalApercibimientos>${apercibimientos.length}</TotalApercibimientos>\n`;
-  xml+=`    <TotalSuspensiones>${suspensiones.length}</TotalSuspensiones>\n    <TotalInspectores>${inspectores.length}</TotalInspectores>\n`;
-  xml+=`    <TotalFotos>${Object.keys(fotosObj).length}</TotalFotos>\n    <InspectorActivoId>${esc(inspActivoId)}</InspectorActivoId>\n  </MetaData>\n`;
-  xml+=`  <Ingresos>\n`;
-  ingresos.forEach(i=>{xml+=`    <Ingreso>\n      <DNI>${esc(i.dni)}</DNI>\n      <Ticket>${esc(i.ticket)}</Ticket>\n      <Fecha>${esc(i.fecha)}</Fecha>\n      <Hora>${esc(i.hora)}</Hora>\n      <IsoFecha>${esc(i.isoFecha)}</IsoFecha>\n    </Ingreso>\n`;});
-  xml+=`  </Ingresos>\n  <Apercibimientos>\n`;
-  apercibimientos.forEach(a=>{xml+=`    <Apercibimiento>\n      <ID>${esc(a.id)}</ID>\n      <DNI>${esc(a.dni)}</DNI>\n      <Nombre>${esc(a.nombre)}</Nombre>\n      <Motivo>${esc(a.motivo)}</Motivo>\n      <Fecha>${esc(a.fecha)}</Fecha>\n      <Hora>${esc(a.hora)}</Hora>\n      <Inspector>${esc(a.inspector)}</Inspector>\n      <InspectorId>${esc(a.inspectorId)}</InspectorId>\n    </Apercibimiento>\n`;});
-  xml+=`  </Apercibimientos>\n  <Suspensiones>\n`;
-  suspensiones.forEach(s=>{xml+=`    <Suspension>\n      <ID>${esc(s.id)}</ID>\n      <DNI>${esc(s.dni)}</DNI>\n      <Nombre>${esc(s.nombre)}</Nombre>\n      <Desde>${esc(s.desde)}</Desde>\n      <Hasta>${esc(s.hasta)}</Hasta>\n      <Motivo>${esc(s.motivo)}</Motivo>\n    </Suspension>\n`;});
-  xml+=`  </Suspensiones>\n  <Inspectores>\n`;
-  inspectores.forEach(i=>{xml+=`    <Inspector>\n      <ID>${esc(i.id)}</ID>\n      <Nombre>${esc(i.nombre)}</Nombre>\n      <Tel>${esc(i.tel)}</Tel>\n      <Obs>${esc(i.obs)}</Obs>\n    </Inspector>\n`;});
-  xml+=`  </Inspectores>\n  <Fotos>\n`;
-  Object.entries(fotosObj).forEach(([dni,b64])=>{xml+=`    <Foto>\n      <DNI>${esc(dni)}</DNI>\n      <Data><![CDATA[${b64}]]></Data>\n    </Foto>\n`;});
-  xml+=`  </Fotos>\n</PejerreyClubQuilmes>`;
+function datosAXML() {
+  const ingresos        = cargarDatos(KEYS.ingresos);
+  const apercibimientos = cargarDatos(KEYS.apercibimientos);
+  const suspensiones    = cargarDatos(KEYS.suspensiones);
+  const inspectores     = cargarDatos(KEYS.inspectores);
+  const fotosObj        = cargarFotos();
+  const inspActivoId    = cargarItem(KEYS.inspActivo) || '';
+  const now = ahoraReal();
+  const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<PejerreyClubQuilmes>\n`;
+  xml += `  <MetaData>\n    <FechaBackup>${formatFecha(now)} ${formatHora(now)}</FechaBackup>\n`;
+  xml += `    <TotalIngresos>${ingresos.length}</TotalIngresos>\n    <TotalApercibimientos>${apercibimientos.length}</TotalApercibimientos>\n`;
+  xml += `    <TotalSuspensiones>${suspensiones.length}</TotalSuspensiones>\n    <TotalInspectores>${inspectores.length}</TotalInspectores>\n`;
+  xml += `    <TotalFotos>${Object.keys(fotosObj).length}</TotalFotos>\n    <InspectorActivoId>${esc(inspActivoId)}</InspectorActivoId>\n  </MetaData>\n`;
+  xml += `  <Ingresos>\n`;
+  ingresos.forEach(i => { xml += `    <Ingreso>\n      <DNI>${esc(i.dni)}</DNI>\n      <Ticket>${esc(i.ticket)}</Ticket>\n      <Fecha>${esc(i.fecha)}</Fecha>\n      <Hora>${esc(i.hora)}</Hora>\n      <IsoFecha>${esc(i.isoFecha)}</IsoFecha>\n    </Ingreso>\n`; });
+  xml += `  </Ingresos>\n  <Apercibimientos>\n`;
+  apercibimientos.forEach(a => { xml += `    <Apercibimiento>\n      <ID>${esc(a.id)}</ID>\n      <DNI>${esc(a.dni)}</DNI>\n      <Nombre>${esc(a.nombre)}</Nombre>\n      <Motivo>${esc(a.motivo)}</Motivo>\n      <Fecha>${esc(a.fecha)}</Fecha>\n      <Hora>${esc(a.hora)}</Hora>\n      <Inspector>${esc(a.inspector)}</Inspector>\n      <InspectorId>${esc(a.inspectorId)}</InspectorId>\n    </Apercibimiento>\n`; });
+  xml += `  </Apercibimientos>\n  <Suspensiones>\n`;
+  suspensiones.forEach(s => { xml += `    <Suspension>\n      <ID>${esc(s.id)}</ID>\n      <DNI>${esc(s.dni)}</DNI>\n      <Nombre>${esc(s.nombre)}</Nombre>\n      <Desde>${esc(s.desde)}</Desde>\n      <Hasta>${esc(s.hasta)}</Hasta>\n      <Motivo>${esc(s.motivo)}</Motivo>\n    </Suspension>\n`; });
+  xml += `  </Suspensiones>\n  <Inspectores>\n`;
+  inspectores.forEach(i => { xml += `    <Inspector>\n      <ID>${esc(i.id)}</ID>\n      <Nombre>${esc(i.nombre)}</Nombre>\n      <Tel>${esc(i.tel)}</Tel>\n      <Obs>${esc(i.obs)}</Obs>\n    </Inspector>\n`; });
+  xml += `  </Inspectores>\n  <Fotos>\n`;
+  Object.entries(fotosObj).forEach(([dni, b64]) => { xml += `    <Foto>\n      <DNI>${esc(dni)}</DNI>\n      <Data><![CDATA[${b64}]]></Data>\n    </Foto>\n`; });
+  xml += `  </Fotos>\n</PejerreyClubQuilmes>`;
   return xml;
 }
 
-async function generarBackup(){
-  const xml=datosAXML();
-  const now=ahoraReal();
-  const nombre=`PCQ_backup_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.xml`;
-
-  // 1. Descarga local
-  const blob=new Blob([xml],{type:'application/xml'});
-  const url=URL.createObjectURL(blob);
-  Object.assign(document.createElement('a'),{href:url,download:nombre}).click();
+function generarBackup() {
+  const xml  = datosAXML();
+  const now  = ahoraReal();
+  const nombre = `PCQ_backup_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.xml`;
+  const blob = new Blob([xml], { type: 'application/xml' });
+  const url  = URL.createObjectURL(blob);
+  Object.assign(document.createElement('a'), { href: url, download: nombre }).click();
   URL.revokeObjectURL(url);
-
-  // 2. Subir a GitHub
-  mostrarAlerta('alerta-backup-gen','info','⏳ Subiendo backup a GitHub...');
-  const ghResult = await subirXMLaGitHub(
-    xml, nombre,
-    `🎣 PCQ Backup completo – ${formatFecha(now)} ${formatHora(now)}`
-  );
-
-  if(ghResult.ok){
-    mostrarAlerta('alerta-backup-gen','ok',
-      `✅ Backup generado y guardado en GitHub.<br>
-       📁 Archivo: <strong>${nombre}</strong><br>
-       🔗 Repositorio: <strong>${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/backups/</strong>`);
-  } else {
-    mostrarAlerta('alerta-backup-gen','warn',
-      `⬇️ Backup descargado localmente como <strong>${nombre}</strong>.<br>
-       ⚠️ No se pudo subir a GitHub: <strong>${ghResult.error}</strong>`);
-  }
+  mostrarAlerta('alerta-backup-gen', 'ok', `⬇️ Backup descargado localmente: <strong>${nombre}</strong>`);
 }
 
-function restaurarBackup(){
-  const archivo=document.getElementById('archivo-bak').files[0];
-  if(!archivo){mostrarAlerta('alerta-backup-rest','error','Seleccioná un archivo .xml');return;}
-  if(!confirm('⚠️ ¿Estás seguro? Esto reemplazará TODOS los datos actuales.')) return;
-  const reader=new FileReader();
-  reader.onload=function(e){
-    try{
-      const parser=new DOMParser();
-      const doc=parser.parseFromString(e.target.result,'application/xml');
-      if(doc.querySelector('parsererror')) throw new Error('XML inválido');
-      const ingresos=[];
-      doc.querySelectorAll('Ingreso').forEach(n=>{ingresos.push({dni:n.querySelector('DNI')?.textContent||'',ticket:n.querySelector('Ticket')?.textContent||'',fecha:n.querySelector('Fecha')?.textContent||'',hora:n.querySelector('Hora')?.textContent||'',isoFecha:n.querySelector('IsoFecha')?.textContent||''});});
-      const apercs=[];
-      doc.querySelectorAll('Apercibimiento').forEach(n=>{apercs.push({id:Number(n.querySelector('ID')?.textContent)||Date.now(),dni:n.querySelector('DNI')?.textContent||'',nombre:n.querySelector('Nombre')?.textContent||'',motivo:n.querySelector('Motivo')?.textContent||'',fecha:n.querySelector('Fecha')?.textContent||'',hora:n.querySelector('Hora')?.textContent||'',inspector:n.querySelector('Inspector')?.textContent||null,inspectorId:n.querySelector('InspectorId')?.textContent||null});});
-      const susps=[];
-      doc.querySelectorAll('Suspension').forEach(n=>{susps.push({id:Number(n.querySelector('ID')?.textContent)||Date.now(),dni:n.querySelector('DNI')?.textContent||'',nombre:n.querySelector('Nombre')?.textContent||'',desde:n.querySelector('Desde')?.textContent||'',hasta:n.querySelector('Hasta')?.textContent||'',motivo:n.querySelector('Motivo')?.textContent||''});});
-      const insps=[];
-      doc.querySelectorAll('Inspector').forEach(n=>{insps.push({id:Number(n.querySelector('ID')?.textContent)||Date.now(),nombre:n.querySelector('Nombre')?.textContent||'',tel:n.querySelector('Tel')?.textContent||'',obs:n.querySelector('Obs')?.textContent||''});});
-      const fotosRestauradas={};
-      doc.querySelectorAll('Foto').forEach(n=>{const dni=n.querySelector('DNI')?.textContent||'';const data=n.querySelector('Data')?.textContent||'';if(dni&&data) fotosRestauradas[dni]=data;});
-      const inspActivoId=doc.querySelector('InspectorActivoId')?.textContent||'';
-      guardarDatos(KEYS.ingresos,ingresos);guardarDatos(KEYS.apercibimientos,apercs);
-      guardarDatos(KEYS.suspensiones,susps);guardarDatos(KEYS.inspectores,insps);
+function restaurarBackup() {
+  const archivo = document.getElementById('archivo-bak').files[0];
+  if (!archivo) { mostrarAlerta('alerta-backup-rest', 'error', 'Seleccioná un archivo .xml'); return; }
+  if (!confirm('⚠️ ¿Estás seguro? Esto reemplazará TODOS los datos actuales.')) return;
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    try {
+      const parser = new DOMParser();
+      const doc    = parser.parseFromString(e.target.result, 'application/xml');
+      if (doc.querySelector('parsererror')) throw new Error('XML inválido');
+      const ingresos = [];
+      doc.querySelectorAll('Ingreso').forEach(n => { ingresos.push({ dni: n.querySelector('DNI')?.textContent||'', ticket: n.querySelector('Ticket')?.textContent||'', fecha: n.querySelector('Fecha')?.textContent||'', hora: n.querySelector('Hora')?.textContent||'', isoFecha: n.querySelector('IsoFecha')?.textContent||'' }); });
+      const apercs = [];
+      doc.querySelectorAll('Apercibamiento, Apercibimiento').forEach(n => { apercs.push({ id: Number(n.querySelector('ID')?.textContent)||Date.now(), dni: n.querySelector('DNI')?.textContent||'', nombre: n.querySelector('Nombre')?.textContent||'', motivo: n.querySelector('Motivo')?.textContent||'', fecha: n.querySelector('Fecha')?.textContent||'', hora: n.querySelector('Hora')?.textContent||'', inspector: n.querySelector('Inspector')?.textContent||null, inspectorId: n.querySelector('InspectorId')?.textContent||null }); });
+      const susps = [];
+      doc.querySelectorAll('Suspension').forEach(n => { susps.push({ id: Number(n.querySelector('ID')?.textContent)||Date.now(), dni: n.querySelector('DNI')?.textContent||'', nombre: n.querySelector('Nombre')?.textContent||'', desde: n.querySelector('Desde')?.textContent||'', hasta: n.querySelector('Hasta')?.textContent||'', motivo: n.querySelector('Motivo')?.textContent||'' }); });
+      const insps = [];
+      doc.querySelectorAll('Inspector').forEach(n => { insps.push({ id: Number(n.querySelector('ID')?.textContent)||Date.now(), nombre: n.querySelector('Nombre')?.textContent||'', tel: n.querySelector('Tel')?.textContent||'', obs: n.querySelector('Obs')?.textContent||'' }); });
+      const fotosRestauradas = {};
+      doc.querySelectorAll('Foto').forEach(n => { const dni = n.querySelector('DNI')?.textContent||''; const data = n.querySelector('Data')?.textContent||''; if (dni && data) fotosRestauradas[dni] = data; });
+      const inspActivoId = doc.querySelector('InspectorActivoId')?.textContent || '';
+      guardarDatos(KEYS.ingresos, ingresos);
+      guardarDatos(KEYS.apercibimientos, apercs);
+      guardarDatos(KEYS.suspensiones, susps);
+      guardarDatos(KEYS.inspectores, insps);
       guardarFotos(fotosRestauradas);
-      const inspExiste=inspActivoId&&insps.find(i=>String(i.id)===String(inspActivoId));
-      if(inspExiste) guardarItem(KEYS.inspActivo,inspActivoId);
-      else           localStorage.removeItem(KEYS.inspActivo);
-      actualizarUIInspectorActivo();actualizarEstadoBloqueo();
-      const totalFotos=Object.keys(fotosRestauradas).length;
-      mostrarAlerta('alerta-backup-rest','ok',`✅ Backup restaurado.<br>Ingresos: <strong>${ingresos.length}</strong> | Apercibimientos: <strong>${apercs.length}</strong> | Suspensiones: <strong>${susps.length}</strong> | Inspectores: <strong>${insps.length}</strong> | Fotos: <strong>${totalFotos}</strong>`);
+      const inspExiste = inspActivoId && insps.find(i => String(i.id) === String(inspActivoId));
+      if (inspExiste) guardarItem(KEYS.inspActivo, inspActivoId);
+      else localStorage.removeItem(KEYS.inspActivo);
+      actualizarUIInspectorActivo(); actualizarEstadoBloqueo();
+      mostrarAlerta('alerta-backup-rest', 'info', '⏳ Datos restaurados. Sincronizando con GitHub...');
+      _shaDataFile = null;
+      await guardarEnGitHub(false);
+      const totalFotos = Object.keys(fotosRestauradas).length;
+      mostrarAlerta('alerta-backup-rest', 'ok', `✅ Backup restaurado y sincronizado con GitHub.<br>Ingresos: <strong>${ingresos.length}</strong> | Apercibimientos: <strong>${apercs.length}</strong> | Suspensiones: <strong>${susps.length}</strong> | Inspectores: <strong>${insps.length}</strong> | Fotos: <strong>${totalFotos}</strong>`);
       renderEstadisticas();
-      document.getElementById('archivo-bak').value='';
-    }catch(ex){
-      mostrarAlerta('alerta-backup-rest','error','❌ Error al leer el archivo: '+ex.message);
+      document.getElementById('archivo-bak').value = '';
+    } catch(ex) {
+      mostrarAlerta('alerta-backup-rest', 'error', '❌ Error al leer el archivo: ' + ex.message);
     }
   };
   reader.readAsText(archivo);
 }
 
-function renderEstadisticas(){
-  const i=cargarDatos(KEYS.ingresos).length;
-  const a=cargarDatos(KEYS.apercibimientos).length;
-  const s=cargarDatos(KEYS.suspensiones).length;
-  const ins=cargarDatos(KEYS.inspectores).length;
-  const f=Object.keys(cargarFotos()).length;
-  const hoy=isoFecha(ahoraReal());
-  const sa=cargarDatos(KEYS.suspensiones).filter(x=>hoy>=x.desde&&hoy<=x.hasta).length;
-  const now=ahoraReal();
-  const lim=HS_VIGENCIA*3600000;
-  const prev=lim-MIN_POR_VENCER*60000;
-  const venc=cargarDatos(KEYS.ingresos).filter(x=>{const ms=now.getTime()-parseFechaHora(x.fecha,x.hora).getTime();return ms>=lim;}).length;
-  const porVenc=cargarDatos(KEYS.ingresos).filter(x=>{const ms=now.getTime()-parseFechaHora(x.fecha,x.hora).getTime();return ms>=prev&&ms<lim;}).length;
-  document.getElementById('estadisticas').innerHTML=`
+function renderEstadisticas() {
+  const i   = cargarDatos(KEYS.ingresos).length;
+  const a   = cargarDatos(KEYS.apercibimientos).length;
+  const s   = cargarDatos(KEYS.suspensiones).length;
+  const ins = cargarDatos(KEYS.inspectores).length;
+  const f   = Object.keys(cargarFotos()).length;
+  const hoy = isoFecha(ahoraReal());
+  const sa  = cargarDatos(KEYS.suspensiones).filter(x => hoy >= x.desde && hoy <= x.hasta).length;
+  const now = ahoraReal();
+  const lim  = HS_VIGENCIA * 3600000;
+  const prev = lim - MIN_POR_VENCER * 60000;
+  const venc    = cargarDatos(KEYS.ingresos).filter(x => { const ms = now.getTime() - parseFechaHora(x.fecha, x.hora).getTime(); return ms >= lim; }).length;
+  const porVenc = cargarDatos(KEYS.ingresos).filter(x => { const ms = now.getTime() - parseFechaHora(x.fecha, x.hora).getTime(); return ms >= prev && ms < lim; }).length;
+  document.getElementById('estadisticas').innerHTML = `
     <div style="background:linear-gradient(135deg,#1a3a1a,#2d6e2d);border:2px solid var(--dorado);border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;"><div style="font-size:1.8rem;font-weight:700;color:var(--dorado);font-family:'Oswald',sans-serif">${i}</div><div style="font-size:.8rem;color:#cce8cc;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Ingresos totales</div></div>
     <div style="background:linear-gradient(135deg,#3a2a0a,#7a5a1a);border:2px solid var(--naranja);border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;"><div style="font-size:1.8rem;font-weight:700;color:#ffcc88;font-family:'Oswald',sans-serif">${porVenc}</div><div style="font-size:.8rem;color:#ffddaa;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Por vencer (&lt;1h)</div></div>
     <div style="background:linear-gradient(135deg,#3a0a0a,#7a1a1a);border:2px solid var(--rojo);border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;"><div style="font-size:1.8rem;font-weight:700;color:#ff8888;font-family:'Oswald',sans-serif">${venc}</div><div style="font-size:.8rem;color:#ffaaaa;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">Ingresos vencidos</div></div>
@@ -2067,20 +2188,69 @@ function renderEstadisticas(){
 /* ═══════════════════════════════════════════════════════
    INICIALIZACIÓN
 ═══════════════════════════════════════════════════════ */
-(async function init(){
+(async function init() {
+  // Mostrar pantalla de carga
+  const loadingOverlay = document.getElementById('sync-loading');
+  loadingOverlay.classList.add('show');
+  document.getElementById('sync-loading-txt').textContent = '🕐 Sincronizando hora...';
+
+  // 1. Sincronizar hora
   await sincronizarHora();
   tickReloj();
-  setInterval(tickReloj,1000);
-  setInterval(sincronizarHora,5*60*1000);
+  setInterval(tickReloj, 1000);
+  setInterval(sincronizarHora, 5 * 60 * 1000);
+
+  // 2. Sincronizar datos desde GitHub al iniciar
+  document.getElementById('sync-loading-txt').textContent = '☁️ Descargando datos desde GitHub...';
+  setSyncBadge('syncing', '🔄 Cargando...');
+
+  try {
+    const info = await obtenerSHAArchivo(GITHUB_CONFIG.dataFile);
+    if (info.content) {
+      _shaDataFile = info.sha;
+      const jsonStr = base64ToUtf8(info.content.replace(/\n/g, ''));
+      const datosRemotos = JSON.parse(jsonStr);
+      const tsRemoto = datosRemotos.updatedAt ? new Date(datosRemotos.updatedAt).getTime() : 0;
+      const tsLocal  = cargarItem(KEYS.lastSync) ? new Date(cargarItem(KEYS.lastSync)).getTime() : 0;
+      if (tsRemoto > tsLocal) {
+        aplicarDatosRemotos(datosRemotos);
+        _ultimoSyncTs = new Date(datosRemotos.updatedAt);
+        guardarItem(KEYS.lastSync, datosRemotos.updatedAt);
+      }
+      setSyncBadge('ok', '✅ Sincronizado');
+    } else {
+      // Primera vez: subir datos locales
+      await guardarEnGitHub(true);
+    }
+  } catch(e) {
+    setSyncBadge('error', '❌ Sin conexión');
+  }
+
+  // 3. Ocultar pantalla de carga
+  loadingOverlay.classList.remove('show');
+
+  // 4. Inicializar UI
   verificarContextoYMostrarAviso();
   actualizarUIInspectorActivo();
   actualizarEstadoBloqueo();
-  if(getInspectorActivo()){
-    _navegarSeccion('ingreso',document.getElementById('btn-nav-ingreso'));
+
+  if (getInspectorActivo()) {
+    _navegarSeccion('ingreso', document.getElementById('btn-nav-ingreso'));
   } else {
-    document.getElementById('banner-activar').style.display='block';
-    _navegarSeccion('inspectores',document.getElementById('btn-nav-inspectores'));
+    document.getElementById('banner-activar').style.display = 'block';
+    _navegarSeccion('inspectores', document.getElementById('btn-nav-inspectores'));
   }
+
+  // 5. Auto-sync cada 30 segundos (para ver cambios de otros dispositivos)
+  setInterval(async () => {
+    if (!_syncEnCurso) {
+      await sincronizarDesdeGitHub(false);
+      // Refrescar UI silenciosamente si hay cambios
+      actualizarUIInspectorActivo();
+      actualizarEstadoBloqueo();
+    }
+  }, SYNC_INTERVAL_MS);
+
 })();
 </script>
 </body>
