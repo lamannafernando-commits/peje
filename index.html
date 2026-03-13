@@ -28,7 +28,6 @@
     #reloj-header{font-family:'Oswald',sans-serif;font-size:.95rem;color:var(--dorado);background:rgba(0,0,0,.35);border:1px solid var(--dorado);display:inline-block;padding:4px 16px;border-radius:20px;letter-spacing:1px;}
     #header-inspector{font-size:.82rem;color:var(--blanco);background:rgba(45,110,45,.5);border:1px solid var(--verde-claro);display:inline-block;padding:4px 16px;border-radius:20px;}
     #header-inspector.sin-inspector{background:rgba(180,30,30,.35);border-color:var(--rojo-claro);color:#ffaaaa;}
-    /* SYNC BADGE */
     #sync-badge{font-size:.78rem;color:var(--blanco);background:rgba(0,0,0,.4);border:1px solid #555;display:inline-flex;align-items:center;gap:5px;padding:4px 14px;border-radius:20px;font-family:'Oswald',sans-serif;letter-spacing:.5px;transition:background .3s,border-color .3s;}
     #sync-badge.sync-ok{background:rgba(26,107,26,.6);border-color:#2a8a2a;}
     #sync-badge.sync-error{background:rgba(180,30,30,.5);border-color:var(--rojo-claro);}
@@ -169,7 +168,6 @@
     .foto-thumb-placeholder{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:5px;background:#e8ede8;border:2px dashed #aaaaaa;color:#aaaaaa;font-size:1.2rem;vertical-align:middle;}
     .aviso-https{background:#fff3cd;border:2px solid var(--naranja);border-radius:8px;padding:10px 14px;margin-bottom:10px;font-size:.82rem;color:#92400e;font-weight:600;display:none;}
     .aviso-https.show{display:block;}
-    /* SYNC OVERLAY */
     #sync-loading{display:none;position:fixed;inset:0;z-index:999;background:rgba(10,25,10,.95);align-items:center;justify-content:center;flex-direction:column;gap:16px;}
     #sync-loading.show{display:flex;}
     .sync-spinner{width:48px;height:48px;border:5px solid rgba(200,168,75,.3);border-top-color:var(--dorado);border-radius:50%;animation:spin 1s linear infinite;}
@@ -564,7 +562,9 @@
 <script>
 /* ═══════════════════════════════════════════════
    CONFIGURACIÓN GITHUB
-   data/pcq_data.json = base de datos compartida
+   ⚠️ REEMPLAZÁ TU_TOKEN_AQUI con tu token nuevo
+   Generalo en: github.com → Settings → Developer settings
+   → Personal access tokens → Tokens (classic) → scope: repo
 ═══════════════════════════════════════════════ */
 const GH = {
   owner:    'lamannafernando-commits',
@@ -1487,35 +1487,41 @@ function renderEstadisticas(){
 }
 
 /* ═══════════════════════════════════════════════
-   INICIALIZACIÓN
+   INICIALIZACIÓN — con timeout de emergencia
+   para que el sistema arranque aunque GitHub falle
 ═══════════════════════════════════════════════ */
 (async function init(){
   const loadEl=document.getElementById('sync-loading');
   loadEl.classList.add('show');
-// TIMEOUT DE EMERGENCIA: si algo falla, ocultar el spinner igual
-const emergencyTimeout = setTimeout(() => {
-  loadEl.classList.remove('show');
-  actualizarUIInspectorActivo();
-  actualizarEstadoBloqueo();
-  if(getInspectorActivo()) {
-    _navegarSeccion('ingreso', document.getElementById('btn-nav-ingreso'));
-  } else {
-    document.getElementById('banner-activar').style.display = 'block';
-    _navegarSeccion('inspectores', document.getElementById('btn-nav-inspectores'));
-  }
-}, 8000); // 8 segundos máximo
-  // 1. Hora
-  document.getElementById('sync-loading-txt').textContent='🕐 Sincronizando hora...';
-  await sincronizarHora();
-  tickReloj();
-  setInterval(tickReloj,1000);
-  setInterval(sincronizarHora,5*60*1000);
 
-  // 2. Bajar datos de GitHub
-  document.getElementById('sync-loading-txt').textContent='☁️ Descargando datos desde GitHub...';
-  document.getElementById('sync-loading-sub').textContent='Esto puede tardar unos segundos...';
-  setSyncBadge('syncing','🔄 Cargando...');
+  // TIMEOUT DE EMERGENCIA: si GitHub no responde en 10s, arranca igual
+  const emergencyTimeout=setTimeout(()=>{
+    loadEl.classList.remove('show');
+    setSyncBadge('error','❌ Sin conexión');
+    verificarContextoYMostrarAviso();
+    actualizarUIInspectorActivo();
+    actualizarEstadoBloqueo();
+    if(getInspectorActivo()){
+      _navegarSeccion('ingreso',document.getElementById('btn-nav-ingreso'));
+    } else {
+      document.getElementById('banner-activar').style.display='block';
+      _navegarSeccion('inspectores',document.getElementById('btn-nav-inspectores'));
+    }
+  },10000);
+
   try{
+    // 1. Hora
+    document.getElementById('sync-loading-txt').textContent='🕐 Sincronizando hora...';
+    await sincronizarHora();
+    tickReloj();
+    setInterval(tickReloj,1000);
+    setInterval(sincronizarHora,5*60*1000);
+
+    // 2. Bajar datos de GitHub
+    document.getElementById('sync-loading-txt').textContent='☁️ Descargando datos desde GitHub...';
+    document.getElementById('sync-loading-sub').textContent='Esto puede tardar unos segundos...';
+    setSyncBadge('syncing','🔄 Cargando...');
+
     const info=await ghGetFile(GH.dataFile);
     if(info.content){
       _shaDataFile=info.sha;
@@ -1533,14 +1539,19 @@ const emergencyTimeout = setTimeout(() => {
       }
       setSyncBadge('ok','✅ Sincronizado');
     } else {
-      document.getElementById('sync-loading-sub').textContent='📤 Subiendo datos iniciales...';
-      await guardarEnGitHub(true);
+      // Token inválido o archivo no existe: trabajar offline
+      setSyncBadge('error','⚠️ Sin sync GitHub');
+      document.getElementById('sync-loading-sub').textContent='⚠️ GitHub no disponible – usando datos locales';
+      await new Promise(r=>setTimeout(r,1500));
     }
   }catch(e){
     setSyncBadge('error','❌ Sin conexión');
     document.getElementById('sync-loading-sub').textContent='⚠️ Sin conexión – usando datos locales';
     await new Promise(r=>setTimeout(r,1500));
   }
+
+  // Cancelar el timeout de emergencia porque llegamos hasta acá normalmente
+  clearTimeout(emergencyTimeout);
 
   // 3. Ocultar pantalla de carga
   loadEl.classList.remove('show');
