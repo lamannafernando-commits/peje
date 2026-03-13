@@ -571,7 +571,7 @@ const GH = {
   repo:     'peje',
   branch:   'main',
   dataFile: 'data/pcq_data.json',
-  token:    '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'
+  token:    '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'
 };
 
 /* ═══════════════════════════════════════════════
@@ -1492,7 +1492,18 @@ function renderEstadisticas(){
 (async function init(){
   const loadEl=document.getElementById('sync-loading');
   loadEl.classList.add('show');
-
+// TIMEOUT DE EMERGENCIA: si algo falla, ocultar el spinner igual
+const emergencyTimeout = setTimeout(() => {
+  loadEl.classList.remove('show');
+  actualizarUIInspectorActivo();
+  actualizarEstadoBloqueo();
+  if(getInspectorActivo()) {
+    _navegarSeccion('ingreso', document.getElementById('btn-nav-ingreso'));
+  } else {
+    document.getElementById('banner-activar').style.display = 'block';
+    _navegarSeccion('inspectores', document.getElementById('btn-nav-inspectores'));
+  }
+}, 8000); // 8 segundos máximo
   // 1. Hora
   document.getElementById('sync-loading-txt').textContent='🕐 Sincronizando hora...';
   await sincronizarHora();
