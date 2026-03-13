@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,14 +6,7 @@
   <title>Pejerrey Club Quilmes – Gestión de Ingreso</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap');
-    :root {
-      --verde-oscuro:#1a3a1a; --verde-medio:#1e5c1e; --verde-logo:#2d6e2d;
-      --verde-claro:#3a8a3a; --dorado:#c8a84b; --dorado-claro:#e8c86a;
-      --blanco:#ffffff; --crema:#f5f0e8; --gris-claro:#e8ede8;
-      --texto-oscuro:#1a1a1a; --texto-medio:#3a3a3a;
-      --rojo:#cc2222; --rojo-claro:#ff4444; --naranja:#d4841a;
-      --sombra:0 6px 24px rgba(0,0,0,.35); --sombra-card:0 4px 16px rgba(0,0,0,.20);
-    }
+    :root{--verde-oscuro:#1a3a1a;--verde-medio:#1e5c1e;--verde-logo:#2d6e2d;--verde-claro:#3a8a3a;--dorado:#c8a84b;--dorado-claro:#e8c86a;--blanco:#ffffff;--crema:#f5f0e8;--gris-claro:#e8ede8;--texto-oscuro:#1a1a1a;--texto-medio:#3a3a3a;--rojo:#cc2222;--rojo-claro:#ff4444;--naranja:#d4841a;--sombra:0 6px 24px rgba(0,0,0,.35);--sombra-card:0 4px 16px rgba(0,0,0,.20);}
     *{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'Open Sans','Segoe UI',sans-serif;background:linear-gradient(160deg,#0d1f0d 0%,#1a3a1a 40%,#0d2a1a 100%);background-attachment:fixed;color:var(--blanco);min-height:100vh;}
     header{background:linear-gradient(180deg,#0a1a0a 0%,#1a3a1a 100%);border-bottom:3px solid var(--dorado);text-align:center;padding:16px 12px 12px;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.5);}
@@ -29,7 +21,6 @@
     #reloj-header{font-family:'Oswald',sans-serif;font-size:.95rem;color:var(--dorado);background:rgba(0,0,0,.35);border:1px solid var(--dorado);display:inline-block;padding:4px 16px;border-radius:20px;letter-spacing:1px;}
     #header-inspector{font-size:.82rem;color:var(--blanco);background:rgba(45,110,45,.5);border:1px solid var(--verde-claro);display:inline-block;padding:4px 16px;border-radius:20px;}
     #header-inspector.sin-inspector{background:rgba(180,30,30,.35);border-color:var(--rojo-claro);color:#ffaaaa;}
-    /* SYNC BADGE */
     #sync-badge{font-size:.78rem;color:var(--blanco);background:rgba(0,0,0,.4);border:1px solid #555;display:inline-flex;align-items:center;gap:5px;padding:4px 14px;border-radius:20px;font-family:'Oswald',sans-serif;letter-spacing:.5px;transition:background .3s,border-color .3s;}
     #sync-badge.sync-ok{background:rgba(26,107,26,.6);border-color:#2a8a2a;}
     #sync-badge.sync-error{background:rgba(180,30,30,.5);border-color:var(--rojo-claro);}
@@ -48,7 +39,7 @@
     nav button.nav-bloqueado{opacity:.35;cursor:not-allowed;}
     nav button.nav-bloqueado:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12);color:#cce8cc;}
     main{max-width:980px;margin:24px auto;padding:0 14px 40px;}
-    .seccion{display:none;} .seccion.activa{display:block;}
+    .seccion{display:none;}.seccion.activa{display:block;}
     .card{background:linear-gradient(160deg,#f5f0e8 0%,#eae6dc 100%);color:var(--texto-oscuro);border-radius:12px;border:2px solid var(--dorado);box-shadow:var(--sombra-card);padding:22px 24px;margin-bottom:20px;}
     .card h2{font-family:'Oswald',sans-serif;font-size:1.15rem;color:var(--verde-oscuro);border-bottom:2px solid var(--dorado);padding-bottom:8px;margin-bottom:16px;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:1px;}
     .form-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:12px;}
@@ -57,20 +48,13 @@
     .form-row input:focus,.form-row textarea:focus{outline:none;border-color:var(--verde-logo);box-shadow:0 0 0 3px rgba(45,110,45,.15);}
     textarea{resize:vertical;min-height:70px;}
     .btn{padding:9px 22px;border:none;border-radius:6px;cursor:pointer;font-size:.88rem;font-weight:700;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px;transition:.2s;display:inline-flex;align-items:center;gap:6px;}
-    .btn-primary{background:var(--verde-logo);color:#fff;border:2px solid var(--verde-claro);}
-    .btn-primary:hover{background:var(--verde-oscuro);border-color:var(--dorado);}
-    .btn-success{background:#1a6b1a;color:#fff;border:2px solid #2a8a2a;}
-    .btn-success:hover{background:#0f4a0f;}
-    .btn-danger{background:var(--rojo);color:#fff;border:2px solid #aa1111;}
-    .btn-danger:hover{background:#991111;}
-    .btn-warning{background:var(--naranja);color:#fff;border:2px solid #b06010;}
-    .btn-warning:hover{background:#a06010;}
-    .btn-secondary{background:#4a5a4a;color:#fff;border:2px solid #5a6a5a;}
-    .btn-secondary:hover{background:#3a4a3a;}
-    .btn-gold{background:var(--dorado);color:var(--verde-oscuro);border:2px solid var(--dorado-claro);}
-    .btn-gold:hover{background:var(--dorado-claro);}
-    .btn-info{background:#1a5a8a;color:#fff;border:2px solid #2a7aaa;}
-    .btn-info:hover{background:#0f4a7a;}
+    .btn-primary{background:var(--verde-logo);color:#fff;border:2px solid var(--verde-claro);}.btn-primary:hover{background:var(--verde-oscuro);border-color:var(--dorado);}
+    .btn-success{background:#1a6b1a;color:#fff;border:2px solid #2a8a2a;}.btn-success:hover{background:#0f4a0f;}
+    .btn-danger{background:var(--rojo);color:#fff;border:2px solid #aa1111;}.btn-danger:hover{background:#991111;}
+    .btn-warning{background:var(--naranja);color:#fff;border:2px solid #b06010;}.btn-warning:hover{background:#a06010;}
+    .btn-secondary{background:#4a5a4a;color:#fff;border:2px solid #5a6a5a;}.btn-secondary:hover{background:#3a4a3a;}
+    .btn-gold{background:var(--dorado);color:var(--verde-oscuro);border:2px solid var(--dorado-claro);}.btn-gold:hover{background:var(--dorado-claro);}
+    .btn-info{background:#1a5a8a;color:#fff;border:2px solid #2a7aaa;}.btn-info:hover{background:#0f4a7a;}
     .btn-sm{padding:4px 12px;font-size:.75rem;}
     .alerta{padding:10px 16px;border-radius:6px;margin:10px 0;font-size:.88rem;font-weight:600;display:none;}
     .alerta.show{display:block;}
@@ -79,22 +63,16 @@
     .alerta-warn{background:#fff3cd;color:#92400e;border-left:4px solid var(--naranja);}
     .alerta-info{background:#dbeafe;color:#1e3a8a;border-left:4px solid #3a6aaa;}
     .badge{display:inline-block;padding:2px 10px;border-radius:4px;font-size:.75rem;font-weight:700;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px;}
-    .badge-rojo{background:#fee2e2;color:var(--rojo);}
-    .badge-naranja{background:#fff3cd;color:#b45309;}
-    .badge-verde{background:#d1fae5;color:#065f46;}
-    .badge-azul{background:#dbeafe;color:#1e3a8a;}
-    .badge-gris{background:#f1f5f9;color:#475569;}
-    .badge-dorado{background:#fef3c7;color:#92400e;}
+    .badge-rojo{background:#fee2e2;color:var(--rojo);}.badge-naranja{background:#fff3cd;color:#b45309;}
+    .badge-verde{background:#d1fae5;color:#065f46;}.badge-azul{background:#dbeafe;color:#1e3a8a;}
+    .badge-gris{background:#f1f5f9;color:#475569;}.badge-dorado{background:#fef3c7;color:#92400e;}
     .tabla-wrap{overflow-x:auto;}
     table{width:100%;border-collapse:collapse;font-size:.85rem;}
     th{background:var(--verde-oscuro);color:var(--dorado);padding:9px 12px;text-align:left;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px;}
     td{padding:8px 12px;border-bottom:1px solid #ddd;color:var(--texto-oscuro);background:#fff;}
-    tr:hover td{background:#f0f5f0;}
-    tr:last-child td{border-bottom:none;}
-    tr.vencido td{background:#fff5f5;color:#991b1b;}
-    tr.vencido:hover td{background:#fee2e2;}
-    tr.por-vencer td{background:#fffbeb;color:#92400e;}
-    tr.por-vencer:hover td{background:#fef3c7;}
+    tr:hover td{background:#f0f5f0;}tr:last-child td{border-bottom:none;}
+    tr.vencido td{background:#fff5f5;color:#991b1b;}tr.vencido:hover td{background:#fee2e2;}
+    tr.por-vencer td{background:#fffbeb;color:#92400e;}tr.por-vencer:hover td{background:#fef3c7;}
     #panel-estado{display:none;border:2px solid var(--dorado);border-radius:8px;padding:16px 20px;margin:14px 0;background:#fff;color:var(--texto-oscuro);}
     #panel-estado.show{display:block;}
     #panel-estado h3{font-size:1rem;margin-bottom:8px;color:var(--verde-oscuro);font-family:'Oswald',sans-serif;}
@@ -170,13 +148,27 @@
     .foto-thumb-placeholder{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:5px;background:#e8ede8;border:2px dashed #aaaaaa;color:#aaaaaa;font-size:1.2rem;vertical-align:middle;}
     .aviso-https{background:#fff3cd;border:2px solid var(--naranja);border-radius:8px;padding:10px 14px;margin-bottom:10px;font-size:.82rem;color:#92400e;font-weight:600;display:none;}
     .aviso-https.show{display:block;}
-    /* SYNC OVERLAY */
     #sync-loading{display:none;position:fixed;inset:0;z-index:999;background:rgba(10,25,10,.95);align-items:center;justify-content:center;flex-direction:column;gap:16px;}
     #sync-loading.show{display:flex;}
     .sync-spinner{width:48px;height:48px;border:5px solid rgba(200,168,75,.3);border-top-color:var(--dorado);border-radius:50%;animation:spin 1s linear infinite;}
     @keyframes spin{to{transform:rotate(360deg)}}
     .sync-loading-txt{font-family:'Oswald',sans-serif;font-size:1.1rem;color:var(--dorado);letter-spacing:2px;text-align:center;}
     .sync-loading-sub{font-size:.8rem;color:#88aa88;letter-spacing:1px;}
+    #token-modal{display:none;position:fixed;inset:0;z-index:998;background:rgba(0,0,0,.85);align-items:center;justify-content:center;}
+    #token-modal.show{display:flex;}
+    .token-box{background:linear-gradient(160deg,#0d1f0d,#1a3a1a);border:2px solid var(--dorado);border-radius:16px;padding:32px 28px;max-width:480px;width:94%;text-align:center;}
+    .token-box h2{font-family:'Oswald',sans-serif;color:var(--dorado);font-size:1.4rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;}
+    .token-box p{font-size:.85rem;color:#aacfaa;margin-bottom:20px;line-height:1.7;}
+    .token-box input{width:100%;padding:11px 14px;border:2px solid var(--dorado);border-radius:8px;background:#0d1f0d;color:var(--dorado);font-family:monospace;font-size:.95rem;letter-spacing:1px;margin-bottom:14px;}
+    .token-box input:focus{outline:none;box-shadow:0 0 0 3px rgba(200,168,75,.3);}
+    .token-box .token-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+    .token-box .pasos{background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.3);border-radius:8px;padding:12px 16px;margin-bottom:18px;text-align:left;font-size:.82rem;color:#cce8cc;line-height:1.8;}
+    .token-box .pasos strong{color:var(--dorado);}
+    .token-card{background:linear-gradient(135deg,#0d1f2a,#1a3a4a);border:2px solid var(--dorado);border-radius:10px;padding:16px 20px;margin-bottom:16px;}
+    .token-card h3{font-family:'Oswald',sans-serif;color:var(--dorado);font-size:1rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+    .token-status{font-size:.85rem;margin-bottom:10px;}
+    .token-status.ok{color:#4aff4a;}
+    .token-status.error{color:var(--rojo-claro);}
     @media(max-width:600px){
       header h1{font-size:1.15rem;}
       .form-row{flex-direction:column;}
@@ -189,7 +181,7 @@
 </head>
 <body>
 
-<!-- SYNC LOADING OVERLAY -->
+<!-- SYNC LOADING -->
 <div id="sync-loading">
   <div class="bloqueo-logo">
     <svg class="logo-fish" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
@@ -201,11 +193,34 @@
     <div class="logo-club-text">PEJERREY CLUB</div>
   </div>
   <div class="sync-spinner"></div>
-  <div class="sync-loading-txt" id="sync-loading-txt">Conectando con GitHub...</div>
+  <div class="sync-loading-txt" id="sync-loading-txt">Conectando...</div>
   <div class="sync-loading-sub" id="sync-loading-sub">Sincronizando datos entre dispositivos</div>
 </div>
 
-<!-- PANTALLA DE BLOQUEO -->
+<!-- TOKEN MODAL -->
+<div id="token-modal">
+  <div class="token-box">
+    <h2>🔑 Token de GitHub requerido</h2>
+    <p>Para sincronizar datos entre dispositivos necesitás un <strong style="color:var(--dorado)">Personal Access Token</strong> de GitHub.</p>
+    <div class="pasos">
+      <strong>Cómo obtenerlo:</strong><br/>
+      1. Entrá a <strong>github.com</strong> → tu perfil<br/>
+      2. <strong>Settings → Developer settings</strong><br/>
+      3. <strong>Personal access tokens → Tokens (classic)</strong><br/>
+      4. <strong>Generate new token (classic)</strong><br/>
+      5. Permiso: ✅ <strong>repo</strong> | Expiración: <strong>No expiration</strong><br/>
+      6. Copiá el token (empieza con <strong>ghp_</strong>)
+    </div>
+    <input type="password" id="token-input-modal" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off"/>
+    <div class="token-btns">
+      <button class="btn btn-gold" onclick="guardarTokenModal()">💾 Guardar y continuar</button>
+      <button class="btn btn-secondary" onclick="continuarSinToken()">▶ Continuar sin token (solo local)</button>
+    </div>
+    <div id="alerta-token-modal" class="alerta" style="margin-top:12px;"></div>
+  </div>
+</div>
+
+<!-- BLOQUEO -->
 <div id="bloqueo-overlay">
   <div class="bloqueo-logo">
     <svg class="logo-fish" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
@@ -224,7 +239,7 @@
   <div class="bloqueo-mensaje">
     <h2>⚠️ Sin Inspector Activo</h2>
     <p>Para acceder al sistema es necesario tener un <strong style="color:var(--dorado)">inspector de turno activo</strong>.<br/><br/>
-    Hacé clic en <strong style="color:var(--dorado)">👮 Inspectores</strong> en el menú de arriba, o usá el botón de abajo, y presioná <strong style="color:var(--dorado)">⚡ Activar</strong> en el inspector deseado.</p>
+    Hacé clic en <strong style="color:var(--dorado)">👮 Inspectores</strong> en el menú de arriba y presioná <strong style="color:var(--dorado)">⚡ Activar</strong>.</p>
   </div>
   <button class="bloqueo-btn" onclick="irAInspectores()">👮 Ir a Inspectores</button>
 </div>
@@ -249,10 +264,7 @@
   <div class="header-info-row">
     <div id="reloj-header">Cargando hora...</div>
     <div id="header-inspector" class="sin-inspector">🔒 Sin inspector activo</div>
-    <div id="sync-badge">
-      <span id="sync-dot"></span>
-      <span id="sync-txt">Conectando...</span>
-    </div>
+    <div id="sync-badge"><span id="sync-dot"></span><span id="sync-txt">Conectando...</span></div>
   </div>
 </header>
 
@@ -268,7 +280,6 @@
 </nav>
 
 <main>
-
   <!-- INGRESO -->
   <section id="sec-ingreso" class="seccion">
     <div class="card">
@@ -350,11 +361,11 @@
         </div>
       </div>
       <div class="form-row">
-        <label>Nº Documento (DNI) <input type="text" id="dni-aperc" placeholder="Ej: 30123456" maxlength="12" oninput="this.value=this.value.replace(/\D/g,'')"/></label>
-        <label>Nombre del Invitado (opcional) <input type="text" id="nombre-aperc" placeholder="Apellido, Nombre"/></label>
+        <label>Nº Documento (DNI)<input type="text" id="dni-aperc" placeholder="Ej: 30123456" maxlength="12" oninput="this.value=this.value.replace(/\D/g,'')"/></label>
+        <label>Nombre del Invitado (opcional)<input type="text" id="nombre-aperc" placeholder="Apellido, Nombre"/></label>
       </div>
       <div class="form-row">
-        <label style="flex:2">Motivo del Apercibamiento <textarea id="motivo-aperc" placeholder="Describa el motivo..."></textarea></label>
+        <label style="flex:2">Motivo del Apercibamiento<textarea id="motivo-aperc" placeholder="Describa el motivo..."></textarea></label>
       </div>
       <button class="btn btn-warning" onclick="registrarApercibamiento()">⚠️ Registrar Apercibamiento</button>
       <div id="alerta-aperc" class="alerta"></div>
@@ -375,15 +386,15 @@
     <div class="card">
       <h2>🚫 Registrar Suspensión</h2>
       <div class="form-row">
-        <label>Nº Documento (DNI) <input type="text" id="dni-susp" placeholder="Ej: 30123456" maxlength="12" oninput="this.value=this.value.replace(/\D/g,'')"/></label>
-        <label>Nombre del Invitado (opcional) <input type="text" id="nombre-susp" placeholder="Apellido, Nombre"/></label>
+        <label>Nº Documento (DNI)<input type="text" id="dni-susp" placeholder="Ej: 30123456" maxlength="12" oninput="this.value=this.value.replace(/\D/g,'')"/></label>
+        <label>Nombre del Invitado (opcional)<input type="text" id="nombre-susp" placeholder="Apellido, Nombre"/></label>
       </div>
       <div class="form-row">
-        <label>Suspendido desde <input type="date" id="susp-desde"/></label>
-        <label>Suspendido hasta <input type="date" id="susp-hasta"/></label>
+        <label>Suspendido desde<input type="date" id="susp-desde"/></label>
+        <label>Suspendido hasta<input type="date" id="susp-hasta"/></label>
       </div>
       <div class="form-row">
-        <label style="flex:2">Motivo de la Suspensión <textarea id="motivo-susp" placeholder="Describa el motivo..."></textarea></label>
+        <label style="flex:2">Motivo de la Suspensión<textarea id="motivo-susp" placeholder="Describa el motivo..."></textarea></label>
       </div>
       <button class="btn btn-danger" onclick="registrarSuspension()">🚫 Registrar Suspensión</button>
       <div id="alerta-susp" class="alerta"></div>
@@ -404,9 +415,9 @@
     <div class="card">
       <h2>📋 Consulta de Ingresos por Rango de Fechas</h2>
       <div class="form-row">
-        <label>Fecha Desde <input type="date" id="consulta-desde"/></label>
-        <label>Fecha Hasta <input type="date" id="consulta-hasta"/></label>
-        <label>DNI (opcional) <input type="text" id="consulta-dni" placeholder="Filtrar por DNI" oninput="this.value=this.value.replace(/\D/g,'')"/></label>
+        <label>Fecha Desde<input type="date" id="consulta-desde"/></label>
+        <label>Fecha Hasta<input type="date" id="consulta-hasta"/></label>
+        <label>DNI (opcional)<input type="text" id="consulta-dni" placeholder="Filtrar por DNI" oninput="this.value=this.value.replace(/\D/g,'')"/></label>
       </div>
       <button class="btn btn-primary" onclick="consultarIngresos()">🔍 Consultar</button>
       <div id="alerta-consulta" class="alerta"></div>
@@ -426,7 +437,7 @@
       <h2>⏰ Ingresos Vencidos / Por Vencer</h2>
       <div id="contador-por-vencer" class="contador-por-vencer" style="display:none;">
         <div class="cpv-num" id="cpv-num">0</div>
-        <div><div class="cpv-txt">⏳ Por vencer (menos de 1 hora)</div><div class="cpv-sub">Ingresaron hace más de 23 horas — vencen pronto</div></div>
+        <div><div class="cpv-txt">⏳ Por vencer (menos de 1 hora)</div><div class="cpv-sub">Ingresaron hace más de 23 horas</div></div>
       </div>
       <div id="contador-vencidos" class="contador-vencidos" style="display:none;">
         <div class="cv-num" id="cv-num">0</div>
@@ -465,11 +476,11 @@
     <div class="card">
       <h2>➕ Agregar Inspector</h2>
       <div class="form-row">
-        <label>Nombre completo <input type="text" id="insp-nombre" placeholder="Apellido, Nombre"/></label>
-        <label>Teléfono (opcional) <input type="text" id="insp-tel" placeholder="Ej: 11-1234-5678" maxlength="30"/></label>
+        <label>Nombre completo<input type="text" id="insp-nombre" placeholder="Apellido, Nombre"/></label>
+        <label>Teléfono (opcional)<input type="text" id="insp-tel" placeholder="Ej: 11-1234-5678" maxlength="30"/></label>
       </div>
       <div class="form-row">
-        <label>Observaciones (opcional) <input type="text" id="insp-obs" placeholder="Turno, área, etc." maxlength="80"/></label>
+        <label>Observaciones (opcional)<input type="text" id="insp-obs" placeholder="Turno, área, etc." maxlength="80"/></label>
       </div>
       <button class="btn btn-success" onclick="guardarInspector()">💾 Guardar Inspector</button>
       <div id="alerta-insp" class="alerta"></div>
@@ -483,12 +494,24 @@
 
   <!-- BACKUP -->
   <section id="sec-backup" class="seccion">
+    <!-- TOKEN CARD -->
     <div class="card">
-      <h2>☁️ Sincronización con GitHub</h2>
-      <p style="font-size:.9rem;color:#4a6a4a;margin-bottom:14px;">
-        Todos los datos se sincronizan automáticamente en tiempo real.<br/>
-        📁 Repositorio: <strong style="color:var(--verde-oscuro)">lamannafernando-commits/peje → data/pcq_data.json</strong>
+      <h2>🔑 Token de Sincronización</h2>
+      <div id="token-status-card" class="token-status error">❌ No hay token configurado</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0;">
+        <input type="password" id="token-campo-backup" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+               style="flex:1;min-width:200px;padding:9px 12px;border:2px solid var(--dorado);border-radius:6px;background:#fff;color:#333;font-family:monospace;font-size:.9rem;"/>
+        <button class="btn btn-gold btn-sm" onclick="guardarTokenBackup()">💾 Guardar</button>
+        <button class="btn btn-secondary btn-sm" onclick="toggleVerTokenBackup()">👁️</button>
+        <button class="btn btn-danger btn-sm" onclick="borrarTokenBackup()">🗑️ Borrar</button>
+      </div>
+      <div id="alerta-token-backup" class="alerta"></div>
+      <p style="font-size:.78rem;color:#4a6a4a;margin-top:6px;">
+        El token se guarda solo en este dispositivo (localStorage). Generalo en tu cuenta de GitHub con permiso <strong>repo</strong>.
       </p>
+    </div>
+    <div class="card">
+      <h2>☁️ Sincronización en la Nube</h2>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
         <button class="btn btn-primary" onclick="sincronizarDesdeGitHub(true)">🔄 Sincronizar ahora</button>
         <button class="btn btn-info" onclick="verificarConexionGitHub()">🔍 Verificar conexión</button>
@@ -507,8 +530,7 @@
     <div class="card">
       <h2>♻️ Restaurar Backup XML</h2>
       <p style="font-size:.9rem;color:#4a6a4a;margin-bottom:14px;">
-        Seleccioná un archivo <strong>.xml</strong> generado previamente.<br/>
-        <strong style="color:var(--rojo);">⚠️ Atención: esto reemplazará todos los datos actuales.</strong>
+        <strong style="color:var(--rojo);">⚠️ Esto reemplazará TODOS los datos actuales.</strong>
       </p>
       <div class="backup-row">
         <input type="file" id="archivo-bak" accept=".xml" style="padding:6px;border:1.5px solid #8aaa8a;border-radius:6px;background:#fff;color:var(--texto-oscuro)"/>
@@ -521,16 +543,15 @@
       <div id="estadisticas" style="display:flex;gap:16px;flex-wrap:wrap;margin-top:4px;"></div>
     </div>
   </section>
-
 </main>
 
-<!-- MODAL INSPECTOR -->
+<!-- MODALES -->
 <div class="modal-overlay" id="modal-insp">
   <div class="modal-box">
     <h3>✏️ Editando Inspector</h3>
-    <div class="form-row"><label>Nombre completo <input type="text" id="m-insp-nombre" placeholder="Apellido, Nombre"/></label></div>
-    <div class="form-row"><label>Teléfono (opcional) <input type="text" id="m-insp-tel" placeholder="Ej: 11-1234-5678" maxlength="30"/></label></div>
-    <div class="form-row"><label>Observaciones (opcional) <input type="text" id="m-insp-obs" placeholder="Turno, área, etc." maxlength="80"/></label></div>
+    <div class="form-row"><label>Nombre completo<input type="text" id="m-insp-nombre"/></label></div>
+    <div class="form-row"><label>Teléfono (opcional)<input type="text" id="m-insp-tel" maxlength="30"/></label></div>
+    <div class="form-row"><label>Observaciones (opcional)<input type="text" id="m-insp-obs" maxlength="80"/></label></div>
     <div id="alerta-modal-insp" class="alerta"></div>
     <div class="modal-acciones">
       <button class="btn btn-secondary" onclick="cerrarModalInspector()">✖ Cancelar</button>
@@ -539,7 +560,6 @@
   </div>
 </div>
 
-<!-- MODAL CIERRE TURNO -->
 <div class="modal-overlay" id="modal-cierre">
   <div class="modal-box" style="max-width:500px;">
     <h3>📋 Resumen de Turno – <span id="mc-inspector-nombre"></span></h3>
@@ -553,7 +573,6 @@
   </div>
 </div>
 
-<!-- MODAL FOTO GRANDE -->
 <div class="modal-overlay" id="modal-foto" onclick="cerrarModalFoto()">
   <div style="max-width:420px;width:94%;text-align:center;" onclick="event.stopPropagation()">
     <img id="modal-foto-img" src="" alt="Foto invitado" style="width:100%;border-radius:12px;border:3px solid var(--dorado);box-shadow:0 8px 40px rgba(0,0,0,.6);"/>
@@ -563,48 +582,89 @@
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════
-   CONFIGURACIÓN GITHUB
-   data/pcq_data.json = base de datos compartida
-═══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   GITHUB CONFIG
+══════════════════════════════════════════ */
 const GH = {
-  owner:    'lamannafernando-commits',
-  repo:     'peje',
-  branch:   'main',
-  dataFile: 'data/pcq_data.json',
-  token:    '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'
+  owner:'lamannafernando-commits', repo:'peje',
+  branch:'main', dataFile:'data/pcq_data.json',
+  get token(){ return localStorage.getItem('pcq_gh_token')||''; }
 };
 
-/* ═══════════════════════════════════════════════
-   CONSTANTES
-═══════════════════════════════════════════════ */
-const KEYS = {
+/* ══════════════════════════════════════════
+   KEYS & CONSTANTES
+══════════════════════════════════════════ */
+const KEYS={
   ingresos:'pcq_ingresos', apercibimientos:'pcq_apercibimientos',
   suspensiones:'pcq_suspensiones', inspectores:'pcq_inspectores',
   fotos:'pcq_fotos', inspActivo:'pcq_inspector_activo',
-  turnoInicio:'pcq_turno_inicio', lastSync:'pcq_last_sync'
+  turnoInicio:'pcq_turno_inicio', lastSync:'pcq_last_sync',
+  lastRemoteTs:'pcq_last_remote_ts'
 };
-const HS_VIGENCIA    = 24;
-const MIN_POR_VENCER = 60;
-const WA_NUMERO      = '541162544509';
-const FOTO_MAX_W     = 320;
-const FOTO_QUALITY   = 0.72;
-const SYNC_INTERVAL  = 30000;
+const HS_VIGENCIA=24, MIN_POR_VENCER=60, WA_NUMERO='541162544509';
+const FOTO_MAX_W=320, FOTO_QUALITY=0.72, SYNC_INTERVAL=20000;
+let offsetMs=0, _editInspId=null, _inspDesact=null;
+let _streamCamara=null, _syncEnCurso=false, _ultimoSyncTs=null;
 
-let offsetMs        = 0;
-let _editInspId     = null;
-let _inspDesact     = null;
-let _streamCamara   = null;
-let _syncEnCurso    = false;
-let _shaDataFile    = null;
-let _ultimoSyncTs   = null;
+/* ══════════════════════════════════════════
+   TOKEN
+══════════════════════════════════════════ */
+function getToken(){ return localStorage.getItem('pcq_gh_token')||''; }
+function setToken(t){ localStorage.setItem('pcq_gh_token',t); }
+function clearToken(){ localStorage.removeItem('pcq_gh_token'); }
 
-/* ═══════════════════════════════════════════════
-   UTILIDADES BASE64
-═══════════════════════════════════════════════ */
-function utf8ToBase64(str){
-  const b=new TextEncoder().encode(str);
-  let s=''; b.forEach(x=>{s+=String.fromCharCode(x);}); return btoa(s);
+function guardarTokenModal(){
+  const v=document.getElementById('token-input-modal').value.trim();
+  if(!v){mostrarAlertaEl('alerta-token-modal','error','Ingresá el token.');return;}
+  setToken(v);
+  document.getElementById('token-modal').classList.remove('show');
+  document.getElementById('token-input-modal').value='';
+  actualizarTokenStatusCard();
+  iniciarSyncConGitHub();
+}
+function continuarSinToken(){
+  document.getElementById('token-modal').classList.remove('show');
+  setSyncBadge('error','❌ Sin token');
+  finalizarInit();
+}
+function guardarTokenBackup(){
+  const v=document.getElementById('token-campo-backup').value.trim();
+  if(!v){mostrarAlerta('alerta-token-backup','error','Ingresá el token.');return;}
+  setToken(v);
+  document.getElementById('token-campo-backup').value='';
+  actualizarTokenStatusCard();
+  mostrarAlerta('alerta-token-backup','ok','✅ Token guardado. Sincronizando...');
+  sincronizarDesdeGitHub(false);
+}
+function borrarTokenBackup(){
+  if(!confirm('¿Eliminar el token?'))return;
+  clearToken(); actualizarTokenStatusCard();
+  mostrarAlerta('alerta-token-backup','warn','⚠️ Token eliminado.');
+  setSyncBadge('error','❌ Sin token');
+}
+function toggleVerTokenBackup(){
+  const i=document.getElementById('token-campo-backup');
+  i.type=i.type==='password'?'text':'password';
+}
+function actualizarTokenStatusCard(){
+  const el=document.getElementById('token-status-card'); if(!el)return;
+  const t=getToken();
+  if(t){
+    const prev=t.substring(0,8)+'••••'+t.slice(-4);
+    el.className='token-status ok';
+    el.textContent='✅ Token configurado: '+prev;
+  } else {
+    el.className='token-status error';
+    el.textContent='❌ No hay token configurado — la sincronización no funcionará';
+  }
+}
+
+/* ══════════════════════════════════════════
+   BASE64
+══════════════════════════════════════════ */
+function utf8ToBase64(s){
+  const b=new TextEncoder().encode(s); let r='';
+  b.forEach(x=>{r+=String.fromCharCode(x);}); return btoa(r);
 }
 function base64ToUtf8(b64){
   const bin=atob(b64); const b=new Uint8Array(bin.length);
@@ -612,52 +672,77 @@ function base64ToUtf8(b64){
   return new TextDecoder().decode(b);
 }
 
-/* ═══════════════════════════════════════════════
-   SYNC BADGE UI
-═══════════════════════════════════════════════ */
-function setSyncBadge(estado,texto){
-  const badge=document.getElementById('sync-badge');
-  const txt=document.getElementById('sync-txt');
-  badge.className='sync-'+estado;
-  txt.textContent=texto;
+/* ══════════════════════════════════════════
+   SYNC BADGE
+══════════════════════════════════════════ */
+function setSyncBadge(e,t){
+  document.getElementById('sync-badge').className='sync-'+e;
+  document.getElementById('sync-txt').textContent=t;
 }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════
    GITHUB API
-═══════════════════════════════════════════════ */
+══════════════════════════════════════════ */
+function fetchConTimeout(url,opts,ms=10000){
+  const ctrl=new AbortController();
+  const timer=setTimeout(()=>ctrl.abort(),ms);
+  return fetch(url,{...opts,signal:ctrl.signal}).finally(()=>clearTimeout(timer));
+}
+
 async function ghGetFile(path){
+  if(!getToken()) return {sha:null,content:null,error:'sin-token'};
   try{
-    const r=await fetch(
+    const r=await fetchConTimeout(
       `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${path}?ref=${GH.branch}&t=${Date.now()}`,
-      {headers:{'Authorization':`Bearer ${GH.token}`,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}}
+      {cache:'no-store',headers:{
+        'Authorization':`Bearer ${getToken()}`,
+        'Accept':'application/vnd.github+json',
+        'X-GitHub-Api-Version':'2022-11-28'
+      }}
     );
     if(r.status===404) return {sha:null,content:null};
-    if(!r.ok) return {sha:null,content:null};
+    if(r.status===401||r.status===403) return {sha:null,content:null,error:'token-invalido'};
+    if(!r.ok) return {sha:null,content:null,error:`HTTP ${r.status}`};
     const d=await r.json();
     return {sha:d.sha||null,content:d.content||null};
-  }catch(e){return {sha:null,content:null};}
+  }catch(e){
+    if(e.name==='AbortError') return {sha:null,content:null,error:'timeout'};
+    return {sha:null,content:null,error:e.message};
+  }
 }
 
 async function ghPutFile(path,contenido,mensaje,sha){
+  if(!getToken()) return {ok:false,error:'sin-token'};
   const body={message:mensaje,content:utf8ToBase64(contenido),branch:GH.branch};
   if(sha) body.sha=sha;
   try{
-    const r=await fetch(
+    const r=await fetchConTimeout(
       `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${path}`,
-      {method:'PUT',headers:{'Authorization':`Bearer ${GH.token}`,'Accept':'application/vnd.github+json','Content-Type':'application/json','X-GitHub-Api-Version':'2022-11-28'},body:JSON.stringify(body)}
+      {method:'PUT',headers:{
+        'Authorization':`Bearer ${getToken()}`,
+        'Accept':'application/vnd.github+json',
+        'Content-Type':'application/json',
+        'X-GitHub-Api-Version':'2022-11-28'
+      },body:JSON.stringify(body)}
     );
     const d=await r.json();
-    if(r.ok) return {ok:true,sha:d.content?.sha||null,error:null};
-    return {ok:false,sha:null,error:d.message||`HTTP ${r.status}`};
-  }catch(e){return {ok:false,sha:null,error:e.message};}
+    if(r.ok) return {ok:true,sha:d.content?.sha||null};
+    if(r.status===401||r.status===403) return {ok:false,error:'token-invalido'};
+    if(r.status===409||r.status===422) return {ok:false,error:'sha-conflict'};
+    return {ok:false,error:`${r.status}: ${d.message||'Error'}`};
+  }catch(e){
+    if(e.name==='AbortError') return {ok:false,error:'timeout'};
+    return {ok:false,error:e.message};
+  }
 }
 
-/* ═══════════════════════════════════════════════
-   CONSTRUIR / APLICAR DATOS
-═══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   DATOS
+══════════════════════════════════════════ */
 function construirDatos(){
   return {
-    version:2, updatedAt:ahoraReal().toISOString(),
+    version:2,
+    updatedAt:ahoraReal().toISOString(),
     ingresos:cargarDatos(KEYS.ingresos),
     apercibimientos:cargarDatos(KEYS.apercibimientos),
     suspensiones:cargarDatos(KEYS.suspensiones),
@@ -669,10 +754,10 @@ function construirDatos(){
 }
 function aplicarDatos(d){
   if(!d||typeof d!=='object') return false;
-  guardarDatos(KEYS.ingresos,        d.ingresos||[]);
-  guardarDatos(KEYS.apercibimientos, d.apercibimientos||[]);
-  guardarDatos(KEYS.suspensiones,    d.suspensiones||[]);
-  guardarDatos(KEYS.inspectores,     d.inspectores||[]);
+  guardarDatos(KEYS.ingresos,       d.ingresos||[]);
+  guardarDatos(KEYS.apercibimientos,d.apercibimientos||[]);
+  guardarDatos(KEYS.suspensiones,   d.suspensiones||[]);
+  guardarDatos(KEYS.inspectores,    d.inspectores||[]);
   guardarFotos(d.fotos||{});
   if(d.inspActivo) guardarItem(KEYS.inspActivo,d.inspActivo);
   else localStorage.removeItem(KEYS.inspActivo);
@@ -681,89 +766,155 @@ function aplicarDatos(d){
   return true;
 }
 
-/* ═══════════════════════════════════════════════
-   GUARDAR EN GITHUB (push)
-═══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   GUARDAR EN GITHUB — siempre busca SHA fresco,
+   reintenta hasta 3 veces ante conflicto
+══════════════════════════════════════════ */
 async function guardarEnGitHub(silencioso=false){
-  if(_syncEnCurso) return {ok:false};
+  if(!getToken()){setSyncBadge('error','❌ Sin token');return {ok:false,error:'sin-token'};}
+  // Esperar si hay sync en curso (máx 8s)
+  let w=0;
+  while(_syncEnCurso&&w<27){await new Promise(r=>setTimeout(r,300));w++;}
   _syncEnCurso=true;
-  if(!silencioso) setSyncBadge('syncing','⏳ Guardando...');
-  else setSyncBadge('syncing','⏳ Sync...');
+  setSyncBadge('syncing',silencioso?'⏳ Sync...':'⏳ Guardando...');
   try{
-    const datos=construirDatos();
-    const json=JSON.stringify(datos,null,2);
+    const json=JSON.stringify(construirDatos(),null,2);
     const now=ahoraReal();
-    const msg=`PCQ sync ${formatFecha(now)} ${formatHora(now)}`;
-    if(!_shaDataFile){
+    const msg=`PCQ ${formatFecha(now)} ${formatHora(now)}`;
+    // Intentar hasta 3 veces ante conflicto SHA
+    for(let intento=0;intento<3;intento++){
+      // Siempre obtener SHA fresco antes de escribir
       const info=await ghGetFile(GH.dataFile);
-      _shaDataFile=info.sha;
-    }
-    const res=await ghPutFile(GH.dataFile,json,msg,_shaDataFile);
-    if(res.ok){
-      _shaDataFile=res.sha;
-      _ultimoSyncTs=ahoraReal();
-      guardarItem(KEYS.lastSync,_ultimoSyncTs.toISOString());
-      setSyncBadge('ok','✅ '+formatHora(_ultimoSyncTs));
-      _actualizarInfoSync();
-      return {ok:true};
-    } else {
-      if(res.error&&(res.error.includes('sha')||res.error.includes('409'))){
-        _shaDataFile=null; _syncEnCurso=false;
-        return guardarEnGitHub(silencioso);
+      if(info.error==='token-invalido'){
+        setSyncBadge('error','❌ Token inválido');
+        return {ok:false,error:'token-invalido'};
       }
-      setSyncBadge('error','❌ Error al guardar');
+      if(info.error==='timeout'||info.error==='sin-token'){
+        setSyncBadge('error','❌ '+info.error);
+        return {ok:false,error:info.error};
+      }
+      const sha=info.sha||null;
+      const res=await ghPutFile(GH.dataFile,json,msg,sha);
+      if(res.ok){
+        _ultimoSyncTs=ahoraReal();
+        guardarItem(KEYS.lastSync,_ultimoSyncTs.toISOString());
+        // Guardar el timestamp remoto para comparar en el próximo pull
+        guardarItem(KEYS.lastRemoteTs,now.toISOString());
+        setSyncBadge('ok','✅ '+formatHora(_ultimoSyncTs));
+        _actualizarInfoSync();
+        return {ok:true};
+      }
+      if(res.error==='sha-conflict'){
+        // Esperar un poco y reintentar con SHA nuevo
+        await new Promise(r=>setTimeout(r,500*(intento+1)));
+        continue;
+      }
+      if(res.error==='token-invalido'){
+        setSyncBadge('error','❌ Token inválido');
+        return {ok:false,error:res.error};
+      }
+      setSyncBadge('error','❌ Error');
       return {ok:false,error:res.error};
     }
+    setSyncBadge('error','❌ Conflicto persistente');
+    return {ok:false,error:'sha-conflict-max-retries'};
   }catch(e){
     setSyncBadge('error','❌ Sin conexión');
     return {ok:false,error:e.message};
-  }finally{_syncEnCurso=false;}
+  }finally{
+    _syncEnCurso=false;
+  }
 }
 
-/* ═══════════════════════════════════════════════
-   SINCRONIZAR DESDE GITHUB (pull)
-═══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   SINCRONIZAR DESDE GITHUB
+   — compara updatedAt remoto vs local sin depender
+     de lastSync (que puede diferir entre dispositivos)
+══════════════════════════════════════════ */
 async function sincronizarDesdeGitHub(mostrarUI=false){
-  if(_syncEnCurso) return;
+  if(_syncEnCurso){
+    if(mostrarUI) mostrarAlerta('alerta-github','info','⏳ Sincronización en curso, esperá...');
+    return;
+  }
   _syncEnCurso=true;
   setSyncBadge('syncing','🔄 Sincronizando...');
-  if(mostrarUI) mostrarAlerta('alerta-github','info','⏳ Sincronizando datos desde GitHub...');
+  if(mostrarUI) mostrarAlerta('alerta-github','info','⏳ Sincronizando...');
   try{
-    const info=await ghGetFile(GH.dataFile);
-    if(!info.content){
-      _syncEnCurso=false;
-      await guardarEnGitHub(true);
-      if(mostrarUI) mostrarAlerta('alerta-github','ok','✅ Primer uso: datos locales subidos a GitHub.');
+    if(!getToken()){
+      setSyncBadge('error','❌ Sin token');
+      if(mostrarUI) mostrarAlerta('alerta-github','error','❌ No hay token. Ingresalo en 🔑 Token de Sincronización.');
       return;
     }
-    _shaDataFile=info.sha;
-    const jsonStr=base64ToUtf8(info.content.replace(/\n/g,''));
-    const remoto=JSON.parse(jsonStr);
-    const tsRemoto=remoto.updatedAt?new Date(remoto.updatedAt).getTime():0;
-    const tsLocal=cargarItem(KEYS.lastSync)?new Date(cargarItem(KEYS.lastSync)).getTime():0;
-    if(tsRemoto>tsLocal){
+    const info=await ghGetFile(GH.dataFile);
+    if(info.error==='token-invalido'){
+      setSyncBadge('error','❌ Token inválido');
+      if(mostrarUI) mostrarAlerta('alerta-github','error','❌ Token inválido o revocado. Generá uno nuevo.');
+      return;
+    }
+    if(info.error==='timeout'){
+      setSyncBadge('error','❌ Timeout');
+      if(mostrarUI) mostrarAlerta('alerta-github','error','❌ Tiempo de espera agotado. Verificá tu conexión.');
+      return;
+    }
+    if(info.error){
+      setSyncBadge('error','❌ Error');
+      if(mostrarUI) mostrarAlerta('alerta-github','error','❌ Error: '+info.error);
+      return;
+    }
+    if(!info.content){
+      // No existe en remoto → subir datos locales
+      _syncEnCurso=false;
+      await guardarEnGitHub(true);
+      if(mostrarUI) mostrarAlerta('alerta-github','ok','✅ Datos subidos a la nube por primera vez.');
+      return;
+    }
+
+    const remoto=JSON.parse(base64ToUtf8(info.content.replace(/\n/g,'')));
+    const tsRemoto=remoto.updatedAt ? new Date(remoto.updatedAt).getTime() : 0;
+    // Usamos el updatedAt guardado del último remoto aplicado, NO el lastSync del dispositivo
+    const tsLocalRemoto=cargarItem(KEYS.lastRemoteTs) ? new Date(cargarItem(KEYS.lastRemoteTs)).getTime() : 0;
+
+    if(tsRemoto > tsLocalRemoto + 500){
+      // El remoto tiene datos más nuevos → aplicar
       aplicarDatos(remoto);
       _ultimoSyncTs=new Date(remoto.updatedAt);
       guardarItem(KEYS.lastSync,remoto.updatedAt);
+      guardarItem(KEYS.lastRemoteTs,remoto.updatedAt);
       setSyncBadge('ok','✅ '+formatHora(_ultimoSyncTs));
       _actualizarInfoSync();
+      // Actualizar UI con los nuevos datos
       actualizarUIInspectorActivo();
       actualizarEstadoBloqueo();
+      // Refrescar tabla activa si corresponde
+      _refrescarSeccionActiva();
       if(mostrarUI) mostrarAlerta('alerta-github','ok',
-        `✅ Datos actualizados desde GitHub.<br>
+        `✅ Datos actualizados desde la nube.<br>
          📅 <strong>${formatFecha(_ultimoSyncTs)} ${formatHora(_ultimoSyncTs)}</strong> |
          🚪 Ingresos: <strong>${remoto.ingresos?.length||0}</strong> |
          ⚠️ Aperc: <strong>${remoto.apercibimientos?.length||0}</strong> |
          🚫 Susp: <strong>${remoto.suspensiones?.length||0}</strong>`);
     } else {
-      _syncEnCurso=false;
-      await guardarEnGitHub(true);
-      if(mostrarUI) mostrarAlerta('alerta-github','ok','✅ Datos locales ya actualizados. Confirmados en GitHub.');
+      setSyncBadge('ok','✅ Al día');
+      if(mostrarUI) mostrarAlerta('alerta-github','ok','✅ Los datos ya están actualizados.');
     }
   }catch(e){
     setSyncBadge('error','❌ Error');
-    if(mostrarUI) mostrarAlerta('alerta-github','error','❌ Error al sincronizar: '+e.message);
-  }finally{_syncEnCurso=false;}
+    if(mostrarUI) mostrarAlerta('alerta-github','error','❌ Error: '+e.message);
+  }finally{
+    _syncEnCurso=false;
+  }
+}
+
+/* Refresca la sección actualmente visible tras un sync */
+function _refrescarSeccionActiva(){
+  const activa=document.querySelector('.seccion.activa');
+  if(!activa) return;
+  const id=activa.id.replace('sec-','');
+  if(id==='apercibamiento'){renderTablaApercibimientos();actualizarUIInspectorActivo();}
+  if(id==='suspension') renderTablaSuspensiones();
+  if(id==='vencidos') renderVencidos();
+  if(id==='inspectores'){renderInspectores();actualizarUIInspectorActivo();}
+  if(id==='backup'){renderEstadisticas();_actualizarInfoSync();actualizarTokenStatusCard();}
 }
 
 function _actualizarInfoSync(){
@@ -771,24 +922,28 @@ function _actualizarInfoSync(){
   if(el&&_ultimoSyncTs) el.textContent=`🕐 Última sincronización: ${formatFecha(_ultimoSyncTs)} ${formatHora(_ultimoSyncTs)}`;
 }
 
-/* ═══════════════════════════════════════════════
-   VERIFICAR CONEXIÓN
-═══════════════════════════════════════════════ */
 async function verificarConexionGitHub(){
-  mostrarAlerta('alerta-github','info','⏳ Verificando conexión con GitHub...');
+  mostrarAlerta('alerta-github','info','⏳ Verificando...');
+  if(!getToken()){mostrarAlerta('alerta-github','error','❌ No hay token.');return;}
   try{
-    const r=await fetch(`https://api.github.com/repos/${GH.owner}/${GH.repo}`,
-      {headers:{'Authorization':`Bearer ${GH.token}`,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}});
+    const r=await fetchConTimeout(
+      `https://api.github.com/repos/${GH.owner}/${GH.repo}`,
+      {headers:{
+        'Authorization':`Bearer ${getToken()}`,
+        'Accept':'application/vnd.github+json',
+        'X-GitHub-Api-Version':'2022-11-28'
+      }}
+    );
     const d=await r.json();
-    if(r.ok) mostrarAlerta('alerta-github','ok',
-      `✅ Conexión exitosa.<br>Repositorio: <strong>${d.full_name}</strong> | Privado: <strong>${d.private?'Sí':'No'}</strong><br>📁 Base de datos: <strong>${GH.dataFile}</strong>`);
-    else mostrarAlerta('alerta-github','error',`❌ Error: ${d.message||'HTTP '+r.status}`);
+    if(r.ok) mostrarAlerta('alerta-github','ok',`✅ Conexión exitosa con el servicio de sincronización.`);
+    else if(r.status===401||r.status===403) mostrarAlerta('alerta-github','error','❌ Token inválido. Generá uno nuevo con permiso <strong>repo</strong>.');
+    else mostrarAlerta('alerta-github','error',`❌ Error ${r.status}: ${d.message}`);
   }catch(e){mostrarAlerta('alerta-github','error','❌ Sin conexión: '+e.message);}
 }
 
-/* ═══════════════════════════════════════════════
-   PERSISTENCIA LOCAL
-═══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   LOCAL STORAGE
+══════════════════════════════════════════ */
 function cargarDatos(k){return JSON.parse(localStorage.getItem(k)||'[]');}
 function guardarDatos(k,a){localStorage.setItem(k,JSON.stringify(a));}
 function cargarItem(k){return localStorage.getItem(k)||null;}
@@ -799,9 +954,9 @@ function getFoto(dni){return cargarFotos()[String(dni)]||null;}
 function setFoto(dni,b64){const f=cargarFotos();f[String(dni)]=b64;guardarFotos(f);}
 function deleteFoto(dni){const f=cargarFotos();delete f[String(dni)];guardarFotos(f);}
 
-/* ═══════════════════════════════════════════════
-   HORA DESDE INTERNET
-═══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   HORA
+══════════════════════════════════════════ */
 async function sincronizarHora(){
   const apis=[
     'https://timeapi.io/api/time/current/zone?timeZone=America%2FArgentina%2FBuenos_Aires',
@@ -809,13 +964,11 @@ async function sincronizarHora(){
   ];
   for(const url of apis){
     try{
-      const r=await fetch(url,{signal:AbortSignal.timeout(5000)});
+      const r=await fetchConTimeout(url,{},5000);
       if(!r.ok) continue;
       const d=await r.json();
-      const raw=d.dateTime||d.datetime;
-      if(!raw) continue;
-      const dt=new Date(raw);
-      if(isNaN(dt)) continue;
+      const raw=d.dateTime||d.datetime; if(!raw) continue;
+      const dt=new Date(raw); if(isNaN(dt)) continue;
       offsetMs=dt.getTime()-Date.now();
       document.getElementById('fuente-hora').textContent='🌐 Hora sincronizada desde internet (Argentina)';
       return;
@@ -824,21 +977,15 @@ async function sincronizarHora(){
   offsetMs=0;
   document.getElementById('fuente-hora').textContent='⚠️ Sin conexión – usando hora local del dispositivo';
 }
-
 function ahoraReal(){return new Date(Date.now()+offsetMs);}
 function pad(n){return String(n).padStart(2,'0');}
 function formatFecha(dt){return `${pad(dt.getDate())}/${pad(dt.getMonth()+1)}/${dt.getFullYear()}`;}
 function formatHora(dt){return `${pad(dt.getHours())}:${pad(dt.getMinutes())}:${pad(dt.getSeconds())}`;}
 function isoFecha(dt){return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`;}
 function parseFechaHora(f,h){const[d,m,y]=f.split('/');return new Date(`${y}-${m}-${d}T${h}`);}
-function tiempoTranscurrido(ms){
-  const h=Math.floor(ms/3600000),min=Math.floor((ms%3600000)/60000);
-  if(h>=24){const d=Math.floor(h/24);return `${d}d ${h%24}h ${min}m`;}
-  return `${h}h ${min}m`;
-}
+function tiempoTranscurrido(ms){const h=Math.floor(ms/3600000),min=Math.floor((ms%3600000)/60000);if(h>=24){const d=Math.floor(h/24);return `${d}d ${h%24}h ${min}m`;}return `${h}h ${min}m`;}
 function tickReloj(){
-  const now=ahoraReal();
-  const hs=formatHora(now);
+  const now=ahoraReal(),hs=formatHora(now);
   const fs=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][now.getDay()]+', '+formatFecha(now);
   document.getElementById('reloj-grande').textContent=hs;
   document.getElementById('fecha-grande').textContent=fs;
@@ -847,62 +994,55 @@ function tickReloj(){
   document.getElementById('bloqueo-fecha').textContent=fs;
 }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════
    VIGENCIA
-═══════════════════════════════════════════════ */
+══════════════════════════════════════════ */
 function estadoIngreso(ing){
   const ms=ahoraReal().getTime()-parseFechaHora(ing.fecha,ing.hora).getTime();
-  const lim=HS_VIGENCIA*3600000, prev=lim-MIN_POR_VENCER*60000;
-  if(ms<0)    return {texto:'⏳ Pendiente',  clase:'badge-azul',   fila:''};
-  if(ms>=lim) return {texto:'⏰ Vencido',    clase:'badge-rojo',   fila:'vencido'};
+  const lim=HS_VIGENCIA*3600000,prev=lim-MIN_POR_VENCER*60000;
+  if(ms<0) return {texto:'⏳ Pendiente',clase:'badge-azul',fila:''};
+  if(ms>=lim) return {texto:'⏰ Vencido',clase:'badge-rojo',fila:'vencido'};
   if(ms>=prev){const rm=Math.ceil((lim-ms)/60000);return {texto:`⚠️ Vence en ${rm} min`,clase:'badge-naranja',fila:'por-vencer'};}
-  return       {texto:'✅ Vigente',          clase:'badge-verde',  fila:''};
+  return {texto:'✅ Vigente',clase:'badge-verde',fila:''};
 }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════
    TICKET DUPLICADO
-═══════════════════════════════════════════════ */
+══════════════════════════════════════════ */
 function validarTicketDuplicado(){
   const t=document.getElementById('ticket-ingreso').value.trim();
   const av=document.getElementById('aviso-ticket');
   if(!t){av.className='alerta';return;}
   const ex=cargarDatos(KEYS.ingresos).find(i=>i.ticket.toLowerCase()===t.toLowerCase());
   if(ex){av.className='alerta show alerta-error';av.innerHTML=`🚫 Ticket <strong>${t}</strong> ya registrado el <strong>${ex.fecha}</strong> para DNI <strong>${ex.dni}</strong>.`;}
-  else  {av.className='alerta show alerta-ok';  av.innerHTML=`✅ Ticket <strong>${t}</strong> disponible.`;}
+  else{av.className='alerta show alerta-ok';av.innerHTML=`✅ Ticket <strong>${t}</strong> disponible.`;}
 }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════
    CÁMARA
-═══════════════════════════════════════════════ */
+══════════════════════════════════════════ */
 function _setCamStatus(m,c){const e=document.getElementById('cam-status');if(e){e.textContent=m;e.style.color=c||'#4a6a4a';}}
 function esContextoSeguro(){return location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1'||location.hostname==='';}
-function verificarContextoYMostrarAviso(){
-  const noSop=!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia;
-  const ins=!esContextoSeguro();
-  document.getElementById('aviso-https').classList[noSop||ins?'add':'remove']('show');
-}
+function verificarContextoYMostrarAviso(){document.getElementById('aviso-https').classList[(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!esContextoSeguro())?'add':'remove']('show');}
 async function abrirCamara(){
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){document.getElementById('aviso-https').classList.add('show');mostrarAlerta('alerta-foto','warn','📁 Cámara no disponible. Usá <strong>"Cargar / Tomar Foto"</strong>.');return;}
-  _cerrarStreamCamara();
-  _setCamStatus('⏳ Solicitando acceso a la cámara...','#1a5a8a');
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){document.getElementById('aviso-https').classList.add('show');mostrarAlerta('alerta-foto','warn','Usá <strong>"📁 Cargar / Tomar Foto"</strong>.');return;}
+  _cerrarStreamCamara();_setCamStatus('⏳ Solicitando acceso...','#1a5a8a');
   const intentos=[{video:{facingMode:{ideal:'environment'}},audio:false},{video:{facingMode:{ideal:'user'}},audio:false},{video:true,audio:false}];
   let stream=null,ue=null;
   for(const c of intentos){try{stream=await navigator.mediaDevices.getUserMedia(c);break;}catch(e){ue=e;if(e.name==='NotAllowedError'||e.name==='PermissionDeniedError')break;}}
   if(!stream){_setCamStatus('','');_mostrarErrorCamara(ue);return;}
   _streamCamara=stream;
-  const v=document.getElementById('video-camara');
-  v.srcObject=stream;
+  const v=document.getElementById('video-camara');v.srcObject=stream;
   await new Promise(res=>{if(v.readyState>=1){res();return;}v.addEventListener('loadedmetadata',res,{once:true});setTimeout(res,3000);});
   try{await v.play();}catch(e){}
   document.getElementById('camara-wrap').classList.add('show');
   _setCamStatus('✅ Cámara activa — presioná Capturar','#1a6b1a');
-  mostrarAlerta('alerta-foto','info','📷 Cámara activa. Presioná Capturar.');
 }
 function _mostrarErrorCamara(e){
-  if(!e){mostrarAlerta('alerta-foto','error','⚠️ No se pudo acceder a la cámara.');return;}
-  const m=e.name==='NotAllowedError'||e.name==='PermissionDeniedError'?'🚫 <strong>Permiso denegado.</strong><br/>Usá <strong>"📁 Cargar / Tomar Foto"</strong>.':
-           e.name==='NotFoundError'?'📷 No se encontró cámara.<br/>Usá <strong>"📁 Cargar / Tomar Foto"</strong>.':
-           `⚠️ Error (${e.name||'desconocido'}).<br/>Usá <strong>"📁 Cargar / Tomar Foto"</strong>.`;
+  const m=!e?'⚠️ No se pudo acceder a la cámara.':
+    e.name==='NotAllowedError'||e.name==='PermissionDeniedError'?'🚫 Permiso denegado. Usá <strong>"📁 Cargar / Tomar Foto"</strong>.':
+    e.name==='NotFoundError'?'📷 No se encontró cámara. Usá <strong>"📁 Cargar / Tomar Foto"</strong>.':
+    `⚠️ Error (${e.name}). Usá <strong>"📁 Cargar / Tomar Foto"</strong>.`;
   mostrarAlerta('alerta-foto','error',m);
 }
 function _cerrarStreamCamara(){if(_streamCamara){_streamCamara.getTracks().forEach(t=>t.stop());_streamCamara=null;}}
@@ -910,7 +1050,7 @@ function cerrarCamara(){_cerrarStreamCamara();const v=document.getElementById('v
 function capturarFoto(){
   const v=document.getElementById('video-camara');
   if(!v.srcObject||!_streamCamara){mostrarAlerta('alerta-foto','error','La cámara no está activa.');return;}
-  if(!v.videoWidth||!v.videoHeight){_setCamStatus('⏳ Esperando imagen...','#b45309');setTimeout(()=>{if(v.videoWidth&&v.videoHeight){const b=comprimirImagen(v);cerrarCamara();_guardarFoto(b);}else{mostrarAlerta('alerta-foto','error','No se pudo obtener imagen.');_setCamStatus('','');}},500);return;}
+  if(!v.videoWidth||!v.videoHeight){_setCamStatus('⏳ Esperando...','#b45309');setTimeout(()=>{if(v.videoWidth&&v.videoHeight){const b=comprimirImagen(v);cerrarCamara();_guardarFoto(b);}else{mostrarAlerta('alerta-foto','error','No se pudo obtener imagen.');_setCamStatus('','');}},500);return;}
   const b=comprimirImagen(v);cerrarCamara();_guardarFoto(b);
 }
 function comprimirImagen(src){
@@ -934,10 +1074,10 @@ async function _guardarFoto(b64){
   const dni=document.getElementById('dni-ingreso').value.trim();
   if(dni){
     setFoto(dni,b64);
-    document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅ guardada';
-    mostrarAlerta('alerta-foto','info','📤 Guardando foto en GitHub...');
+    document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅';
+    mostrarAlerta('alerta-foto','info','📤 Guardando foto...');
     await guardarEnGitHub(true);
-    mostrarAlerta('alerta-foto','ok','✅ Foto guardada y sincronizada para DNI '+dni+'.');
+    mostrarAlerta('alerta-foto','ok','✅ Foto guardada para DNI '+dni+'.');
   } else {
     document.getElementById('foto-preview-dni').textContent='⚠️ Ingresá el DNI para asociar la foto';
     mostrarAlerta('alerta-foto','warn','⚠️ Ingresá el DNI del invitado para asociar la foto.');
@@ -953,27 +1093,45 @@ async function borrarFoto(){
   mostrarAlerta('alerta-foto','warn','🗑️ Foto eliminada.');
 }
 function onDniIngresoChange(){
-  const dni=document.getElementById('dni-ingreso').value.trim();
-  const foto=dni?getFoto(dni):null;
-  if(foto){document.getElementById('foto-preview').src=foto;document.getElementById('foto-preview-wrap').classList.add('show');document.getElementById('btn-borrar-foto').style.display='inline-flex';document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅';}
-  else{document.getElementById('foto-preview').src='';document.getElementById('foto-preview-wrap').classList.remove('show');document.getElementById('btn-borrar-foto').style.display='none';document.getElementById('foto-preview-dni').textContent='DNI: --';}
+  const dni=document.getElementById('dni-ingreso').value.trim(),foto=dni?getFoto(dni):null;
+  if(foto){
+    document.getElementById('foto-preview').src=foto;
+    document.getElementById('foto-preview-wrap').classList.add('show');
+    document.getElementById('btn-borrar-foto').style.display='inline-flex';
+    document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅';
+  } else {
+    document.getElementById('foto-preview').src='';
+    document.getElementById('foto-preview-wrap').classList.remove('show');
+    document.getElementById('btn-borrar-foto').style.display='none';
+    document.getElementById('foto-preview-dni').textContent='DNI: --';
+  }
 }
 function asociarFotoAlRegistrar(dni){const s=document.getElementById('foto-preview').src;if(s&&s!==window.location.href&&!getFoto(dni))setFoto(dni,s);}
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════
    FOTOS EN TABLAS
-═══════════════════════════════════════════════ */
+══════════════════════════════════════════ */
 function fotoThumb(dni,cls){
   const f=getFoto(String(dni));
-  return f?`<img src="${f}" class="foto-thumb ${cls||''}" onclick="verFotoGrande('${dni}')" title="Ver foto – DNI ${dni}" alt="Foto DNI ${dni}"/>`:`<span class="foto-thumb-placeholder" title="Sin foto – DNI ${dni}">👤</span>`;
+  return f
+    ?`<img src="${f}" class="foto-thumb ${cls||''}" onclick="verFotoGrande('${dni}')" title="Ver foto" alt="Foto"/>`
+    :`<span class="foto-thumb-placeholder" title="Sin foto">👤</span>`;
 }
-function verFotoGrande(dni){const f=getFoto(String(dni));if(!f)return;document.getElementById('modal-foto-img').src=f;document.getElementById('modal-foto-info').textContent='DNI: '+dni;document.getElementById('modal-foto').classList.add('show');}
+function verFotoGrande(dni){
+  const f=getFoto(String(dni));if(!f)return;
+  document.getElementById('modal-foto-img').src=f;
+  document.getElementById('modal-foto-info').textContent='DNI: '+dni;
+  document.getElementById('modal-foto').classList.add('show');
+}
 function cerrarModalFoto(){document.getElementById('modal-foto').classList.remove('show');}
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════
    BLOQUEO
-═══════════════════════════════════════════════ */
-function getInspectorActivo(){const id=cargarItem(KEYS.inspActivo);if(!id)return null;return cargarDatos(KEYS.inspectores).find(i=>String(i.id)===String(id))||null;}
+══════════════════════════════════════════ */
+function getInspectorActivo(){
+  const id=cargarItem(KEYS.inspActivo);if(!id)return null;
+  return cargarDatos(KEYS.inspectores).find(i=>String(i.id)===String(id))||null;
+}
 function actualizarEstadoBloqueo(){
   const ok=!!getInspectorActivo();
   document.getElementById('bloqueo-overlay').classList[ok?'remove':'add']('show');
@@ -982,7 +1140,12 @@ function actualizarEstadoBloqueo(){
     b.classList[ok?'remove':'add']('nav-bloqueado');
   });
 }
-function irAInspectores(){document.getElementById('bloqueo-overlay').classList.remove('show');document.getElementById('banner-activar').style.display='block';_navegarSeccion('inspectores',document.getElementById('btn-nav-inspectores'));window.scrollTo({top:0,behavior:'smooth'});}
+function irAInspectores(){
+  document.getElementById('bloqueo-overlay').classList.remove('show');
+  document.getElementById('banner-activar').style.display='block';
+  _navegarSeccion('inspectores',document.getElementById('btn-nav-inspectores'));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 function navClick(id,btn){if(!getInspectorActivo()&&id!=='inspectores')return;_navegarSeccion(id,btn);}
 function _navegarSeccion(id,btn){
   document.querySelectorAll('.seccion').forEach(s=>s.classList.remove('activa'));
@@ -990,30 +1153,43 @@ function _navegarSeccion(id,btn){
   document.getElementById('sec-'+id).classList.add('activa');
   if(btn) btn.classList.add('activo');
   if(id==='apercibamiento'){renderTablaApercibimientos();actualizarUIInspectorActivo();}
-  if(id==='suspension')     renderTablaSuspensiones();
-  if(id==='backup')         {renderEstadisticas();_actualizarInfoSync();}
-  if(id==='inspectores')    {renderInspectores();actualizarUIInspectorActivo();}
-  if(id==='vencidos')       renderVencidos();
-  if(id==='consulta')       setFechasConsultaHoy();
-  if(id==='ingreso')        verificarContextoYMostrarAviso();
+  if(id==='suspension') renderTablaSuspensiones();
+  if(id==='backup'){renderEstadisticas();_actualizarInfoSync();actualizarTokenStatusCard();}
+  if(id==='inspectores'){renderInspectores();actualizarUIInspectorActivo();}
+  if(id==='vencidos') renderVencidos();
+  if(id==='consulta') setFechasConsultaHoy();
+  if(id==='ingreso') verificarContextoYMostrarAviso();
 }
 
-/* ═══════════════════════════════════════════════
-   INSPECTOR ACTIVO UI
-═══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   INSPECTOR UI
+══════════════════════════════════════════ */
 function actualizarUIInspectorActivo(){
   const insp=getInspectorActivo();
   const hi=document.getElementById('header-inspector');
   if(insp){hi.textContent=`👮 ${insp.nombre}`;hi.classList.remove('sin-inspector');}
-  else    {hi.textContent='🔒 Sin inspector activo';hi.classList.add('sin-inspector');}
+  else{hi.textContent='🔒 Sin inspector activo';hi.classList.add('sin-inspector');}
   const pA=document.getElementById('aperc-inspector-panel');
-  if(insp){document.getElementById('aperc-inspector-nombre').textContent=insp.nombre;document.getElementById('aperc-inspector-sub').textContent=insp.tel?`📞 ${insp.tel}`:'Inspector activo';pA.classList.remove('sin-inspector');}
-  else    {document.getElementById('aperc-inspector-nombre').textContent='Sin inspector activo';document.getElementById('aperc-inspector-sub').textContent='Asigná un inspector en la sección Inspectores';pA.classList.add('sin-inspector');}
+  if(insp){
+    document.getElementById('aperc-inspector-nombre').textContent=insp.nombre;
+    document.getElementById('aperc-inspector-sub').textContent=insp.tel?`📞 ${insp.tel}`:'Inspector activo';
+    pA.classList.remove('sin-inspector');
+  } else {
+    document.getElementById('aperc-inspector-nombre').textContent='Sin inspector activo';
+    document.getElementById('aperc-inspector-sub').textContent='Asigná un inspector en la sección Inspectores';
+    pA.classList.add('sin-inspector');
+  }
   const pI=document.getElementById('insp-activo-panel'),bD=document.getElementById('btn-desactivar');
-  if(insp){document.getElementById('insp-activo-nombre').textContent=insp.nombre;document.getElementById('insp-activo-sub').textContent=insp.obs||'Inspector de turno activo';pI.classList.remove('sin-inspector');bD.style.display='inline-flex';}
-  else    {document.getElementById('insp-activo-nombre').textContent='Sin inspector activo';document.getElementById('insp-activo-sub').textContent='Seleccioná un inspector y presioná "Activar"';pI.classList.add('sin-inspector');bD.style.display='none';}
+  if(insp){
+    document.getElementById('insp-activo-nombre').textContent=insp.nombre;
+    document.getElementById('insp-activo-sub').textContent=insp.obs||'Inspector de turno activo';
+    pI.classList.remove('sin-inspector');bD.style.display='inline-flex';
+  } else {
+    document.getElementById('insp-activo-nombre').textContent='Sin inspector activo';
+    document.getElementById('insp-activo-sub').textContent='Seleccioná un inspector y presioná "Activar"';
+    pI.classList.add('sin-inspector');bD.style.display='none';
+  }
 }
-
 async function activarInspector(id){
   const ant=cargarItem(KEYS.inspActivo);
   if(ant&&ant!==String(id)){localStorage.removeItem(KEYS.inspActivo);localStorage.removeItem(KEYS.turnoInicio);}
@@ -1021,15 +1197,12 @@ async function activarInspector(id){
   guardarItem(KEYS.turnoInicio,ahoraReal().toISOString());
   document.getElementById('banner-activar').style.display='none';
   actualizarUIInspectorActivo();actualizarEstadoBloqueo();renderInspectores();
-  mostrarAlerta('alerta-insp','info','⏳ Activando inspector y sincronizando...');
-  await guardarEnGitHub(false);
-  mostrarAlerta('alerta-insp','ok','✅ Inspector activado y sincronizado. ¡Sistema habilitado!');
+  mostrarAlerta('alerta-insp','info','⏳ Activando y sincronizando...');
+  const res=await guardarEnGitHub(false);
+  if(res.ok) mostrarAlerta('alerta-insp','ok','✅ Inspector activado y sincronizado. ¡Sistema habilitado!');
+  else mostrarAlerta('alerta-insp','warn',`⚠️ Inspector activado localmente. Error sync: ${res.error||''}`);
   _navegarSeccion('ingreso',document.getElementById('btn-nav-ingreso'));
 }
-
-/* ═══════════════════════════════════════════════
-   DESACTIVAR INSPECTOR
-═══════════════════════════════════════════════ */
 function desactivarInspector(){
   const insp=getInspectorActivo();if(!insp)return;
   _inspDesact=insp;
@@ -1045,15 +1218,14 @@ function desactivarInspector(){
     inicio:ts?formatFecha(new Date(ts))+' '+formatHora(new Date(ts)):'Inicio del día',
     fin:formatFecha(now)+' '+formatHora(now)};
   document.getElementById('mc-inspector-nombre').textContent=insp.nombre;
-  document.getElementById('mc-resumen').innerHTML=`
-    <table style="width:100%;border-collapse:collapse;font-size:.87rem;">
-      <tr style="background:#f0f5f0;"><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">🕐 Inicio</td><td style="padding:6px 10px;">${_inspDesact._turno.inicio}</td></tr>
-      <tr><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">🕐 Cierre</td><td style="padding:6px 10px;">${_inspDesact._turno.fin}</td></tr>
-      <tr style="background:#f0f5f0;"><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">🚪 Ingresos</td><td style="padding:6px 10px;">${ingT.length}</td></tr>
-      <tr><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">⚠️ Apercibamientos</td><td style="padding:6px 10px;">${apT.length}</td></tr>
-      <tr style="background:#f0f5f0;"><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">🚫 Suspensiones</td><td style="padding:6px 10px;">${suT.length}</td></tr>
-      <tr><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">⏰ Vencidos</td><td style="padding:6px 10px;">${venT.length}</td></tr>
-    </table>`;
+  document.getElementById('mc-resumen').innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:.87rem;">
+    <tr style="background:#f0f5f0;"><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">🕐 Inicio</td><td style="padding:6px 10px;">${_inspDesact._turno.inicio}</td></tr>
+    <tr><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">🕐 Cierre</td><td style="padding:6px 10px;">${_inspDesact._turno.fin}</td></tr>
+    <tr style="background:#f0f5f0;"><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">🚪 Ingresos</td><td style="padding:6px 10px;">${ingT.length}</td></tr>
+    <tr><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">⚠️ Apercibamientos</td><td style="padding:6px 10px;">${apT.length}</td></tr>
+    <tr style="background:#f0f5f0;"><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">🚫 Suspensiones</td><td style="padding:6px 10px;">${suT.length}</td></tr>
+    <tr><td style="padding:6px 10px;font-weight:700;color:#1a3a1a;">⏰ Vencidos</td><td style="padding:6px 10px;">${venT.length}</td></tr>
+  </table>`;
   document.getElementById('alerta-modal-cierre').className='alerta';
   document.getElementById('modal-cierre').classList.add('show');
 }
@@ -1063,20 +1235,16 @@ async function confirmarDesactivar(){
   const insp=_inspDesact,turno=insp._turno,now=ahoraReal();
   const xml=generarXMLTurno(insp,turno,now);
   const nom=`PCQ_turno_${insp.nombre.replace(/\s+/g,'_')}_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.xml`;
-  const blob=new Blob([xml],{type:'application/xml'});
-  const url=URL.createObjectURL(blob);
-  Object.assign(document.createElement('a'),{href:url,download:nom}).click();
-  URL.revokeObjectURL(url);
+  const blob=new Blob([xml],{type:'application/xml'});const url=URL.createObjectURL(blob);
+  Object.assign(document.createElement('a'),{href:url,download:nom}).click();URL.revokeObjectURL(url);
   localStorage.removeItem(KEYS.inspActivo);localStorage.removeItem(KEYS.turnoInicio);
-  _shaDataFile=null;
-  mostrarAlerta('alerta-modal-cierre','info','⏳ Sincronizando cierre con GitHub...');
+  mostrarAlerta('alerta-modal-cierre','info','⏳ Sincronizando cierre...');
   await guardarEnGitHub(false);
   mostrarAlerta('alerta-modal-cierre','ok','✅ Turno cerrado y sincronizado.');
   actualizarUIInspectorActivo();actualizarEstadoBloqueo();renderInspectores();
   cerrarModalCierre();
   document.getElementById('banner-activar').style.display='block';
   _navegarSeccion('inspectores',document.getElementById('btn-nav-inspectores'));
-  mostrarAlerta('alerta-insp','ok','✅ Turno cerrado. Abriendo WhatsApp...');
   setTimeout(()=>window.open(`https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(armarMensajeWA(insp,turno))}`,'_blank'),800);
 }
 function generarXMLTurno(insp,turno,now){
@@ -1088,9 +1256,8 @@ function generarXMLTurno(insp,turno,now){
   x+=`  </Apercibamientos>\n  <Suspensiones>\n`;
   turno.suspensiones.forEach(s=>{x+=`    <Suspension><DNI>${esc(s.dni)}</DNI><Nombre>${esc(s.nombre)}</Nombre><Desde>${esc(s.desde)}</Desde><Hasta>${esc(s.hasta)}</Hasta><Motivo>${esc(s.motivo)}</Motivo></Suspension>\n`;});
   x+=`  </Suspensiones>\n  <IngresosVencidos>\n`;
-  turno.vencidos.forEach(i=>{const ms=ahoraReal().getTime()-parseFechaHora(i.fecha,i.hora).getTime();x+=`    <Vencido><DNI>${esc(i.dni)}</DNI><Ticket>${esc(i.ticket)}</Ticket><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora><Transcurrido>${tiempoTranscurrido(ms)}</Transcurrido></Vencido>\n`;});
-  x+=`  </IngresosVencidos>\n</TurnoPCQ>`;
-  return x;
+  turno.vencidos.forEach(i=>{const ms=ahoraReal().getTime()-parseFechaHora(i.fecha,i.hora).getTime();x+=`    <Vencido><DNI>${esc(i.dni)}</DNI><Ticket>${esc(i.ticket)}</Ticket><Transcurrido>${tiempoTranscurrido(ms)}</Transcurrido></Vencido>\n`;});
+  x+=`  </IngresosVencidos>\n</TurnoPCQ>`;return x;
 }
 function armarMensajeWA(insp,turno){
   let m=`🎣 *Pejerrey Club Quilmes*\n📋 *Cierre de Turno*\n👮 Inspector: *${insp.nombre}*\n🕐 Inicio: ${turno.inicio}\n🕐 Cierre: ${turno.fin}\n──────────────────\n🚪 Ingresos: *${turno.ingresos.length}*\n`;
@@ -1101,13 +1268,12 @@ function armarMensajeWA(insp,turno){
   turno.suspensiones.forEach(s=>{m+=`  • DNI ${s.dni}${s.nombre?' ('+s.nombre+')':''} – hasta ${s.hasta}\n`;});
   m+=`──────────────────\n⏰ Vencidos: *${turno.vencidos.length}*\n`;
   turno.vencidos.forEach(i=>{const ms=ahoraReal().getTime()-parseFechaHora(i.fecha,i.hora).getTime();m+=`  • DNI ${i.dni} – Ticket ${i.ticket} – hace ${tiempoTranscurrido(ms)}\n`;});
-  m+=`──────────────────\n✅ Turno cerrado.`;
-  return m;
+  m+=`──────────────────\n✅ Turno cerrado.`;return m;
 }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════
    ABM INSPECTORES
-═══════════════════════════════════════════════ */
+══════════════════════════════════════════ */
 async function guardarInspector(){
   const nombre=document.getElementById('insp-nombre').value.trim();
   const tel=document.getElementById('insp-tel').value.trim();
@@ -1117,9 +1283,10 @@ async function guardarInspector(){
   if(lista.find(i=>i.nombre.toLowerCase()===nombre.toLowerCase())){mostrarAlerta('alerta-insp','error','Ya existe un inspector con ese nombre.');return;}
   lista.push({id:Date.now(),nombre,tel,obs});
   guardarDatos(KEYS.inspectores,lista);
-  mostrarAlerta('alerta-insp','info','⏳ Guardando en GitHub...');
-  await guardarEnGitHub(false);
-  mostrarAlerta('alerta-insp','ok',`✅ Inspector <strong>${nombre}</strong> registrado y sincronizado.`);
+  mostrarAlerta('alerta-insp','info','⏳ Guardando...');
+  const res=await guardarEnGitHub(false);
+  if(res.ok) mostrarAlerta('alerta-insp','ok',`✅ Inspector <strong>${nombre}</strong> registrado y sincronizado.`);
+  else mostrarAlerta('alerta-insp','warn',`⚠️ Guardado localmente. Error sync: ${res.error||''}`);
   ['insp-nombre','insp-tel','insp-obs'].forEach(id=>{document.getElementById(id).value='';});
   renderInspectores();
 }
@@ -1139,7 +1306,7 @@ async function guardarModalInspector(){
   const obs=document.getElementById('m-insp-obs').value.trim();
   if(!nombre){mostrarAlerta('alerta-modal-insp','error','Ingresá el nombre.');return;}
   const lista=cargarDatos(KEYS.inspectores);
-  if(lista.find(i=>i.nombre.toLowerCase()===nombre.toLowerCase()&&i.id!==_editInspId)){mostrarAlerta('alerta-modal-insp','error','Ya existe un inspector con ese nombre.');return;}
+  if(lista.find(i=>i.nombre.toLowerCase()===nombre.toLowerCase()&&i.id!==_editInspId)){mostrarAlerta('alerta-modal-insp','error','Ya existe ese nombre.');return;}
   const idx=lista.findIndex(i=>i.id===_editInspId);if(idx===-1){cerrarModalInspector();return;}
   lista[idx]={...lista[idx],nombre,tel,obs};
   guardarDatos(KEYS.inspectores,lista);
@@ -1164,33 +1331,46 @@ function renderInspectores(){
   vacio.style.display='none';grid.style.display='grid';
   lista.forEach(insp=>{
     const esAct=String(insp.id)===String(actId);
-    const card=document.createElement('div');
-    card.className='insp-card'+(esAct?' activo':'');
-    card.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;"><div><div class="ic-nombre">👮 ${insp.nombre}</div>${insp.tel?`<div class="ic-sub">📞 ${insp.tel}</div>`:''}${insp.obs?`<div class="ic-sub">📝 ${insp.obs}</div>`:''}</div>${esAct?'<span class="badge badge-dorado">✅ ACTIVO</span>':''}</div><div class="ic-acciones">${!esAct?`<button class="btn btn-gold btn-sm" onclick="activarInspector(${insp.id})">⚡ Activar</button>`:`<button class="btn btn-secondary btn-sm" onclick="desactivarInspector()">✖ Desactivar</button>`}<button class="btn btn-warning btn-sm" onclick="editarInspector(${insp.id})">✏️ Editar</button><button class="btn btn-danger btn-sm" onclick="eliminarInspector(${insp.id})">🗑️ Eliminar</button></div>`;
+    const card=document.createElement('div');card.className='insp-card'+(esAct?' activo':'');
+    card.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;">
+      <div>
+        <div class="ic-nombre">👮 ${insp.nombre}</div>
+        ${insp.tel?`<div class="ic-sub">📞 ${insp.tel}</div>`:''}
+        ${insp.obs?`<div class="ic-sub">📝 ${insp.obs}</div>`:''}
+      </div>
+      ${esAct?'<span class="badge badge-dorado">✅ ACTIVO</span>':''}
+    </div>
+    <div class="ic-acciones">
+      ${!esAct
+        ?`<button class="btn btn-gold btn-sm" onclick="activarInspector(${insp.id})">⚡ Activar</button>`
+        :`<button class="btn btn-secondary btn-sm" onclick="desactivarInspector()">✖ Desactivar</button>`}
+      <button class="btn btn-warning btn-sm" onclick="editarInspector(${insp.id})">✏️ Editar</button>
+      <button class="btn btn-danger btn-sm" onclick="eliminarInspector(${insp.id})">🗑️ Eliminar</button>
+    </div>`;
     grid.appendChild(card);
   });
 }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════
    VENCIDOS
-═══════════════════════════════════════════════ */
+══════════════════════════════════════════ */
 function renderVencidos(){
   const ing=cargarDatos(KEYS.ingresos),now=ahoraReal();
   const lim=HS_VIGENCIA*3600000,prev=lim-MIN_POR_VENCER*60000;
-  const ven=ing.filter(i=>{const ms=now.getTime()-parseFechaHora(i.fecha,i.hora).getTime();return ms>=lim;}).sort((a,b)=>parseFechaHora(a.fecha,a.hora)-parseFechaHora(b.fecha,b.hora));
-  const pv=ing.filter(i=>{const ms=now.getTime()-parseFechaHora(i.fecha,i.hora).getTime();return ms>=prev&&ms<lim;}).sort((a,b)=>parseFechaHora(a.fecha,a.hora)-parseFechaHora(b.fecha,b.hora));
+  const ven=ing.filter(i=>{const ms=now.getTime()-parseFechaHora(i.fecha,i.hora).getTime();return ms>=lim;})
+             .sort((a,b)=>parseFechaHora(a.fecha,a.hora)-parseFechaHora(b.fecha,b.hora));
+  const pv=ing.filter(i=>{const ms=now.getTime()-parseFechaHora(i.fecha,i.hora).getTime();return ms>=prev&&ms<lim;})
+             .sort((a,b)=>parseFechaHora(a.fecha,a.hora)-parseFechaHora(b.fecha,b.hora));
   const cpv=document.getElementById('contador-por-vencer');
   if(pv.length){cpv.style.display='flex';document.getElementById('cpv-num').textContent=pv.length;}else cpv.style.display='none';
   const cv=document.getElementById('contador-vencidos');
   if(ven.length){cv.style.display='flex';document.getElementById('cv-num').textContent=ven.length;}else cv.style.display='none';
-  const tbody=document.querySelector('#tabla-vencidos tbody');
-  tbody.innerHTML='';
+  const tbody=document.querySelector('#tabla-vencidos tbody');tbody.innerHTML='';
   const todos=[...pv,...ven];
   if(!todos.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:#aaa;">✅ No hay ingresos vencidos ni por vencer</td></tr>';return;}
   todos.forEach(i=>{
     const ms=now.getTime()-parseFechaHora(i.fecha,i.hora).getTime();
-    const est=estadoIngreso(i);
-    const tr=document.createElement('tr');tr.className=est.fila;
+    const est=estadoIngreso(i);const tr=document.createElement('tr');tr.className=est.fila;
     tr.innerHTML=`<td>${fotoThumb(i.dni)}</td><td>${i.dni}</td><td>${i.ticket}</td><td>${i.fecha}</td><td>${i.hora}</td><td>${tiempoTranscurrido(ms)}</td><td><span class="badge ${est.clase}">${est.texto}</span></td><td><button class="btn btn-danger btn-sm" onclick="eliminarIngreso('${i.ticket}')">🗑️ Dar de baja</button></td>`;
     tbody.appendChild(tr);
   });
@@ -1208,17 +1388,20 @@ async function limpiarVencidos(){
   if(!cant){mostrarAlerta('alerta-vencidos','info','No hay ingresos vencidos.');return;}
   if(!confirm(`¿Eliminar los ${cant} ingreso(s) vencido(s)?`))return;
   guardarDatos(KEYS.ingresos,vig);await guardarEnGitHub(true);renderVencidos();
-  mostrarAlerta('alerta-vencidos','ok',`✅ Se eliminaron <strong>${cant}</strong> ingreso(s) vencido(s).`);
+  mostrarAlerta('alerta-vencidos','ok',`✅ Se eliminaron <strong>${cant}</strong> ingreso(s).`);
 }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════
    CONSULTA
-═══════════════════════════════════════════════ */
-function setFechasConsultaHoy(){const hoy=isoFecha(ahoraReal());const d=document.getElementById('consulta-desde');const h=document.getElementById('consulta-hasta');if(!d.value)d.value=hoy;if(!h.value)h.value=hoy;}
+══════════════════════════════════════════ */
+function setFechasConsultaHoy(){
+  const hoy=isoFecha(ahoraReal());
+  const d=document.getElementById('consulta-desde');
+  const h=document.getElementById('consulta-hasta');
+  if(!d.value)d.value=hoy;if(!h.value)h.value=hoy;
+}
 function consultarIngresos(){
-  const desde=document.getElementById('consulta-desde').value;
-  const hasta=document.getElementById('consulta-hasta').value;
-  const dni=document.getElementById('consulta-dni').value.trim();
+  const desde=document.getElementById('consulta-desde').value,hasta=document.getElementById('consulta-hasta').value,dni=document.getElementById('consulta-dni').value.trim();
   if(!desde||!hasta){mostrarAlerta('alerta-consulta','error','Seleccioná ambas fechas.');return;}
   if(hasta<desde){mostrarAlerta('alerta-consulta','error','La fecha "hasta" debe ser ≥ "desde".');return;}
   let res=cargarDatos(KEYS.ingresos).filter(i=>i.isoFecha>=desde&&i.isoFecha<=hasta);
@@ -1230,18 +1413,19 @@ function consultarIngresos(){
   res.forEach(i=>{const est=estadoIngreso(i);const tr=document.createElement('tr');if(est.fila)tr.className=est.fila;tr.innerHTML=`<td>${fotoThumb(i.dni)}</td><td>${i.dni}</td><td>${i.ticket}</td><td>${i.fecha}</td><td>${i.hora}</td><td><span class="badge ${est.clase}">${est.texto}</span></td>`;tbody.appendChild(tr);});
 }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════
    ALERTAS
-═══════════════════════════════════════════════ */
+══════════════════════════════════════════ */
 function mostrarAlerta(id,tipo,msg){
   const el=document.getElementById(id);if(!el)return;
   el.className='alerta show alerta-'+tipo;el.innerHTML=msg;
-  clearTimeout(el._t);el._t=setTimeout(()=>{el.className='alerta';},8000);
+  clearTimeout(el._t);el._t=setTimeout(()=>{el.className='alerta';},9000);
 }
+function mostrarAlertaEl(id,tipo,msg){mostrarAlerta(id,tipo,msg);}
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════
    INGRESO
-═══════════════════════════════════════════════ */
+══════════════════════════════════════════ */
 function buscarInvitado(){
   const dni=document.getElementById('dni-ingreso').value.trim();
   if(!dni){mostrarAlerta('alerta-ingreso','error','Ingresá el número de documento.');return;}
@@ -1282,26 +1466,23 @@ function buscarInvitado(){
     const rm=Math.ceil((lim-msU)/60000);
     badges.innerHTML+=`<span class="badge badge-naranja">⏳ Vence en ${rm} min</span>`;
     detalles.innerHTML=`<span style="color:#92400e;">El ingreso vence en ${rm} minutos.</span>`;
-    tipo='warn';msg=`⏳ El invitado tiene un ingreso que <strong>vence en ${rm} minutos</strong>.`;
+    tipo='warn';msg=`⏳ Ingreso que <strong>vence en ${rm} minutos</strong>.`;
     panel.style.borderColor='var(--naranja)';fotoClase='foto-por-vencer';
   } else {
     badges.innerHTML=`<span class="badge badge-verde">✅ Sin restricciones</span>`;
     detalles.innerHTML='';panel.style.borderColor='var(--dorado)';
   }
   const foto=getFoto(dni);
-  if(foto) fotoC.innerHTML=`<div class="estado-foto-wrap"><img src="${foto}" class="estado-foto ${fotoClase}" onclick="verFotoGrande('${dni}')" style="cursor:pointer" title="Clic para ver foto completa"/><span class="estado-foto-label">📷 DNI ${dni}</span></div>`;
+  if(foto) fotoC.innerHTML=`<div class="estado-foto-wrap"><img src="${foto}" class="estado-foto ${fotoClase}" onclick="verFotoGrande('${dni}')" style="cursor:pointer"/><span class="estado-foto-label">📷 DNI ${dni}</span></div>`;
   mostrarAlerta('alerta-ingreso',tipo,msg);
   const wrap=document.getElementById('ultimos-ingresos'),tbody=document.querySelector('#tabla-ultimos tbody');
   tbody.innerHTML='';wrap.style.display='block';
-  if(miIng.length){
-    miIng.forEach((i,n)=>{const est=estadoIngreso(i);const tr=document.createElement('tr');if(est.fila)tr.className=est.fila;tr.innerHTML=`<td>${n+1}</td><td>${i.fecha}</td><td>${i.hora}</td><td>${i.ticket}</td><td><span class="badge ${est.clase}">${est.texto}</span></td>`;tbody.appendChild(tr);});
-  } else tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:#aaa;">Sin ingresos previos</td></tr>';
+  if(miIng.length){miIng.forEach((i,n)=>{const est=estadoIngreso(i);const tr=document.createElement('tr');if(est.fila)tr.className=est.fila;tr.innerHTML=`<td>${n+1}</td><td>${i.fecha}</td><td>${i.hora}</td><td>${i.ticket}</td><td><span class="badge ${est.clase}">${est.texto}</span></td>`;tbody.appendChild(tr);});}
+  else tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:#aaa;">Sin ingresos previos</td></tr>';
   if(foto){document.getElementById('foto-preview').src=foto;document.getElementById('foto-preview-wrap').classList.add('show');document.getElementById('btn-borrar-foto').style.display='inline-flex';document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅';}
 }
-
 async function registrarIngreso(){
-  const dni=document.getElementById('dni-ingreso').value.trim();
-  const ticket=document.getElementById('ticket-ingreso').value.trim();
+  const dni=document.getElementById('dni-ingreso').value.trim(),ticket=document.getElementById('ticket-ingreso').value.trim();
   if(!dni){mostrarAlerta('alerta-ingreso','error','Ingresá el número de documento.');return;}
   if(!ticket){mostrarAlerta('alerta-ingreso','error','Ingresá el número de ticket.');return;}
   const ex=cargarDatos(KEYS.ingresos).find(i=>i.ticket.toLowerCase()===ticket.toLowerCase());
@@ -1315,20 +1496,18 @@ async function registrarIngreso(){
   lista.push({dni,ticket,fecha:formatFecha(now),hora:formatHora(now),isoFecha:isoFecha(now)});
   guardarDatos(KEYS.ingresos,lista);
   document.getElementById('aviso-ticket').className='alerta';
-  mostrarAlerta('alerta-ingreso','info','⏳ Guardando en GitHub...');
-  await guardarEnGitHub(false);
-  mostrarAlerta('alerta-ingreso','ok',`✅ Ingreso registrado y sincronizado – DNI: <strong>${dni}</strong> | Ticket: <strong>${ticket}</strong> | ${formatFecha(now)} ${formatHora(now)}`);
-  buscarInvitado();
-  document.getElementById('ticket-ingreso').value='';
+  mostrarAlerta('alerta-ingreso','info','⏳ Guardando...');
+  const res=await guardarEnGitHub(false);
+  if(res.ok) mostrarAlerta('alerta-ingreso','ok',`✅ Ingreso registrado – DNI: <strong>${dni}</strong> | Ticket: <strong>${ticket}</strong> | ${formatFecha(now)} ${formatHora(now)}`);
+  else mostrarAlerta('alerta-ingreso','warn',`⚠️ Guardado localmente. Error sync: ${res.error||''}`);
+  buscarInvitado();document.getElementById('ticket-ingreso').value='';
 }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════
    APERCIBAMIENTO
-═══════════════════════════════════════════════ */
+══════════════════════════════════════════ */
 async function registrarApercibamiento(){
-  const dni=document.getElementById('dni-aperc').value.trim();
-  const nombre=document.getElementById('nombre-aperc').value.trim();
-  const motivo=document.getElementById('motivo-aperc').value.trim();
+  const dni=document.getElementById('dni-aperc').value.trim(),nombre=document.getElementById('nombre-aperc').value.trim(),motivo=document.getElementById('motivo-aperc').value.trim();
   if(!dni){mostrarAlerta('alerta-aperc','error','Ingresá el número de documento.');return;}
   if(!motivo){mostrarAlerta('alerta-aperc','error','Ingresá el motivo.');return;}
   const insp=getInspectorActivo();
@@ -1337,9 +1516,9 @@ async function registrarApercibamiento(){
   const lista=cargarDatos(KEYS.apercibimientos);
   lista.push({id:Date.now(),dni,nombre,motivo,fecha:formatFecha(now),hora:formatHora(now),inspector:insp?insp.nombre:null,inspectorId:insp?insp.id:null});
   guardarDatos(KEYS.apercibimientos,lista);
-  mostrarAlerta('alerta-aperc','info','⏳ Guardando en GitHub...');
+  mostrarAlerta('alerta-aperc','info','⏳ Guardando...');
   await guardarEnGitHub(false);
-  mostrarAlerta('alerta-aperc','ok',`⚠️ Apercibamiento registrado y sincronizado para DNI <strong>${dni}</strong>${insp?` | Inspector: <strong>${insp.nombre}</strong>`:''}.`);
+  mostrarAlerta('alerta-aperc','ok',`⚠️ Apercibamiento registrado para DNI <strong>${dni}</strong>${insp?` | Inspector: <strong>${insp.nombre}</strong>`:''}.`);
   ['dni-aperc','nombre-aperc','motivo-aperc'].forEach(id=>{document.getElementById(id).value='';});
   renderTablaApercibimientos();
 }
@@ -1360,14 +1539,12 @@ function renderTablaApercibimientos(){
   });
 }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════
    SUSPENSIÓN
-═══════════════════════════════════════════════ */
+══════════════════════════════════════════ */
 async function registrarSuspension(){
-  const dni=document.getElementById('dni-susp').value.trim();
-  const nombre=document.getElementById('nombre-susp').value.trim();
-  const desde=document.getElementById('susp-desde').value;
-  const hasta=document.getElementById('susp-hasta').value;
+  const dni=document.getElementById('dni-susp').value.trim(),nombre=document.getElementById('nombre-susp').value.trim();
+  const desde=document.getElementById('susp-desde').value,hasta=document.getElementById('susp-hasta').value;
   const motivo=document.getElementById('motivo-susp').value.trim();
   if(!dni){mostrarAlerta('alerta-susp','error','Ingresá el número de documento.');return;}
   if(!desde){mostrarAlerta('alerta-susp','error','Ingresá la fecha de inicio.');return;}
@@ -1377,9 +1554,9 @@ async function registrarSuspension(){
   const lista=cargarDatos(KEYS.suspensiones);
   lista.push({id:Date.now(),dni,nombre,desde,hasta,motivo});
   guardarDatos(KEYS.suspensiones,lista);
-  mostrarAlerta('alerta-susp','info','⏳ Guardando en GitHub...');
+  mostrarAlerta('alerta-susp','info','⏳ Guardando...');
   await guardarEnGitHub(false);
-  mostrarAlerta('alerta-susp','ok',`🚫 Suspensión registrada y sincronizada para DNI <strong>${dni}</strong> hasta <strong>${hasta}</strong>.`);
+  mostrarAlerta('alerta-susp','ok',`🚫 Suspensión registrada para DNI <strong>${dni}</strong> hasta <strong>${hasta}</strong>.`);
   ['dni-susp','nombre-susp','susp-desde','susp-hasta','motivo-susp'].forEach(id=>{document.getElementById(id).value='';});
   renderTablaSuspensiones();
 }
@@ -1389,8 +1566,7 @@ async function eliminarSuspension(id){
   await guardarEnGitHub(true);renderTablaSuspensiones();
 }
 function renderTablaSuspensiones(){
-  const lista=cargarDatos(KEYS.suspensiones).slice().reverse();
-  const hoy=isoFecha(ahoraReal());
+  const lista=cargarDatos(KEYS.suspensiones).slice().reverse(),hoy=isoFecha(ahoraReal());
   const tbody=document.querySelector('#tabla-susp tbody');tbody.innerHTML='';
   if(!lista.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:#aaa;">Sin suspensiones registradas</td></tr>';return;}
   lista.forEach(s=>{
@@ -1402,9 +1578,9 @@ function renderTablaSuspensiones(){
   });
 }
 
-/* ═══════════════════════════════════════════════
-   BACKUP XML LOCAL
-═══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   BACKUP XML
+══════════════════════════════════════════ */
 function datosAXML(){
   const ing=cargarDatos(KEYS.ingresos),ap=cargarDatos(KEYS.apercibimientos);
   const su=cargarDatos(KEYS.suspensiones),ins=cargarDatos(KEYS.inspectores);
@@ -1412,25 +1588,22 @@ function datosAXML(){
   const now=ahoraReal();
   const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   let x=`<?xml version="1.0" encoding="UTF-8"?>\n<PejerreyClubQuilmes>\n  <MetaData>\n    <FechaBackup>${formatFecha(now)} ${formatHora(now)}</FechaBackup>\n    <TotalIngresos>${ing.length}</TotalIngresos>\n    <TotalApercibamientos>${ap.length}</TotalApercibamientos>\n    <TotalSuspensiones>${su.length}</TotalSuspensiones>\n    <TotalInspectores>${ins.length}</TotalInspectores>\n    <TotalFotos>${Object.keys(fotos).length}</TotalFotos>\n    <InspectorActivoId>${esc(actId)}</InspectorActivoId>\n  </MetaData>\n  <Ingresos>\n`;
-  ing.forEach(i=>{x+=`    <Ingreso>\n      <DNI>${esc(i.dni)}</DNI>\n      <Ticket>${esc(i.ticket)}</Ticket>\n      <Fecha>${esc(i.fecha)}</Fecha>\n      <Hora>${esc(i.hora)}</Hora>\n      <IsoFecha>${esc(i.isoFecha)}</IsoFecha>\n    </Ingreso>\n`;});
+  ing.forEach(i=>{x+=`    <Ingreso><DNI>${esc(i.dni)}</DNI><Ticket>${esc(i.ticket)}</Ticket><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora><IsoFecha>${esc(i.isoFecha)}</IsoFecha></Ingreso>\n`;});
   x+=`  </Ingresos>\n  <Apercibamientos>\n`;
-  ap.forEach(a=>{x+=`    <Apercibamiento>\n      <ID>${esc(a.id)}</ID>\n      <DNI>${esc(a.dni)}</DNI>\n      <Nombre>${esc(a.nombre)}</Nombre>\n      <Motivo>${esc(a.motivo)}</Motivo>\n      <Fecha>${esc(a.fecha)}</Fecha>\n      <Hora>${esc(a.hora)}</Hora>\n      <Inspector>${esc(a.inspector)}</Inspector>\n      <InspectorId>${esc(a.inspectorId)}</InspectorId>\n    </Apercibamiento>\n`;});
+  ap.forEach(a=>{x+=`    <Apercibamiento><ID>${esc(a.id)}</ID><DNI>${esc(a.dni)}</DNI><Nombre>${esc(a.nombre)}</Nombre><Motivo>${esc(a.motivo)}</Motivo><Fecha>${esc(a.fecha)}</Fecha><Hora>${esc(a.hora)}</Hora><Inspector>${esc(a.inspector)}</Inspector><InspectorId>${esc(a.inspectorId)}</InspectorId></Apercibamiento>\n`;});
   x+=`  </Apercibamientos>\n  <Suspensiones>\n`;
-  su.forEach(s=>{x+=`    <Suspension>\n      <ID>${esc(s.id)}</ID>\n      <DNI>${esc(s.dni)}</DNI>\n      <Nombre>${esc(s.nombre)}</Nombre>\n      <Desde>${esc(s.desde)}</Desde>\n      <Hasta>${esc(s.hasta)}</Hasta>\n      <Motivo>${esc(s.motivo)}</Motivo>\n    </Suspension>\n`;});
+  su.forEach(s=>{x+=`    <Suspension><ID>${esc(s.id)}</ID><DNI>${esc(s.dni)}</DNI><Nombre>${esc(s.nombre)}</Nombre><Desde>${esc(s.desde)}</Desde><Hasta>${esc(s.hasta)}</Hasta><Motivo>${esc(s.motivo)}</Motivo></Suspension>\n`;});
   x+=`  </Suspensiones>\n  <Inspectores>\n`;
-  ins.forEach(i=>{x+=`    <Inspector>\n      <ID>${esc(i.id)}</ID>\n      <Nombre>${esc(i.nombre)}</Nombre>\n      <Tel>${esc(i.tel)}</Tel>\n      <Obs>${esc(i.obs)}</Obs>\n    </Inspector>\n`;});
+  ins.forEach(i=>{x+=`    <Inspector><ID>${esc(i.id)}</ID><Nombre>${esc(i.nombre)}</Nombre><Tel>${esc(i.tel)}</Tel><Obs>${esc(i.obs)}</Obs></Inspector>\n`;});
   x+=`  </Inspectores>\n  <Fotos>\n`;
-  Object.entries(fotos).forEach(([d,b])=>{x+=`    <Foto>\n      <DNI>${esc(d)}</DNI>\n      <Data><![CDATA[${b}]]></Data>\n    </Foto>\n`;});
-  x+=`  </Fotos>\n</PejerreyClubQuilmes>`;
-  return x;
+  Object.entries(fotos).forEach(([d,b])=>{x+=`    <Foto><DNI>${esc(d)}</DNI><Data><![CDATA[${b}]]></Data></Foto>\n`;});
+  x+=`  </Fotos>\n</PejerreyClubQuilmes>`;return x;
 }
 function generarBackup(){
   const xml=datosAXML(),now=ahoraReal();
   const nom=`PCQ_backup_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.xml`;
-  const blob=new Blob([xml],{type:'application/xml'});
-  const url=URL.createObjectURL(blob);
-  Object.assign(document.createElement('a'),{href:url,download:nom}).click();
-  URL.revokeObjectURL(url);
+  const blob=new Blob([xml],{type:'application/xml'});const url=URL.createObjectURL(blob);
+  Object.assign(document.createElement('a'),{href:url,download:nom}).click();URL.revokeObjectURL(url);
   mostrarAlerta('alerta-backup-gen','ok',`⬇️ Backup descargado: <strong>${nom}</strong>`);
 }
 function restaurarBackup(){
@@ -1440,33 +1613,31 @@ function restaurarBackup(){
   const reader=new FileReader();
   reader.onload=async function(e){
     try{
-      const parser=new DOMParser();
-      const doc=parser.parseFromString(e.target.result,'application/xml');
+      const parser=new DOMParser();const doc=parser.parseFromString(e.target.result,'application/xml');
       if(doc.querySelector('parsererror'))throw new Error('XML inválido');
-      const ing=[]; doc.querySelectorAll('Ingreso').forEach(n=>{ing.push({dni:n.querySelector('DNI')?.textContent||'',ticket:n.querySelector('Ticket')?.textContent||'',fecha:n.querySelector('Fecha')?.textContent||'',hora:n.querySelector('Hora')?.textContent||'',isoFecha:n.querySelector('IsoFecha')?.textContent||''});});
-      const ap=[]; doc.querySelectorAll('Apercibamiento,Apercibimiento').forEach(n=>{ap.push({id:Number(n.querySelector('ID')?.textContent)||Date.now(),dni:n.querySelector('DNI')?.textContent||'',nombre:n.querySelector('Nombre')?.textContent||'',motivo:n.querySelector('Motivo')?.textContent||'',fecha:n.querySelector('Fecha')?.textContent||'',hora:n.querySelector('Hora')?.textContent||'',inspector:n.querySelector('Inspector')?.textContent||null,inspectorId:n.querySelector('InspectorId')?.textContent||null});});
-      const su=[]; doc.querySelectorAll('Suspension').forEach(n=>{su.push({id:Number(n.querySelector('ID')?.textContent)||Date.now(),dni:n.querySelector('DNI')?.textContent||'',nombre:n.querySelector('Nombre')?.textContent||'',desde:n.querySelector('Desde')?.textContent||'',hasta:n.querySelector('Hasta')?.textContent||'',motivo:n.querySelector('Motivo')?.textContent||''});});
-      const ins=[]; doc.querySelectorAll('Inspector').forEach(n=>{ins.push({id:Number(n.querySelector('ID')?.textContent)||Date.now(),nombre:n.querySelector('Nombre')?.textContent||'',tel:n.querySelector('Tel')?.textContent||'',obs:n.querySelector('Obs')?.textContent||''});});
-      const fotosR={}; doc.querySelectorAll('Foto').forEach(n=>{const d=n.querySelector('DNI')?.textContent||'';const b=n.querySelector('Data')?.textContent||'';if(d&&b)fotosR[d]=b;});
+      const ing=[];doc.querySelectorAll('Ingreso').forEach(n=>{ing.push({dni:n.querySelector('DNI')?.textContent||'',ticket:n.querySelector('Ticket')?.textContent||'',fecha:n.querySelector('Fecha')?.textContent||'',hora:n.querySelector('Hora')?.textContent||'',isoFecha:n.querySelector('IsoFecha')?.textContent||''});});
+      const ap=[];doc.querySelectorAll('Apercibamiento,Apercibimiento').forEach(n=>{ap.push({id:Number(n.querySelector('ID')?.textContent)||Date.now(),dni:n.querySelector('DNI')?.textContent||'',nombre:n.querySelector('Nombre')?.textContent||'',motivo:n.querySelector('Motivo')?.textContent||'',fecha:n.querySelector('Fecha')?.textContent||'',hora:n.querySelector('Hora')?.textContent||'',inspector:n.querySelector('Inspector')?.textContent||null,inspectorId:n.querySelector('InspectorId')?.textContent||null});});
+      const su=[];doc.querySelectorAll('Suspension').forEach(n=>{su.push({id:Number(n.querySelector('ID')?.textContent)||Date.now(),dni:n.querySelector('DNI')?.textContent||'',nombre:n.querySelector('Nombre')?.textContent||'',desde:n.querySelector('Desde')?.textContent||'',hasta:n.querySelector('Hasta')?.textContent||'',motivo:n.querySelector('Motivo')?.textContent||''});});
+      const ins=[];doc.querySelectorAll('Inspector').forEach(n=>{ins.push({id:Number(n.querySelector('ID')?.textContent)||Date.now(),nombre:n.querySelector('Nombre')?.textContent||'',tel:n.querySelector('Tel')?.textContent||'',obs:n.querySelector('Obs')?.textContent||''});});
+      const fotosR={};doc.querySelectorAll('Foto').forEach(n=>{const d=n.querySelector('DNI')?.textContent||'';const b=n.querySelector('Data')?.textContent||'';if(d&&b)fotosR[d]=b;});
       const actId=doc.querySelector('InspectorActivoId')?.textContent||'';
-      guardarDatos(KEYS.ingresos,ing);guardarDatos(KEYS.apercibimientos,ap);
-      guardarDatos(KEYS.suspensiones,su);guardarDatos(KEYS.inspectores,ins);
-      guardarFotos(fotosR);
+      guardarDatos(KEYS.ingresos,ing);guardarDatos(KEYS.apercibimientos,ap);guardarDatos(KEYS.suspensiones,su);guardarDatos(KEYS.inspectores,ins);guardarFotos(fotosR);
       const inspEx=actId&&ins.find(i=>String(i.id)===String(actId));
       if(inspEx)guardarItem(KEYS.inspActivo,actId);else localStorage.removeItem(KEYS.inspActivo);
       actualizarUIInspectorActivo();actualizarEstadoBloqueo();
-      mostrarAlerta('alerta-backup-rest','info','⏳ Datos restaurados. Sincronizando con GitHub...');
-      _shaDataFile=null;await guardarEnGitHub(false);
-      mostrarAlerta('alerta-backup-rest','ok',`✅ Backup restaurado y sincronizado.<br>Ingresos: <strong>${ing.length}</strong> | Apercibamientos: <strong>${ap.length}</strong> | Suspensiones: <strong>${su.length}</strong> | Inspectores: <strong>${ins.length}</strong> | Fotos: <strong>${Object.keys(fotosR).length}</strong>`);
+      mostrarAlerta('alerta-backup-rest','info','⏳ Restaurando y sincronizando...');
+      // Resetear timestamp remoto para forzar subida
+      localStorage.removeItem(KEYS.lastRemoteTs);
+      await guardarEnGitHub(false);
+      mostrarAlerta('alerta-backup-rest','ok',`✅ Backup restaurado y sincronizado.<br>Ingresos: <strong>${ing.length}</strong> | Apercibamientos: <strong>${ap.length}</strong> | Suspensiones: <strong>${su.length}</strong> | Inspectores: <strong>${ins.length}</strong>`);
       renderEstadisticas();document.getElementById('archivo-bak').value='';
-    }catch(ex){mostrarAlerta('alerta-backup-rest','error','❌ Error al leer el archivo: '+ex.message);}
-  };
-  reader.readAsText(arch);
+    }catch(ex){mostrarAlerta('alerta-backup-rest','error','❌ Error: '+ex.message);}
+  };reader.readAsText(arch);
 }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════
    ESTADÍSTICAS
-═══════════════════════════════════════════════ */
+══════════════════════════════════════════ */
 function renderEstadisticas(){
   const i=cargarDatos(KEYS.ingresos).length,a=cargarDatos(KEYS.apercibimientos).length;
   const s=cargarDatos(KEYS.suspensiones).length,ins=cargarDatos(KEYS.inspectores).length;
@@ -1475,11 +1646,11 @@ function renderEstadisticas(){
   const now=ahoraReal(),lim=HS_VIGENCIA*3600000,prev=lim-MIN_POR_VENCER*60000;
   const ven=cargarDatos(KEYS.ingresos).filter(x=>{const ms=now.getTime()-parseFechaHora(x.fecha,x.hora).getTime();return ms>=lim;}).length;
   const pv=cargarDatos(KEYS.ingresos).filter(x=>{const ms=now.getTime()-parseFechaHora(x.fecha,x.hora).getTime();return ms>=prev&&ms<lim;}).length;
-  const stat=(num,lbl,bg,border,color)=>`<div style="background:${bg};border:2px solid ${border};border-radius:10px;padding:14px 22px;text-align:center;min-width:120px;"><div style="font-size:1.8rem;font-weight:700;color:${color};font-family:'Oswald',sans-serif">${num}</div><div style="font-size:.8rem;color:${color};opacity:.8;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">${lbl}</div></div>`;
+  const stat=(num,lbl,bg,border,color)=>`<div style="background:${bg};border:2px solid ${border};border-radius:10px;padding:14px 22px;text-align:center;min-width:110px;"><div style="font-size:1.8rem;font-weight:700;color:${color};font-family:'Oswald',sans-serif">${num}</div><div style="font-size:.78rem;color:${color};opacity:.85;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">${lbl}</div></div>`;
   document.getElementById('estadisticas').innerHTML=
-    stat(i,'Ingresos totales','linear-gradient(135deg,#1a3a1a,#2d6e2d)','var(--dorado)','var(--dorado)')+
-    stat(pv,'Por vencer (<1h)','linear-gradient(135deg,#3a2a0a,#7a5a1a)','var(--naranja)','#ffcc88')+
-    stat(ven,'Ingresos vencidos','linear-gradient(135deg,#3a0a0a,#7a1a1a)','var(--rojo)','#ff8888')+
+    stat(i,'Ingresos','linear-gradient(135deg,#1a3a1a,#2d6e2d)','var(--dorado)','var(--dorado)')+
+    stat(pv,'Por vencer','linear-gradient(135deg,#3a2a0a,#7a5a1a)','var(--naranja)','#ffcc88')+
+    stat(ven,'Vencidos','linear-gradient(135deg,#3a0a0a,#7a1a1a)','var(--rojo)','#ff8888')+
     stat(a,'Apercibamientos','linear-gradient(135deg,#3a2a0a,#7a5a1a)','var(--naranja)','#ffcc88')+
     stat(s,'Suspensiones','linear-gradient(135deg,#3a0a0a,#7a1a1a)','var(--rojo)','#ff8888')+
     stat(sa,'Susp. activas','linear-gradient(135deg,#2a0a2a,#5a1a5a)','#cc44cc','#ff88ff')+
@@ -1487,73 +1658,103 @@ function renderEstadisticas(){
     stat(f,'Fotos','linear-gradient(135deg,#1a1a3a,#2a2a6a)','#8888cc','#bbbbff');
 }
 
-/* ═══════════════════════════════════════════════
-   INICIALIZACIÓN
-═══════════════════════════════════════════════ */
-(async function init(){
-  const loadEl=document.getElementById('sync-loading');
-  loadEl.classList.add('show');
-
-  // 1. Hora
-  document.getElementById('sync-loading-txt').textContent='🕐 Sincronizando hora...';
-  await sincronizarHora();
-  tickReloj();
-  setInterval(tickReloj,1000);
-  setInterval(sincronizarHora,5*60*1000);
-
-  // 2. Bajar datos de GitHub
-  document.getElementById('sync-loading-txt').textContent='☁️ Descargando datos desde GitHub...';
-  document.getElementById('sync-loading-sub').textContent='Esto puede tardar unos segundos...';
-  setSyncBadge('syncing','🔄 Cargando...');
-  try{
-    const info=await ghGetFile(GH.dataFile);
-    if(info.content){
-      _shaDataFile=info.sha;
-      const jsonStr=base64ToUtf8(info.content.replace(/\n/g,''));
-      const remoto=JSON.parse(jsonStr);
-      const tsR=remoto.updatedAt?new Date(remoto.updatedAt).getTime():0;
-      const tsL=cargarItem(KEYS.lastSync)?new Date(cargarItem(KEYS.lastSync)).getTime():0;
-      if(tsR>tsL){
-        aplicarDatos(remoto);
-        _ultimoSyncTs=new Date(remoto.updatedAt);
-        guardarItem(KEYS.lastSync,remoto.updatedAt);
-        document.getElementById('sync-loading-sub').textContent='✅ Datos sincronizados correctamente';
-      } else {
-        document.getElementById('sync-loading-sub').textContent='✅ Datos locales ya actualizados';
-      }
-      setSyncBadge('ok','✅ Sincronizado');
-    } else {
-      document.getElementById('sync-loading-sub').textContent='📤 Subiendo datos iniciales...';
-      await guardarEnGitHub(true);
-    }
-  }catch(e){
-    setSyncBadge('error','❌ Sin conexión');
-    document.getElementById('sync-loading-sub').textContent='⚠️ Sin conexión – usando datos locales';
-    await new Promise(r=>setTimeout(r,1500));
-  }
-
-  // 3. Ocultar pantalla de carga
-  loadEl.classList.remove('show');
-
-  // 4. UI inicial
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+function finalizarInit(){
+  document.getElementById('sync-loading').classList.remove('show');
   verificarContextoYMostrarAviso();
   actualizarUIInspectorActivo();
   actualizarEstadoBloqueo();
+  actualizarTokenStatusCard();
   if(getInspectorActivo()){
     _navegarSeccion('ingreso',document.getElementById('btn-nav-ingreso'));
   } else {
     document.getElementById('banner-activar').style.display='block';
     _navegarSeccion('inspectores',document.getElementById('btn-nav-inspectores'));
   }
-
-  // 5. Auto-sync cada 30 segundos
+  // Auto-sync cada 20 segundos — siempre busca remoto fresco
   setInterval(async()=>{
-    if(!_syncEnCurso){
+    if(!_syncEnCurso && getToken()){
       await sincronizarDesdeGitHub(false);
-      actualizarUIInspectorActivo();
-      actualizarEstadoBloqueo();
     }
-  },SYNC_INTERVAL);
+  }, SYNC_INTERVAL);
+}
+
+async function iniciarSyncConGitHub(){
+  document.getElementById('sync-loading-txt').textContent='☁️ Descargando datos...';
+  document.getElementById('sync-loading-sub').textContent='Esto puede tardar unos segundos...';
+  setSyncBadge('syncing','🔄 Cargando...');
+  // Timeout máximo de 12 segundos
+  let terminado=false;
+  const timeoutId=setTimeout(()=>{
+    if(terminado) return;
+    terminado=true;
+    _syncEnCurso=false;
+    setSyncBadge('error','❌ Timeout');
+    document.getElementById('sync-loading-sub').textContent='⚠️ Tiempo agotado – usando datos locales';
+    finalizarInit();
+  },12000);
+  try{
+    const info=await ghGetFile(GH.dataFile);
+    if(terminado) return;
+    clearTimeout(timeoutId);
+    terminado=true;
+    if(info.error==='token-invalido'){
+      setSyncBadge('error','❌ Token inválido');
+      document.getElementById('sync-loading-sub').textContent='❌ Token inválido. Generá uno nuevo en GitHub.';
+      await new Promise(r=>setTimeout(r,2000));
+    } else if(info.error){
+      setSyncBadge('error','❌ '+info.error);
+      document.getElementById('sync-loading-sub').textContent='⚠️ Error de conexión – usando datos locales';
+      await new Promise(r=>setTimeout(r,1500));
+    } else if(info.content){
+      const remoto=JSON.parse(base64ToUtf8(info.content.replace(/\n/g,'')));
+      const tsRemoto=remoto.updatedAt?new Date(remoto.updatedAt).getTime():0;
+      const tsLocalRemoto=cargarItem(KEYS.lastRemoteTs)?new Date(cargarItem(KEYS.lastRemoteTs)).getTime():0;
+      if(tsRemoto>tsLocalRemoto+500){
+        aplicarDatos(remoto);
+        _ultimoSyncTs=new Date(remoto.updatedAt);
+        guardarItem(KEYS.lastSync,remoto.updatedAt);
+        guardarItem(KEYS.lastRemoteTs,remoto.updatedAt);
+        document.getElementById('sync-loading-sub').textContent='✅ Datos sincronizados correctamente';
+      } else {
+        document.getElementById('sync-loading-sub').textContent='✅ Datos ya actualizados';
+      }
+      setSyncBadge('ok','✅ Sincronizado');
+    } else {
+      // Archivo no existe → subir datos locales
+      document.getElementById('sync-loading-sub').textContent='📤 Creando base de datos...';
+      _syncEnCurso=false;
+      await guardarEnGitHub(true);
+    }
+  }catch(e){
+    if(terminado) return;
+    clearTimeout(timeoutId);
+    terminado=true;
+    _syncEnCurso=false;
+    setSyncBadge('error','❌ Sin conexión');
+    document.getElementById('sync-loading-sub').textContent='⚠️ Sin conexión – usando datos locales';
+    await new Promise(r=>setTimeout(r,1500));
+  }
+  finalizarInit();
+}
+
+(async function init(){
+  document.getElementById('sync-loading').classList.add('show');
+  // 1. Sincronizar hora
+  document.getElementById('sync-loading-txt').textContent='🕐 Sincronizando hora...';
+  await Promise.race([sincronizarHora(), new Promise(r=>setTimeout(r,5000))]);
+  tickReloj();
+  setInterval(tickReloj,1000);
+  setInterval(sincronizarHora, 5*60*1000);
+  // 2. Token
+  if(!getToken()){
+    document.getElementById('sync-loading').classList.remove('show');
+    document.getElementById('token-modal').classList.add('show');
+  } else {
+    await iniciarSyncConGitHub();
+  }
 })();
 </script>
 </body>
