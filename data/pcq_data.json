@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "updatedAt": "2026-03-13T17:17:36.405Z",
+  "ingresos": [],
+  "apercibimientos": [],
+  "suspensiones": [],
+  "inspectores": [
+    {
+      "id": 1773420770408,
+      "nombre": "fer",
+      "tel": "",
+      "obs": ""
+    }
+  ],
+  "fotos": {},
+  "inspActivo": "",
+  "turnoInicio": ""
+}
