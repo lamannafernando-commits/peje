@@ -1,52 +1,52 @@
 {
   "version": 2,
-  "updatedAt": "2026-03-14T10:01:22.290Z",
+  "updatedAt": "2026-03-14T10:06:43.624Z",
   "ingresos": [
     {
       "dni": "7858",
-      "ticket": "8688",
+      "nombre": "",
       "fecha": "13/03/2026",
       "hora": "14:39:48",
       "isoFecha": "2026-03-13"
     },
     {
       "dni": "86738",
-      "ticket": "84847",
+      "nombre": "",
       "fecha": "13/03/2026",
       "hora": "14:41:21",
       "isoFecha": "2026-03-13"
     },
     {
       "dni": "86738",
-      "ticket": "6544",
+      "nombre": "",
       "fecha": "13/03/2026",
       "hora": "14:41:36",
       "isoFecha": "2026-03-13"
     },
     {
       "dni": "33333",
-      "ticket": "33333",
+      "nombre": "",
       "fecha": "13/03/2026",
       "hora": "14:42:57",
       "isoFecha": "2026-03-13"
     },
     {
       "dni": "22222",
-      "ticket": "22222",
+      "nombre": "",
       "fecha": "13/03/2026",
       "hora": "14:44:15",
       "isoFecha": "2026-03-13"
     },
     {
       "dni": "22222",
-      "ticket": "Ddddd",
+      "nombre": "",
       "fecha": "13/03/2026",
       "hora": "18:38:42",
       "isoFecha": "2026-03-13"
     },
     {
       "dni": "26106755",
-      "ticket": "Pppppp",
+      "nombre": "",
       "fecha": "13/03/2026",
       "hora": "18:41:06",
       "isoFecha": "2026-03-13"
@@ -68,7 +68,7 @@
       "fecha": "13/03/2026",
       "hora": "18:38:24",
       "inspector": "fer",
-      "inspectorId": 1773420770408
+      "inspectorId": "1773420770408"
     }
   ],
   "suspensiones": [
@@ -82,6 +82,12 @@
     }
   ],
   "inspectores": [
+    {
+      "id": 1773482804101,
+      "nombre": "",
+      "tel": "",
+      "obs": ""
+    },
     {
       "id": 1773420770408,
       "nombre": "fer",
