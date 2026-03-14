@@ -130,7 +130,8 @@
     #cam-status{font-size:.8rem;color:#4a6a4a;font-style:italic;margin-bottom:6px;min-height:1.2em;}
     #foto-preview-wrap{display:none;flex-direction:column;align-items:center;gap:8px;margin-top:8px;}
     #foto-preview-wrap.show{display:flex;}
-    #foto-preview{width:120px;height:120px;object-fit:cover;border-radius:8px;border:3px solid var(--verde-logo);box-shadow:0 2px 8px rgba(0,0,0,.2);}
+    /* ── FOTO MÁS GRANDE EN INGRESO ── */
+    #foto-preview{width:220px;height:220px;object-fit:cover;border-radius:10px;border:3px solid var(--verde-logo);box-shadow:0 4px 16px rgba(0,0,0,.25);}
     .foto-dni-label{font-size:.72rem;font-weight:700;color:#4a6a4a;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px;}
     .estado-foto-wrap{float:right;margin:0 0 10px 14px;display:flex;flex-direction:column;align-items:center;gap:4px;}
     .estado-foto{width:90px;height:90px;object-fit:cover;border-radius:8px;border:3px solid var(--dorado);box-shadow:0 2px 8px rgba(0,0,0,.2);}
@@ -173,6 +174,16 @@
     .pass-box .pass-btns{display:flex;gap:10px;justify-content:center;}
     /* Stats section */
     .stats-grid{display:flex;gap:16px;flex-wrap:wrap;margin-top:4px;}
+    /* Edad por DNI card */
+    .edad-card{background:linear-gradient(135deg,#1a2a3a,#1a3a4a);border:2px solid var(--dorado);border-radius:12px;padding:18px 22px;margin-top:20px;color:var(--blanco);}
+    .edad-card h3{font-family:'Oswald',sans-serif;color:var(--dorado);font-size:1rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;border-bottom:1px solid rgba(200,168,75,.3);padding-bottom:8px;}
+    .edad-tabla{width:100%;border-collapse:collapse;font-size:.83rem;}
+    .edad-tabla th{background:rgba(200,168,75,.2);color:var(--dorado);padding:7px 10px;text-align:left;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px;}
+    .edad-tabla td{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,.08);color:#cce8cc;}
+    .edad-tabla tr:hover td{background:rgba(255,255,255,.05);}
+    .edad-tabla tr:last-child td{border-bottom:none;}
+    .edad-barra-wrap{background:rgba(0,0,0,.3);border-radius:4px;height:10px;overflow:hidden;margin-top:3px;}
+    .edad-barra{height:10px;border-radius:4px;background:linear-gradient(90deg,var(--dorado),var(--dorado-claro));}
     @media(max-width:600px){
       header h1{font-size:1.15rem;}
       .form-row{flex-direction:column;}
@@ -180,6 +191,7 @@
       .bloqueo-titulo{font-size:1.3rem;}
       .bloqueo-reloj{font-size:1.8rem;}
       .estado-foto-wrap{float:none;margin:0 0 10px 0;}
+      #foto-preview{width:160px;height:160px;}
     }
   </style>
 </head>
@@ -248,7 +260,7 @@
   <button class="bloqueo-btn" onclick="irAInspectores()">👮 Ir a Inspectores</button>
 </div>
 
-<!-- PASSWORD MODAL -->
+<!-- PASSWORD MODAL — corregido -->
 <div id="modal-pass">
   <div class="pass-box">
     <h3 id="pass-titulo">🔒 Contraseña requerida</h3>
@@ -318,7 +330,7 @@
                  onkeydown="if(event.key==='Enter')registrarIngreso()"/>
         </label>
       </div>
-      <!-- Foto: solo carga desde archivo, se muestra automáticamente si existe -->
+      <!-- Foto -->
       <div class="foto-section">
         <h4>📷 Foto del Invitado</h4>
         <div id="cam-status"></div>
@@ -328,7 +340,7 @@
           <button class="btn btn-danger btn-sm" id="btn-borrar-foto" onclick="borrarFoto()" style="display:none">🗑️ Borrar foto</button>
         </div>
         <div id="foto-preview-wrap">
-          <img id="foto-preview" src="" alt="Foto del invitado"/>
+          <img id="foto-preview" src="" alt="Foto del invitado" onclick="verFotoGrandePreview()"/>
           <span class="foto-dni-label" id="foto-preview-dni">DNI: --</span>
         </div>
         <div id="alerta-foto" class="alerta"></div>
@@ -502,7 +514,6 @@
 
   <!-- BACKUP -->
   <section id="sec-backup" class="seccion">
-    <!-- TOKEN CARD -->
     <div class="card">
       <h2>🔑 Token de Sincronización</h2>
       <div id="token-status-card" class="token-status error">❌ No hay token configurado</div>
@@ -554,6 +565,15 @@
       <h2>📊 Estadísticas del Sistema</h2>
       <button class="btn btn-primary" style="margin-bottom:16px;" onclick="renderEstadisticas()">🔄 Actualizar</button>
       <div id="estadisticas" class="stats-grid"></div>
+      <!-- Estimación de edad por DNI -->
+      <div id="edad-por-dni-section" class="edad-card" style="display:none;">
+        <h3>👥 Estimación de Edad por Rango de DNI</h3>
+        <p style="font-size:.78rem;color:#88aa88;margin-bottom:12px;">⚠️ Estimación aproximada basada en la correlación histórica del DNI argentino. No es exacta.</p>
+        <table class="edad-tabla" id="edad-tabla-body">
+          <thead><tr><th>Rango de DNI</th><th>Año de nacim. aprox.</th><th>Edad aprox. (2025)</th><th>Cant. ingresos</th><th>% del total</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
   </section>
 </main>
@@ -622,38 +642,58 @@ let _syncEnCurso=false, _ultimoSyncTs=null;
 let _pendingPassAction=null; // 'descargar' | 'restaurar'
 
 /* ══════════════════════════════════════════
-   PASSWORD MODAL
+   PASSWORD MODAL — CORREGIDO
+   El bug era que confirmarPass() llamaba a las funciones
+   correctamente pero el modal-pass tenía display:none en CSS
+   y necesitaba display:flex para mostrarse con .show.
+   Además se asegura que _pendingPassAction se preserve.
 ══════════════════════════════════════════ */
 function pedirPassBackup(accion){
-  _pendingPassAction=accion;
-  const titulos={descargar:'🔒 Contraseña para descargar',restaurar:'🔒 Contraseña para restaurar'};
-  const subs={descargar:'Ingresá la contraseña para descargar el backup XML.',restaurar:'Ingresá la contraseña para restaurar el backup XML.'};
-  document.getElementById('pass-titulo').textContent=titulos[accion]||'🔒 Contraseña requerida';
-  document.getElementById('pass-subtitulo').textContent=subs[accion]||'Ingresá la contraseña para continuar.';
-  document.getElementById('pass-input').value='';
-  document.getElementById('alerta-pass').className='alerta';
-  document.getElementById('modal-pass').classList.add('show');
-  setTimeout(()=>document.getElementById('pass-input').focus(),100);
+  _pendingPassAction = accion;
+  const titulos = {
+    descargar: '🔒 Contraseña para descargar',
+    restaurar: '🔒 Contraseña para restaurar'
+  };
+  const subs = {
+    descargar: 'Ingresá la contraseña para descargar el backup XML.',
+    restaurar: 'Ingresá la contraseña para restaurar el backup XML.'
+  };
+  document.getElementById('pass-titulo').textContent = titulos[accion] || '🔒 Contraseña requerida';
+  document.getElementById('pass-subtitulo').textContent = subs[accion] || 'Ingresá la contraseña para continuar.';
+  document.getElementById('pass-input').value = '';
+  const alertaEl = document.getElementById('alerta-pass');
+  alertaEl.className = 'alerta';
+  alertaEl.textContent = '';
+  document.getElementById('modal-pass').style.display = 'flex';
+  setTimeout(() => document.getElementById('pass-input').focus(), 120);
 }
+
 function cerrarModalPass(){
-  document.getElementById('modal-pass').classList.remove('show');
-  _pendingPassAction=null;
-  document.getElementById('pass-input').value='';
-  document.getElementById('alerta-pass').className='alerta';
+  document.getElementById('modal-pass').style.display = 'none';
+  _pendingPassAction = null;
+  document.getElementById('pass-input').value = '';
+  const alertaEl = document.getElementById('alerta-pass');
+  alertaEl.className = 'alerta';
+  alertaEl.textContent = '';
 }
+
 function confirmarPass(){
-  const val=document.getElementById('pass-input').value;
-  if(val!==BACKUP_PASS){
-    const el=document.getElementById('alerta-pass');
-    el.className='alerta show alerta-error';
-    el.textContent='❌ Contraseña incorrecta.';
-    document.getElementById('pass-input').value='';
+  const val = document.getElementById('pass-input').value;
+  if(val !== BACKUP_PASS){
+    const el = document.getElementById('alerta-pass');
+    el.className = 'alerta show alerta-error';
+    el.textContent = '❌ Contraseña incorrecta.';
+    document.getElementById('pass-input').value = '';
     document.getElementById('pass-input').focus();
     return;
   }
+  const accion = _pendingPassAction;
   cerrarModalPass();
-  if(_pendingPassAction==='descargar') generarBackup();
-  else if(_pendingPassAction==='restaurar') restaurarBackup();
+  // Ejecutar acción DESPUÉS de cerrar el modal
+  setTimeout(() => {
+    if(accion === 'descargar') generarBackup();
+    else if(accion === 'restaurar') restaurarBackup();
+  }, 150);
 }
 
 /* ══════════════════════════════════════════
@@ -1074,6 +1114,16 @@ async function borrarFoto(){
   mostrarAlerta('alerta-foto','warn','🗑️ Foto eliminada.');
 }
 
+/* Ver foto preview en grande */
+function verFotoGrandePreview(){
+  const src=document.getElementById('foto-preview').src;
+  if(!src||src===window.location.href)return;
+  const dni=document.getElementById('dni-ingreso').value.trim();
+  document.getElementById('modal-foto-img').src=src;
+  document.getElementById('modal-foto-info').textContent=dni?'DNI: '+dni:'Foto del invitado';
+  document.getElementById('modal-foto').classList.add('show');
+}
+
 /* Live DNI → mostrar foto si existe */
 function onDniIngresoChange(){
   const dni=document.getElementById('dni-ingreso').value.trim();
@@ -1364,7 +1414,6 @@ function renderVencidos(){
 }
 async function eliminarIngreso(ticket,dni,fecha,hora){
   if(!confirm(`¿Dar de baja el ingreso de DNI "${dni}"?`))return;
-  // Eliminar por coincidencia de dni+fecha+hora (ya que no hay ticket)
   guardarDatos(KEYS.ingresos,cargarDatos(KEYS.ingresos).filter(i=>!(i.dni===dni&&i.fecha===fecha&&i.hora===hora)));
   await guardarEnGitHub(true);renderVencidos();
   mostrarAlerta('alerta-vencidos','ok',`✅ Ingreso de DNI <strong>${dni}</strong> eliminado.`);
@@ -1635,16 +1684,46 @@ function restaurarBackup(){
 }
 
 /* ══════════════════════════════════════════
-   ESTADÍSTICAS (sección propia)
+   ESTIMACIÓN DE EDAD POR DNI ARGENTINO
+   Correlación histórica aproximada:
+   DNI se asigna secuencialmente desde 1968.
+   Rangos basados en datos demográficos de RENAPER.
+══════════════════════════════════════════ */
+const DNI_RANGOS = [
+  { desde:  1000000, hasta:  4999999, anioMin: 1900, anioMax: 1940, label: '1M – 5M'   },
+  { desde:  5000000, hasta:  9999999, anioMin: 1940, anioMax: 1955, label: '5M – 10M'  },
+  { desde: 10000000, hasta: 14999999, anioMin: 1955, anioMax: 1965, label: '10M – 15M' },
+  { desde: 15000000, hasta: 19999999, anioMin: 1965, anioMax: 1975, label: '15M – 20M' },
+  { desde: 20000000, hasta: 24999999, anioMin: 1975, anioMax: 1983, label: '20M – 25M' },
+  { desde: 25000000, hasta: 29999999, anioMin: 1983, anioMax: 1990, label: '25M – 30M' },
+  { desde: 30000000, hasta: 34999999, anioMin: 1990, anioMax: 1997, label: '30M – 35M' },
+  { desde: 35000000, hasta: 39999999, anioMin: 1997, anioMax: 2003, label: '35M – 40M' },
+  { desde: 40000000, hasta: 44999999, anioMin: 2003, anioMax: 2009, label: '40M – 45M' },
+  { desde: 45000000, hasta: 49999999, anioMin: 2009, anioMax: 2015, label: '45M – 50M' },
+  { desde: 50000000, hasta: 59999999, anioMin: 2015, anioMax: 2025, label: '50M+'      },
+];
+
+function estimarEdadPorDni(dniNum){
+  const rango = DNI_RANGOS.find(r => dniNum >= r.desde && dniNum <= r.hasta);
+  if(!rango) return null;
+  const anioMed = Math.round((rango.anioMin + rango.anioMax) / 2);
+  const edadMin = 2025 - rango.anioMax;
+  const edadMax = 2025 - rango.anioMin;
+  return { edadMin: Math.max(0,edadMin), edadMax, anioMin: rango.anioMin, anioMax: rango.anioMax, anioMed };
+}
+
+/* ══════════════════════════════════════════
+   ESTADÍSTICAS
 ══════════════════════════════════════════ */
 function renderEstadisticas(){
-  const i=cargarDatos(KEYS.ingresos).length,a=cargarDatos(KEYS.apercibimientos).length;
-  const s=cargarDatos(KEYS.suspensiones).length,ins=cargarDatos(KEYS.inspectores).length;
-  const f=Object.keys(cargarFotos()).length,hoy=isoFecha(ahoraReal());
+  const ingresos = cargarDatos(KEYS.ingresos);
+  const i=ingresos.length, a=cargarDatos(KEYS.apercibimientos).length;
+  const s=cargarDatos(KEYS.suspensiones).length, ins=cargarDatos(KEYS.inspectores).length;
+  const f=Object.keys(cargarFotos()).length, hoy=isoFecha(ahoraReal());
   const sa=cargarDatos(KEYS.suspensiones).filter(x=>hoy>=x.desde&&hoy<=x.hasta).length;
   const now=ahoraReal(),lim=HS_VIGENCIA*3600000,prev=lim-MIN_POR_VENCER*60000;
-  const ven=cargarDatos(KEYS.ingresos).filter(x=>{const ms=now.getTime()-parseFechaHora(x.fecha,x.hora).getTime();return ms>=lim;}).length;
-  const pv=cargarDatos(KEYS.ingresos).filter(x=>{const ms=now.getTime()-parseFechaHora(x.fecha,x.hora).getTime();return ms>=prev&&ms<lim;}).length;
+  const ven=ingresos.filter(x=>{const ms=now.getTime()-parseFechaHora(x.fecha,x.hora).getTime();return ms>=lim;}).length;
+  const pv=ingresos.filter(x=>{const ms=now.getTime()-parseFechaHora(x.fecha,x.hora).getTime();return ms>=prev&&ms<lim;}).length;
   const stat=(num,lbl,bg,border,color)=>`<div style="background:${bg};border:2px solid ${border};border-radius:10px;padding:14px 22px;text-align:center;min-width:110px;"><div style="font-size:1.8rem;font-weight:700;color:${color};font-family:'Oswald',sans-serif">${num}</div><div style="font-size:.78rem;color:${color};opacity:.85;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">${lbl}</div></div>`;
   document.getElementById('estadisticas').innerHTML=
     stat(i,'Ingresos','linear-gradient(135deg,#1a3a1a,#2d6e2d)','var(--dorado)','var(--dorado)')+
@@ -1655,6 +1734,62 @@ function renderEstadisticas(){
     stat(sa,'Susp. activas','linear-gradient(135deg,#2a0a2a,#5a1a5a)','#cc44cc','#ff88ff')+
     stat(ins,'Inspectores','linear-gradient(135deg,#1a2a3a,#1a4a6a)','#4488cc','#88ccff')+
     stat(f,'Fotos','linear-gradient(135deg,#1a1a3a,#2a2a6a)','#8888cc','#bbbbff');
+
+  // ── Estimación de edad por DNI ──
+  const secEdad = document.getElementById('edad-por-dni-section');
+  const tbody = document.querySelector('#edad-tabla-body tbody');
+  tbody.innerHTML = '';
+
+  if(!ingresos.length){ secEdad.style.display='none'; return; }
+  secEdad.style.display = 'block';
+
+  // Contar ingresos por rango, usando DNIs únicos (último ingreso por persona)
+  const dniUnico = {};
+  ingresos.forEach(ing => { dniUnico[ing.dni] = ing; });
+  const dniList = Object.keys(dniUnico).map(d => parseInt(d)).filter(d => !isNaN(d));
+  const total = dniList.length;
+
+  // Contar por rango
+  const conteos = DNI_RANGOS.map(r => {
+    const cant = dniList.filter(d => d >= r.desde && d <= r.hasta).length;
+    return { ...r, cant };
+  }).filter(r => r.cant > 0);
+
+  const maxCant = Math.max(...conteos.map(r => r.cant), 1);
+
+  conteos.forEach(r => {
+    const pct = total > 0 ? ((r.cant / total) * 100).toFixed(1) : '0.0';
+    const edadMin = Math.max(0, 2025 - r.anioMax);
+    const edadMax = 2025 - r.anioMin;
+    const edadLabel = edadMin === edadMax ? `~${edadMin} años` : `~${edadMin}–${edadMax} años`;
+    const anioLabel = `${r.anioMin}–${r.anioMax}`;
+    const barPct = Math.round((r.cant / maxCant) * 100);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><strong>${r.label}</strong></td>
+      <td>${anioLabel}</td>
+      <td><span style="font-weight:700;color:var(--dorado-claro)">${edadLabel}</span></td>
+      <td><strong>${r.cant}</strong></td>
+      <td>${pct}%</td>
+      <td style="min-width:80px">
+        <div class="edad-barra-wrap">
+          <div class="edad-barra" style="width:${barPct}%"></div>
+        </div>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+
+  // Fila resumen: edad promedio ponderada
+  const edadProm = dniList.reduce((acc, d) => {
+    const r = DNI_RANGOS.find(r => d >= r.desde && d <= r.hasta);
+    return r ? acc + (2025 - Math.round((r.anioMin + r.anioMax) / 2)) : acc;
+  }, 0) / (dniList.length || 1);
+
+  const trRes = document.createElement('tr');
+  trRes.style.cssText = 'background:rgba(200,168,75,.15);font-weight:700;';
+  trRes.innerHTML = `<td colspan="2" style="color:var(--dorado)">📊 Promedio estimado</td>
+    <td colspan="4" style="color:var(--dorado-claro)">~${edadProm.toFixed(0)} años (estimación aproximada sobre ${total} personas únicas)</td>`;
+  tbody.appendChild(trRes);
 }
 
 /* ══════════════════════════════════════════
