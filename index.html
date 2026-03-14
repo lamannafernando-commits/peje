@@ -128,10 +128,6 @@
     .foto-section h4{font-family:'Oswald',sans-serif;font-size:.9rem;color:var(--verde-oscuro);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
     .foto-controles{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;align-items:center;}
     #cam-status{font-size:.8rem;color:#4a6a4a;font-style:italic;margin-bottom:6px;min-height:1.2em;}
-    #camara-wrap{display:none;flex-direction:column;align-items:center;gap:8px;margin:10px 0;}
-    #camara-wrap.show{display:flex;}
-    #video-camara{width:100%;max-width:340px;border-radius:8px;border:2px solid var(--verde-logo);background:#000;}
-    #canvas-foto{display:none;}
     #foto-preview-wrap{display:none;flex-direction:column;align-items:center;gap:8px;margin-top:8px;}
     #foto-preview-wrap.show{display:flex;}
     #foto-preview{width:120px;height:120px;object-fit:cover;border-radius:8px;border:3px solid var(--verde-logo);box-shadow:0 2px 8px rgba(0,0,0,.2);}
@@ -146,8 +142,6 @@
     .foto-thumb{width:44px;height:44px;object-fit:cover;border-radius:5px;border:2px solid #ccc;vertical-align:middle;cursor:pointer;transition:transform .15s,box-shadow .15s;}
     .foto-thumb:hover{transform:scale(1.12);box-shadow:0 4px 12px rgba(0,0,0,.3);border-color:var(--dorado);}
     .foto-thumb-placeholder{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:5px;background:#e8ede8;border:2px dashed #aaaaaa;color:#aaaaaa;font-size:1.2rem;vertical-align:middle;}
-    .aviso-https{background:#fff3cd;border:2px solid var(--naranja);border-radius:8px;padding:10px 14px;margin-bottom:10px;font-size:.82rem;color:#92400e;font-weight:600;display:none;}
-    .aviso-https.show{display:block;}
     #sync-loading{display:none;position:fixed;inset:0;z-index:999;background:rgba(10,25,10,.95);align-items:center;justify-content:center;flex-direction:column;gap:16px;}
     #sync-loading.show{display:flex;}
     .sync-spinner{width:48px;height:48px;border:5px solid rgba(200,168,75,.3);border-top-color:var(--dorado);border-radius:50%;animation:spin 1s linear infinite;}
@@ -169,6 +163,16 @@
     .token-status{font-size:.85rem;margin-bottom:10px;}
     .token-status.ok{color:#4aff4a;}
     .token-status.error{color:var(--rojo-claro);}
+    /* Password modal */
+    #modal-pass{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.75);align-items:center;justify-content:center;}
+    #modal-pass.show{display:flex;}
+    .pass-box{background:var(--crema);border-radius:12px;border:2px solid var(--dorado);padding:28px 28px 22px;max-width:360px;width:94%;box-shadow:0 8px 40px rgba(0,0,0,.5);color:var(--texto-oscuro);text-align:center;}
+    .pass-box h3{font-family:'Oswald',sans-serif;font-size:1.1rem;color:var(--verde-oscuro);margin-bottom:14px;text-transform:uppercase;letter-spacing:1px;}
+    .pass-box input{width:100%;padding:10px 14px;border:2px solid #8aaa8a;border-radius:6px;font-size:1rem;background:#fff;color:var(--texto-oscuro);margin-bottom:12px;font-family:'Open Sans',sans-serif;}
+    .pass-box input:focus{outline:none;border-color:var(--verde-logo);}
+    .pass-box .pass-btns{display:flex;gap:10px;justify-content:center;}
+    /* Stats section */
+    .stats-grid{display:flex;gap:16px;flex-wrap:wrap;margin-top:4px;}
     @media(max-width:600px){
       header h1{font-size:1.15rem;}
       .form-row{flex-direction:column;}
@@ -244,6 +248,20 @@
   <button class="bloqueo-btn" onclick="irAInspectores()">👮 Ir a Inspectores</button>
 </div>
 
+<!-- PASSWORD MODAL -->
+<div id="modal-pass">
+  <div class="pass-box">
+    <h3 id="pass-titulo">🔒 Contraseña requerida</h3>
+    <p style="font-size:.85rem;color:#4a6a4a;margin-bottom:14px;" id="pass-subtitulo">Ingresá la contraseña para continuar.</p>
+    <input type="password" id="pass-input" placeholder="Contraseña..." onkeydown="if(event.key==='Enter')confirmarPass()"/>
+    <div id="alerta-pass" class="alerta"></div>
+    <div class="pass-btns">
+      <button class="btn btn-secondary" onclick="cerrarModalPass()">✖ Cancelar</button>
+      <button class="btn btn-gold" onclick="confirmarPass()">✅ Confirmar</button>
+    </div>
+  </div>
+</div>
+
 <!-- HEADER -->
 <header>
   <div class="header-logo-row">
@@ -277,6 +295,7 @@
   <button id="btn-nav-vencidos"       onclick="navClick('vencidos',this)">⏰ Ingresos Vencidos</button>
   <button id="btn-nav-inspectores"    onclick="navClick('inspectores',this)">👮 Inspectores</button>
   <button id="btn-nav-backup"         onclick="navClick('backup',this)">💾 Backup</button>
+  <button id="btn-nav-estadisticas"   onclick="navClick('estadisticas',this)">📊 Estadísticas</button>
 </nav>
 
 <main>
@@ -294,30 +313,19 @@
                  oninput="this.value=this.value.replace(/\D/g,'');onDniIngresoChange()"
                  onkeydown="if(event.key==='Enter')buscarInvitado()"/>
         </label>
-        <label>Nº Ticket de Entrada
-          <input type="text" id="ticket-ingreso" placeholder="Ej: T-0001" maxlength="20"
-                 oninput="validarTicketDuplicado()"
+        <label>Nombre (opcional)
+          <input type="text" id="nombre-ingreso" placeholder="Apellido, Nombre"
                  onkeydown="if(event.key==='Enter')registrarIngreso()"/>
         </label>
       </div>
-      <div id="aviso-ticket" class="alerta"></div>
+      <!-- Foto: solo carga desde archivo, se muestra automáticamente si existe -->
       <div class="foto-section">
         <h4>📷 Foto del Invitado</h4>
-        <div id="aviso-https" class="aviso-https">⚠️ <strong>Cámara directa no disponible (requiere HTTPS).</strong> Usá el botón <strong>📁 Cargar / Tomar Foto</strong>.</div>
         <div id="cam-status"></div>
         <div class="foto-controles">
-          <button class="btn btn-info btn-sm" onclick="abrirCamara()">📷 Tomar Foto</button>
-          <button class="btn btn-secondary btn-sm" onclick="document.getElementById('foto-archivo').click()">📁 Cargar / Tomar Foto</button>
+          <button class="btn btn-secondary btn-sm" onclick="document.getElementById('foto-archivo').click()">📁 Cargar Foto</button>
           <input type="file" id="foto-archivo" accept="image/*" capture="environment" style="display:none" onchange="cargarFotoArchivo(event)"/>
           <button class="btn btn-danger btn-sm" id="btn-borrar-foto" onclick="borrarFoto()" style="display:none">🗑️ Borrar foto</button>
-        </div>
-        <div id="camara-wrap">
-          <video id="video-camara" autoplay playsinline muted></video>
-          <canvas id="canvas-foto"></canvas>
-          <div style="display:flex;gap:8px;">
-            <button class="btn btn-success btn-sm" onclick="capturarFoto()">📸 Capturar</button>
-            <button class="btn btn-secondary btn-sm" onclick="cerrarCamara()">✖ Cancelar</button>
-          </div>
         </div>
         <div id="foto-preview-wrap">
           <img id="foto-preview" src="" alt="Foto del invitado"/>
@@ -341,7 +349,7 @@
         <div class="separador-dorado">Últimos 10 ingresos del invitado</div>
         <div class="tabla-wrap">
           <table id="tabla-ultimos">
-            <thead><tr><th>#</th><th>Fecha</th><th>Hora</th><th>Ticket</th><th>Estado</th></tr></thead>
+            <thead><tr><th>#</th><th>Fecha</th><th>Hora</th><th>Nombre</th><th>Estado</th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
@@ -424,7 +432,7 @@
       <div id="resumen-consulta" style="font-size:.88rem;color:#88aa88;margin:8px 0;"></div>
       <div class="tabla-wrap" style="margin-top:12px;">
         <table id="tabla-consulta">
-          <thead><tr><th>Foto</th><th>DNI</th><th>Ticket</th><th>Fecha</th><th>Hora</th><th>Estado</th></tr></thead>
+          <thead><tr><th>Foto</th><th>DNI</th><th>Nombre</th><th>Fecha</th><th>Hora</th><th>Estado</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -450,7 +458,7 @@
       <div id="alerta-vencidos" class="alerta"></div>
       <div class="tabla-wrap">
         <table id="tabla-vencidos">
-          <thead><tr><th>Foto</th><th>DNI</th><th>Ticket</th><th>Fecha ingreso</th><th>Hora ingreso</th><th>Tiempo transcurrido</th><th>Estado</th><th>Acción</th></tr></thead>
+          <thead><tr><th>Foto</th><th>DNI</th><th>Nombre</th><th>Fecha ingreso</th><th>Hora ingreso</th><th>Tiempo transcurrido</th><th>Estado</th><th>Acción</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -521,26 +529,31 @@
     </div>
     <div class="card">
       <h2>💾 Backup XML Local</h2>
-      <p style="font-size:.9rem;color:#4a6a4a;margin-bottom:14px;">Descargá una copia local de todos los datos en formato <strong>.xml</strong>.</p>
+      <p style="font-size:.9rem;color:#4a6a4a;margin-bottom:14px;">Descargá una copia local de todos los datos en formato <strong>.xml</strong>. Se requiere contraseña.</p>
       <div class="backup-row">
-        <button class="btn btn-success" onclick="generarBackup()">⬇️ Descargar XML local</button>
+        <button class="btn btn-success" onclick="pedirPassBackup('descargar')">⬇️ Descargar XML local</button>
       </div>
       <div id="alerta-backup-gen" class="alerta"></div>
     </div>
     <div class="card">
       <h2>♻️ Restaurar Backup XML</h2>
       <p style="font-size:.9rem;color:#4a6a4a;margin-bottom:14px;">
-        <strong style="color:var(--rojo);">⚠️ Esto reemplazará TODOS los datos actuales.</strong>
+        <strong style="color:var(--rojo);">⚠️ Esto reemplazará TODOS los datos actuales.</strong> Se requiere contraseña.
       </p>
       <div class="backup-row">
         <input type="file" id="archivo-bak" accept=".xml" style="padding:6px;border:1.5px solid #8aaa8a;border-radius:6px;background:#fff;color:var(--texto-oscuro)"/>
-        <button class="btn btn-warning" onclick="restaurarBackup()">⬆️ Restaurar Backup</button>
+        <button class="btn btn-warning" onclick="pedirPassBackup('restaurar')">⬆️ Restaurar Backup</button>
       </div>
       <div id="alerta-backup-rest" class="alerta"></div>
     </div>
+  </section>
+
+  <!-- ESTADÍSTICAS -->
+  <section id="sec-estadisticas" class="seccion">
     <div class="card">
-      <h2>📊 Estadísticas</h2>
-      <div id="estadisticas" style="display:flex;gap:16px;flex-wrap:wrap;margin-top:4px;"></div>
+      <h2>📊 Estadísticas del Sistema</h2>
+      <button class="btn btn-primary" style="margin-bottom:16px;" onclick="renderEstadisticas()">🔄 Actualizar</button>
+      <div id="estadisticas" class="stats-grid"></div>
     </div>
   </section>
 </main>
@@ -603,8 +616,45 @@ const KEYS={
 };
 const HS_VIGENCIA=24, MIN_POR_VENCER=60, WA_NUMERO='541162544509';
 const FOTO_MAX_W=320, FOTO_QUALITY=0.72, SYNC_INTERVAL=20000;
+const BACKUP_PASS='gustavopeje';
 let offsetMs=0, _editInspId=null, _inspDesact=null;
-let _streamCamara=null, _syncEnCurso=false, _ultimoSyncTs=null;
+let _syncEnCurso=false, _ultimoSyncTs=null;
+let _pendingPassAction=null; // 'descargar' | 'restaurar'
+
+/* ══════════════════════════════════════════
+   PASSWORD MODAL
+══════════════════════════════════════════ */
+function pedirPassBackup(accion){
+  _pendingPassAction=accion;
+  const titulos={descargar:'🔒 Contraseña para descargar',restaurar:'🔒 Contraseña para restaurar'};
+  const subs={descargar:'Ingresá la contraseña para descargar el backup XML.',restaurar:'Ingresá la contraseña para restaurar el backup XML.'};
+  document.getElementById('pass-titulo').textContent=titulos[accion]||'🔒 Contraseña requerida';
+  document.getElementById('pass-subtitulo').textContent=subs[accion]||'Ingresá la contraseña para continuar.';
+  document.getElementById('pass-input').value='';
+  document.getElementById('alerta-pass').className='alerta';
+  document.getElementById('modal-pass').classList.add('show');
+  setTimeout(()=>document.getElementById('pass-input').focus(),100);
+}
+function cerrarModalPass(){
+  document.getElementById('modal-pass').classList.remove('show');
+  _pendingPassAction=null;
+  document.getElementById('pass-input').value='';
+  document.getElementById('alerta-pass').className='alerta';
+}
+function confirmarPass(){
+  const val=document.getElementById('pass-input').value;
+  if(val!==BACKUP_PASS){
+    const el=document.getElementById('alerta-pass');
+    el.className='alerta show alerta-error';
+    el.textContent='❌ Contraseña incorrecta.';
+    document.getElementById('pass-input').value='';
+    document.getElementById('pass-input').focus();
+    return;
+  }
+  cerrarModalPass();
+  if(_pendingPassAction==='descargar') generarBackup();
+  else if(_pendingPassAction==='restaurar') restaurarBackup();
+}
 
 /* ══════════════════════════════════════════
    TOKEN
@@ -767,12 +817,10 @@ function aplicarDatos(d){
 }
 
 /* ══════════════════════════════════════════
-   GUARDAR EN GITHUB — siempre busca SHA fresco,
-   reintenta hasta 3 veces ante conflicto
+   GUARDAR EN GITHUB
 ══════════════════════════════════════════ */
 async function guardarEnGitHub(silencioso=false){
   if(!getToken()){setSyncBadge('error','❌ Sin token');return {ok:false,error:'sin-token'};}
-  // Esperar si hay sync en curso (máx 8s)
   let w=0;
   while(_syncEnCurso&&w<27){await new Promise(r=>setTimeout(r,300));w++;}
   _syncEnCurso=true;
@@ -781,38 +829,22 @@ async function guardarEnGitHub(silencioso=false){
     const json=JSON.stringify(construirDatos(),null,2);
     const now=ahoraReal();
     const msg=`PCQ ${formatFecha(now)} ${formatHora(now)}`;
-    // Intentar hasta 3 veces ante conflicto SHA
     for(let intento=0;intento<3;intento++){
-      // Siempre obtener SHA fresco antes de escribir
       const info=await ghGetFile(GH.dataFile);
-      if(info.error==='token-invalido'){
-        setSyncBadge('error','❌ Token inválido');
-        return {ok:false,error:'token-invalido'};
-      }
-      if(info.error==='timeout'||info.error==='sin-token'){
-        setSyncBadge('error','❌ '+info.error);
-        return {ok:false,error:info.error};
-      }
+      if(info.error==='token-invalido'){setSyncBadge('error','❌ Token inválido');return {ok:false,error:'token-invalido'};}
+      if(info.error==='timeout'||info.error==='sin-token'){setSyncBadge('error','❌ '+info.error);return {ok:false,error:info.error};}
       const sha=info.sha||null;
       const res=await ghPutFile(GH.dataFile,json,msg,sha);
       if(res.ok){
         _ultimoSyncTs=ahoraReal();
         guardarItem(KEYS.lastSync,_ultimoSyncTs.toISOString());
-        // Guardar el timestamp remoto para comparar en el próximo pull
         guardarItem(KEYS.lastRemoteTs,now.toISOString());
         setSyncBadge('ok','✅ '+formatHora(_ultimoSyncTs));
         _actualizarInfoSync();
         return {ok:true};
       }
-      if(res.error==='sha-conflict'){
-        // Esperar un poco y reintentar con SHA nuevo
-        await new Promise(r=>setTimeout(r,500*(intento+1)));
-        continue;
-      }
-      if(res.error==='token-invalido'){
-        setSyncBadge('error','❌ Token inválido');
-        return {ok:false,error:res.error};
-      }
+      if(res.error==='sha-conflict'){await new Promise(r=>setTimeout(r,500*(intento+1)));continue;}
+      if(res.error==='token-invalido'){setSyncBadge('error','❌ Token inválido');return {ok:false,error:res.error};}
       setSyncBadge('error','❌ Error');
       return {ok:false,error:res.error};
     }
@@ -828,8 +860,6 @@ async function guardarEnGitHub(silencioso=false){
 
 /* ══════════════════════════════════════════
    SINCRONIZAR DESDE GITHUB
-   — compara updatedAt remoto vs local sin depender
-     de lastSync (que puede diferir entre dispositivos)
 ══════════════════════════════════════════ */
 async function sincronizarDesdeGitHub(mostrarUI=false){
   if(_syncEnCurso){
@@ -862,30 +892,23 @@ async function sincronizarDesdeGitHub(mostrarUI=false){
       return;
     }
     if(!info.content){
-      // No existe en remoto → subir datos locales
       _syncEnCurso=false;
       await guardarEnGitHub(true);
       if(mostrarUI) mostrarAlerta('alerta-github','ok','✅ Datos subidos a la nube por primera vez.');
       return;
     }
-
     const remoto=JSON.parse(base64ToUtf8(info.content.replace(/\n/g,'')));
-    const tsRemoto=remoto.updatedAt ? new Date(remoto.updatedAt).getTime() : 0;
-    // Usamos el updatedAt guardado del último remoto aplicado, NO el lastSync del dispositivo
-    const tsLocalRemoto=cargarItem(KEYS.lastRemoteTs) ? new Date(cargarItem(KEYS.lastRemoteTs)).getTime() : 0;
-
-    if(tsRemoto > tsLocalRemoto + 500){
-      // El remoto tiene datos más nuevos → aplicar
+    const tsRemoto=remoto.updatedAt?new Date(remoto.updatedAt).getTime():0;
+    const tsLocalRemoto=cargarItem(KEYS.lastRemoteTs)?new Date(cargarItem(KEYS.lastRemoteTs)).getTime():0;
+    if(tsRemoto>tsLocalRemoto+500){
       aplicarDatos(remoto);
       _ultimoSyncTs=new Date(remoto.updatedAt);
       guardarItem(KEYS.lastSync,remoto.updatedAt);
       guardarItem(KEYS.lastRemoteTs,remoto.updatedAt);
       setSyncBadge('ok','✅ '+formatHora(_ultimoSyncTs));
       _actualizarInfoSync();
-      // Actualizar UI con los nuevos datos
       actualizarUIInspectorActivo();
       actualizarEstadoBloqueo();
-      // Refrescar tabla activa si corresponde
       _refrescarSeccionActiva();
       if(mostrarUI) mostrarAlerta('alerta-github','ok',
         `✅ Datos actualizados desde la nube.<br>
@@ -905,7 +928,6 @@ async function sincronizarDesdeGitHub(mostrarUI=false){
   }
 }
 
-/* Refresca la sección actualmente visible tras un sync */
 function _refrescarSeccionActiva(){
   const activa=document.querySelector('.seccion.activa');
   if(!activa) return;
@@ -914,7 +936,8 @@ function _refrescarSeccionActiva(){
   if(id==='suspension') renderTablaSuspensiones();
   if(id==='vencidos') renderVencidos();
   if(id==='inspectores'){renderInspectores();actualizarUIInspectorActivo();}
-  if(id==='backup'){renderEstadisticas();_actualizarInfoSync();actualizarTokenStatusCard();}
+  if(id==='backup'){_actualizarInfoSync();actualizarTokenStatusCard();}
+  if(id==='estadisticas') renderEstadisticas();
 }
 
 function _actualizarInfoSync(){
@@ -935,7 +958,7 @@ async function verificarConexionGitHub(){
       }}
     );
     const d=await r.json();
-    if(r.ok) mostrarAlerta('alerta-github','ok',`✅ Conexión exitosa con el servicio de sincronización.`);
+    if(r.ok) mostrarAlerta('alerta-github','ok','✅ Conexión exitosa con el servicio de sincronización.');
     else if(r.status===401||r.status===403) mostrarAlerta('alerta-github','error','❌ Token inválido. Generá uno nuevo con permiso <strong>repo</strong>.');
     else mostrarAlerta('alerta-github','error',`❌ Error ${r.status}: ${d.message}`);
   }catch(e){mostrarAlerta('alerta-github','error','❌ Sin conexión: '+e.message);}
@@ -1007,51 +1030,15 @@ function estadoIngreso(ing){
 }
 
 /* ══════════════════════════════════════════
-   TICKET DUPLICADO
-══════════════════════════════════════════ */
-function validarTicketDuplicado(){
-  const t=document.getElementById('ticket-ingreso').value.trim();
-  const av=document.getElementById('aviso-ticket');
-  if(!t){av.className='alerta';return;}
-  const ex=cargarDatos(KEYS.ingresos).find(i=>i.ticket.toLowerCase()===t.toLowerCase());
-  if(ex){av.className='alerta show alerta-error';av.innerHTML=`🚫 Ticket <strong>${t}</strong> ya registrado el <strong>${ex.fecha}</strong> para DNI <strong>${ex.dni}</strong>.`;}
-  else{av.className='alerta show alerta-ok';av.innerHTML=`✅ Ticket <strong>${t}</strong> disponible.`;}
-}
-
-/* ══════════════════════════════════════════
-   CÁMARA
+   FOTO — solo carga desde archivo
 ══════════════════════════════════════════ */
 function _setCamStatus(m,c){const e=document.getElementById('cam-status');if(e){e.textContent=m;e.style.color=c||'#4a6a4a';}}
-function esContextoSeguro(){return location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1'||location.hostname==='';}
-function verificarContextoYMostrarAviso(){document.getElementById('aviso-https').classList[(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!esContextoSeguro())?'add':'remove']('show');}
-async function abrirCamara(){
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){document.getElementById('aviso-https').classList.add('show');mostrarAlerta('alerta-foto','warn','Usá <strong>"📁 Cargar / Tomar Foto"</strong>.');return;}
-  _cerrarStreamCamara();_setCamStatus('⏳ Solicitando acceso...','#1a5a8a');
-  const intentos=[{video:{facingMode:{ideal:'environment'}},audio:false},{video:{facingMode:{ideal:'user'}},audio:false},{video:true,audio:false}];
-  let stream=null,ue=null;
-  for(const c of intentos){try{stream=await navigator.mediaDevices.getUserMedia(c);break;}catch(e){ue=e;if(e.name==='NotAllowedError'||e.name==='PermissionDeniedError')break;}}
-  if(!stream){_setCamStatus('','');_mostrarErrorCamara(ue);return;}
-  _streamCamara=stream;
-  const v=document.getElementById('video-camara');v.srcObject=stream;
-  await new Promise(res=>{if(v.readyState>=1){res();return;}v.addEventListener('loadedmetadata',res,{once:true});setTimeout(res,3000);});
-  try{await v.play();}catch(e){}
-  document.getElementById('camara-wrap').classList.add('show');
-  _setCamStatus('✅ Cámara activa — presioná Capturar','#1a6b1a');
-}
-function _mostrarErrorCamara(e){
-  const m=!e?'⚠️ No se pudo acceder a la cámara.':
-    e.name==='NotAllowedError'||e.name==='PermissionDeniedError'?'🚫 Permiso denegado. Usá <strong>"📁 Cargar / Tomar Foto"</strong>.':
-    e.name==='NotFoundError'?'📷 No se encontró cámara. Usá <strong>"📁 Cargar / Tomar Foto"</strong>.':
-    `⚠️ Error (${e.name}). Usá <strong>"📁 Cargar / Tomar Foto"</strong>.`;
-  mostrarAlerta('alerta-foto','error',m);
-}
-function _cerrarStreamCamara(){if(_streamCamara){_streamCamara.getTracks().forEach(t=>t.stop());_streamCamara=null;}}
-function cerrarCamara(){_cerrarStreamCamara();const v=document.getElementById('video-camara');v.srcObject=null;document.getElementById('camara-wrap').classList.remove('show');document.getElementById('alerta-foto').className='alerta';_setCamStatus('','');}
-function capturarFoto(){
-  const v=document.getElementById('video-camara');
-  if(!v.srcObject||!_streamCamara){mostrarAlerta('alerta-foto','error','La cámara no está activa.');return;}
-  if(!v.videoWidth||!v.videoHeight){_setCamStatus('⏳ Esperando...','#b45309');setTimeout(()=>{if(v.videoWidth&&v.videoHeight){const b=comprimirImagen(v);cerrarCamara();_guardarFoto(b);}else{mostrarAlerta('alerta-foto','error','No se pudo obtener imagen.');_setCamStatus('','');}},500);return;}
-  const b=comprimirImagen(v);cerrarCamara();_guardarFoto(b);
+
+function cargarFotoArchivo(ev){
+  const f=ev.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=function(e){const i=new Image();i.onload=function(){_guardarFoto(comprimirImagen(i));};i.src=e.target.result;};
+  r.readAsDataURL(f);ev.target.value='';
 }
 function comprimirImagen(src){
   const c=document.createElement('canvas');
@@ -1059,12 +1046,6 @@ function comprimirImagen(src){
   if(w>FOTO_MAX_W){h=Math.round(h*FOTO_MAX_W/w);w=FOTO_MAX_W;}
   c.width=w;c.height=h;c.getContext('2d').drawImage(src,0,0,w,h);
   return c.toDataURL('image/jpeg',FOTO_QUALITY);
-}
-function cargarFotoArchivo(ev){
-  const f=ev.target.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=function(e){const i=new Image();i.onload=function(){_guardarFoto(comprimirImagen(i));};i.src=e.target.result;};
-  r.readAsDataURL(f);ev.target.value='';
 }
 async function _guardarFoto(b64){
   document.getElementById('foto-preview').src=b64;
@@ -1092,8 +1073,11 @@ async function borrarFoto(){
   document.getElementById('foto-preview-dni').textContent='DNI: --';
   mostrarAlerta('alerta-foto','warn','🗑️ Foto eliminada.');
 }
+
+/* Live DNI → mostrar foto si existe */
 function onDniIngresoChange(){
-  const dni=document.getElementById('dni-ingreso').value.trim(),foto=dni?getFoto(dni):null;
+  const dni=document.getElementById('dni-ingreso').value.trim();
+  const foto=dni?getFoto(dni):null;
   if(foto){
     document.getElementById('foto-preview').src=foto;
     document.getElementById('foto-preview-wrap').classList.add('show');
@@ -1106,7 +1090,10 @@ function onDniIngresoChange(){
     document.getElementById('foto-preview-dni').textContent='DNI: --';
   }
 }
-function asociarFotoAlRegistrar(dni){const s=document.getElementById('foto-preview').src;if(s&&s!==window.location.href&&!getFoto(dni))setFoto(dni,s);}
+function asociarFotoAlRegistrar(dni){
+  const s=document.getElementById('foto-preview').src;
+  if(s&&s!==window.location.href&&!getFoto(dni)) setFoto(dni,s);
+}
 
 /* ══════════════════════════════════════════
    FOTOS EN TABLAS
@@ -1135,7 +1122,7 @@ function getInspectorActivo(){
 function actualizarEstadoBloqueo(){
   const ok=!!getInspectorActivo();
   document.getElementById('bloqueo-overlay').classList[ok?'remove':'add']('show');
-  ['btn-nav-ingreso','btn-nav-apercibamiento','btn-nav-suspension','btn-nav-consulta','btn-nav-vencidos','btn-nav-backup'].forEach(id=>{
+  ['btn-nav-ingreso','btn-nav-apercibamiento','btn-nav-suspension','btn-nav-consulta','btn-nav-vencidos','btn-nav-backup','btn-nav-estadisticas'].forEach(id=>{
     const b=document.getElementById(id);if(!b)return;
     b.classList[ok?'remove':'add']('nav-bloqueado');
   });
@@ -1154,11 +1141,11 @@ function _navegarSeccion(id,btn){
   if(btn) btn.classList.add('activo');
   if(id==='apercibamiento'){renderTablaApercibimientos();actualizarUIInspectorActivo();}
   if(id==='suspension') renderTablaSuspensiones();
-  if(id==='backup'){renderEstadisticas();_actualizarInfoSync();actualizarTokenStatusCard();}
+  if(id==='backup'){_actualizarInfoSync();actualizarTokenStatusCard();}
+  if(id==='estadisticas') renderEstadisticas();
   if(id==='inspectores'){renderInspectores();actualizarUIInspectorActivo();}
   if(id==='vencidos') renderVencidos();
   if(id==='consulta') setFechasConsultaHoy();
-  if(id==='ingreso') verificarContextoYMostrarAviso();
 }
 
 /* ══════════════════════════════════════════
@@ -1250,24 +1237,24 @@ async function confirmarDesactivar(){
 function generarXMLTurno(insp,turno,now){
   const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   let x=`<?xml version="1.0" encoding="UTF-8"?>\n<TurnoPCQ>\n  <MetaData>\n    <Inspector>${esc(insp.nombre)}</Inspector>\n    <Inicio>${esc(turno.inicio)}</Inicio>\n    <Fin>${esc(turno.fin)}</Fin>\n    <TotalIngresos>${turno.ingresos.length}</TotalIngresos>\n    <TotalApercibamientos>${turno.apercibimientos.length}</TotalApercibamientos>\n    <TotalSuspensiones>${turno.suspensiones.length}</TotalSuspensiones>\n    <TotalVencidos>${turno.vencidos.length}</TotalVencidos>\n  </MetaData>\n  <Ingresos>\n`;
-  turno.ingresos.forEach(i=>{x+=`    <Ingreso><DNI>${esc(i.dni)}</DNI><Ticket>${esc(i.ticket)}</Ticket><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora></Ingreso>\n`;});
+  turno.ingresos.forEach(i=>{x+=`    <Ingreso><DNI>${esc(i.dni)}</DNI><Nombre>${esc(i.nombre||'')}</Nombre><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora></Ingreso>\n`;});
   x+=`  </Ingresos>\n  <Apercibamientos>\n`;
   turno.apercibimientos.forEach(a=>{x+=`    <Apercibamiento><DNI>${esc(a.dni)}</DNI><Nombre>${esc(a.nombre)}</Nombre><Motivo>${esc(a.motivo)}</Motivo><Fecha>${esc(a.fecha)}</Fecha><Hora>${esc(a.hora)}</Hora></Apercibamiento>\n`;});
   x+=`  </Apercibamientos>\n  <Suspensiones>\n`;
   turno.suspensiones.forEach(s=>{x+=`    <Suspension><DNI>${esc(s.dni)}</DNI><Nombre>${esc(s.nombre)}</Nombre><Desde>${esc(s.desde)}</Desde><Hasta>${esc(s.hasta)}</Hasta><Motivo>${esc(s.motivo)}</Motivo></Suspension>\n`;});
   x+=`  </Suspensiones>\n  <IngresosVencidos>\n`;
-  turno.vencidos.forEach(i=>{const ms=ahoraReal().getTime()-parseFechaHora(i.fecha,i.hora).getTime();x+=`    <Vencido><DNI>${esc(i.dni)}</DNI><Ticket>${esc(i.ticket)}</Ticket><Transcurrido>${tiempoTranscurrido(ms)}</Transcurrido></Vencido>\n`;});
+  turno.vencidos.forEach(i=>{const ms=ahoraReal().getTime()-parseFechaHora(i.fecha,i.hora).getTime();x+=`    <Vencido><DNI>${esc(i.dni)}</DNI><Nombre>${esc(i.nombre||'')}</Nombre><Transcurrido>${tiempoTranscurrido(ms)}</Transcurrido></Vencido>\n`;});
   x+=`  </IngresosVencidos>\n</TurnoPCQ>`;return x;
 }
 function armarMensajeWA(insp,turno){
   let m=`🎣 *Pejerrey Club Quilmes*\n📋 *Cierre de Turno*\n👮 Inspector: *${insp.nombre}*\n🕐 Inicio: ${turno.inicio}\n🕐 Cierre: ${turno.fin}\n──────────────────\n🚪 Ingresos: *${turno.ingresos.length}*\n`;
-  turno.ingresos.forEach(i=>{m+=`  • DNI ${i.dni} – Ticket ${i.ticket} (${i.fecha} ${i.hora})\n`;});
+  turno.ingresos.forEach(i=>{m+=`  • DNI ${i.dni}${i.nombre?' ('+i.nombre+')':''} (${i.fecha} ${i.hora})\n`;});
   m+=`──────────────────\n⚠️ Apercibamientos: *${turno.apercibimientos.length}*\n`;
   turno.apercibimientos.forEach(a=>{m+=`  • DNI ${a.dni}${a.nombre?' ('+a.nombre+')':''} – ${a.motivo}\n`;});
   m+=`──────────────────\n🚫 Suspensiones: *${turno.suspensiones.length}*\n`;
   turno.suspensiones.forEach(s=>{m+=`  • DNI ${s.dni}${s.nombre?' ('+s.nombre+')':''} – hasta ${s.hasta}\n`;});
   m+=`──────────────────\n⏰ Vencidos: *${turno.vencidos.length}*\n`;
-  turno.vencidos.forEach(i=>{const ms=ahoraReal().getTime()-parseFechaHora(i.fecha,i.hora).getTime();m+=`  • DNI ${i.dni} – Ticket ${i.ticket} – hace ${tiempoTranscurrido(ms)}\n`;});
+  turno.vencidos.forEach(i=>{const ms=ahoraReal().getTime()-parseFechaHora(i.fecha,i.hora).getTime();m+=`  • DNI ${i.dni}${i.nombre?' ('+i.nombre+')':''} – hace ${tiempoTranscurrido(ms)}\n`;});
   m+=`──────────────────\n✅ Turno cerrado.`;return m;
 }
 
@@ -1371,15 +1358,16 @@ function renderVencidos(){
   todos.forEach(i=>{
     const ms=now.getTime()-parseFechaHora(i.fecha,i.hora).getTime();
     const est=estadoIngreso(i);const tr=document.createElement('tr');tr.className=est.fila;
-    tr.innerHTML=`<td>${fotoThumb(i.dni)}</td><td>${i.dni}</td><td>${i.ticket}</td><td>${i.fecha}</td><td>${i.hora}</td><td>${tiempoTranscurrido(ms)}</td><td><span class="badge ${est.clase}">${est.texto}</span></td><td><button class="btn btn-danger btn-sm" onclick="eliminarIngreso('${i.ticket}')">🗑️ Dar de baja</button></td>`;
+    tr.innerHTML=`<td>${fotoThumb(i.dni)}</td><td>${i.dni}</td><td>${i.nombre||'—'}</td><td>${i.fecha}</td><td>${i.hora}</td><td>${tiempoTranscurrido(ms)}</td><td><span class="badge ${est.clase}">${est.texto}</span></td><td><button class="btn btn-danger btn-sm" onclick="eliminarIngreso('${i.ticket||i.fecha+i.hora}','${i.dni}','${i.fecha}','${i.hora}')">🗑️ Dar de baja</button></td>`;
     tbody.appendChild(tr);
   });
 }
-async function eliminarIngreso(ticket){
-  if(!confirm(`¿Dar de baja el ticket "${ticket}"?`))return;
-  guardarDatos(KEYS.ingresos,cargarDatos(KEYS.ingresos).filter(i=>i.ticket!==ticket));
+async function eliminarIngreso(ticket,dni,fecha,hora){
+  if(!confirm(`¿Dar de baja el ingreso de DNI "${dni}"?`))return;
+  // Eliminar por coincidencia de dni+fecha+hora (ya que no hay ticket)
+  guardarDatos(KEYS.ingresos,cargarDatos(KEYS.ingresos).filter(i=>!(i.dni===dni&&i.fecha===fecha&&i.hora===hora)));
   await guardarEnGitHub(true);renderVencidos();
-  mostrarAlerta('alerta-vencidos','ok',`✅ Ticket <strong>${ticket}</strong> eliminado.`);
+  mostrarAlerta('alerta-vencidos','ok',`✅ Ingreso de DNI <strong>${dni}</strong> eliminado.`);
 }
 async function limpiarVencidos(){
   const ing=cargarDatos(KEYS.ingresos),now=ahoraReal(),lim=HS_VIGENCIA*3600000;
@@ -1410,7 +1398,11 @@ function consultarIngresos(){
   document.getElementById('resumen-consulta').textContent=`Se encontraron ${res.length} ingreso(s) entre ${desde} y ${hasta}${dni?' para DNI '+dni:''}.`;
   const tbody=document.querySelector('#tabla-consulta tbody');tbody.innerHTML='';
   if(!res.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;">Sin resultados</td></tr>';return;}
-  res.forEach(i=>{const est=estadoIngreso(i);const tr=document.createElement('tr');if(est.fila)tr.className=est.fila;tr.innerHTML=`<td>${fotoThumb(i.dni)}</td><td>${i.dni}</td><td>${i.ticket}</td><td>${i.fecha}</td><td>${i.hora}</td><td><span class="badge ${est.clase}">${est.texto}</span></td>`;tbody.appendChild(tr);});
+  res.forEach(i=>{
+    const est=estadoIngreso(i);const tr=document.createElement('tr');if(est.fila)tr.className=est.fila;
+    tr.innerHTML=`<td>${fotoThumb(i.dni)}</td><td>${i.dni}</td><td>${i.nombre||'—'}</td><td>${i.fecha}</td><td>${i.hora}</td><td><span class="badge ${est.clase}">${est.texto}</span></td>`;
+    tbody.appendChild(tr);
+  });
 }
 
 /* ══════════════════════════════════════════
@@ -1477,30 +1469,38 @@ function buscarInvitado(){
   mostrarAlerta('alerta-ingreso',tipo,msg);
   const wrap=document.getElementById('ultimos-ingresos'),tbody=document.querySelector('#tabla-ultimos tbody');
   tbody.innerHTML='';wrap.style.display='block';
-  if(miIng.length){miIng.forEach((i,n)=>{const est=estadoIngreso(i);const tr=document.createElement('tr');if(est.fila)tr.className=est.fila;tr.innerHTML=`<td>${n+1}</td><td>${i.fecha}</td><td>${i.hora}</td><td>${i.ticket}</td><td><span class="badge ${est.clase}">${est.texto}</span></td>`;tbody.appendChild(tr);});}
-  else tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:#aaa;">Sin ingresos previos</td></tr>';
-  if(foto){document.getElementById('foto-preview').src=foto;document.getElementById('foto-preview-wrap').classList.add('show');document.getElementById('btn-borrar-foto').style.display='inline-flex';document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅';}
+  if(miIng.length){
+    miIng.forEach((i,n)=>{
+      const est=estadoIngreso(i);const tr=document.createElement('tr');if(est.fila)tr.className=est.fila;
+      tr.innerHTML=`<td>${n+1}</td><td>${i.fecha}</td><td>${i.hora}</td><td>${i.nombre||'—'}</td><td><span class="badge ${est.clase}">${est.texto}</span></td>`;
+      tbody.appendChild(tr);
+    });
+  } else tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:#aaa;">Sin ingresos previos</td></tr>';
+  if(foto){
+    document.getElementById('foto-preview').src=foto;
+    document.getElementById('foto-preview-wrap').classList.add('show');
+    document.getElementById('btn-borrar-foto').style.display='inline-flex';
+    document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅';
+  }
 }
 async function registrarIngreso(){
-  const dni=document.getElementById('dni-ingreso').value.trim(),ticket=document.getElementById('ticket-ingreso').value.trim();
+  const dni=document.getElementById('dni-ingreso').value.trim();
+  const nombre=document.getElementById('nombre-ingreso').value.trim();
   if(!dni){mostrarAlerta('alerta-ingreso','error','Ingresá el número de documento.');return;}
-  if(!ticket){mostrarAlerta('alerta-ingreso','error','Ingresá el número de ticket.');return;}
-  const ex=cargarDatos(KEYS.ingresos).find(i=>i.ticket.toLowerCase()===ticket.toLowerCase());
-  if(ex){mostrarAlerta('alerta-ingreso','error',`🚫 Ticket <strong>${ticket}</strong> ya registrado el <strong>${ex.fecha}</strong> para DNI <strong>${ex.dni}</strong>.`);return;}
   const hoy=isoFecha(ahoraReal());
   const susp=cargarDatos(KEYS.suspensiones).find(s=>s.dni===dni&&hoy>=s.desde&&hoy<=s.hasta);
   if(susp){mostrarAlerta('alerta-ingreso','error',`🚫 Invitado <strong>SUSPENDIDO</strong> hasta <strong>${susp.hasta}</strong>.`);return;}
   asociarFotoAlRegistrar(dni);
   const now=ahoraReal();
   const lista=cargarDatos(KEYS.ingresos);
-  lista.push({dni,ticket,fecha:formatFecha(now),hora:formatHora(now),isoFecha:isoFecha(now)});
+  lista.push({dni,nombre,fecha:formatFecha(now),hora:formatHora(now),isoFecha:isoFecha(now)});
   guardarDatos(KEYS.ingresos,lista);
-  document.getElementById('aviso-ticket').className='alerta';
   mostrarAlerta('alerta-ingreso','info','⏳ Guardando...');
   const res=await guardarEnGitHub(false);
-  if(res.ok) mostrarAlerta('alerta-ingreso','ok',`✅ Ingreso registrado – DNI: <strong>${dni}</strong> | Ticket: <strong>${ticket}</strong> | ${formatFecha(now)} ${formatHora(now)}`);
+  if(res.ok) mostrarAlerta('alerta-ingreso','ok',`✅ Ingreso registrado – DNI: <strong>${dni}</strong>${nombre?' | Nombre: <strong>'+nombre+'</strong>':''} | ${formatFecha(now)} ${formatHora(now)}`);
   else mostrarAlerta('alerta-ingreso','warn',`⚠️ Guardado localmente. Error sync: ${res.error||''}`);
-  buscarInvitado();document.getElementById('ticket-ingreso').value='';
+  buscarInvitado();
+  document.getElementById('nombre-ingreso').value='';
 }
 
 /* ══════════════════════════════════════════
@@ -1588,7 +1588,7 @@ function datosAXML(){
   const now=ahoraReal();
   const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   let x=`<?xml version="1.0" encoding="UTF-8"?>\n<PejerreyClubQuilmes>\n  <MetaData>\n    <FechaBackup>${formatFecha(now)} ${formatHora(now)}</FechaBackup>\n    <TotalIngresos>${ing.length}</TotalIngresos>\n    <TotalApercibamientos>${ap.length}</TotalApercibamientos>\n    <TotalSuspensiones>${su.length}</TotalSuspensiones>\n    <TotalInspectores>${ins.length}</TotalInspectores>\n    <TotalFotos>${Object.keys(fotos).length}</TotalFotos>\n    <InspectorActivoId>${esc(actId)}</InspectorActivoId>\n  </MetaData>\n  <Ingresos>\n`;
-  ing.forEach(i=>{x+=`    <Ingreso><DNI>${esc(i.dni)}</DNI><Ticket>${esc(i.ticket)}</Ticket><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora><IsoFecha>${esc(i.isoFecha)}</IsoFecha></Ingreso>\n`;});
+  ing.forEach(i=>{x+=`    <Ingreso><DNI>${esc(i.dni)}</DNI><Nombre>${esc(i.nombre||'')}</Nombre><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora><IsoFecha>${esc(i.isoFecha)}</IsoFecha></Ingreso>\n`;});
   x+=`  </Ingresos>\n  <Apercibamientos>\n`;
   ap.forEach(a=>{x+=`    <Apercibamiento><ID>${esc(a.id)}</ID><DNI>${esc(a.dni)}</DNI><Nombre>${esc(a.nombre)}</Nombre><Motivo>${esc(a.motivo)}</Motivo><Fecha>${esc(a.fecha)}</Fecha><Hora>${esc(a.hora)}</Hora><Inspector>${esc(a.inspector)}</Inspector><InspectorId>${esc(a.inspectorId)}</InspectorId></Apercibamiento>\n`;});
   x+=`  </Apercibamientos>\n  <Suspensiones>\n`;
@@ -1615,7 +1615,7 @@ function restaurarBackup(){
     try{
       const parser=new DOMParser();const doc=parser.parseFromString(e.target.result,'application/xml');
       if(doc.querySelector('parsererror'))throw new Error('XML inválido');
-      const ing=[];doc.querySelectorAll('Ingreso').forEach(n=>{ing.push({dni:n.querySelector('DNI')?.textContent||'',ticket:n.querySelector('Ticket')?.textContent||'',fecha:n.querySelector('Fecha')?.textContent||'',hora:n.querySelector('Hora')?.textContent||'',isoFecha:n.querySelector('IsoFecha')?.textContent||''});});
+      const ing=[];doc.querySelectorAll('Ingreso').forEach(n=>{ing.push({dni:n.querySelector('DNI')?.textContent||'',nombre:n.querySelector('Nombre')?.textContent||'',fecha:n.querySelector('Fecha')?.textContent||'',hora:n.querySelector('Hora')?.textContent||'',isoFecha:n.querySelector('IsoFecha')?.textContent||''});});
       const ap=[];doc.querySelectorAll('Apercibamiento,Apercibimiento').forEach(n=>{ap.push({id:Number(n.querySelector('ID')?.textContent)||Date.now(),dni:n.querySelector('DNI')?.textContent||'',nombre:n.querySelector('Nombre')?.textContent||'',motivo:n.querySelector('Motivo')?.textContent||'',fecha:n.querySelector('Fecha')?.textContent||'',hora:n.querySelector('Hora')?.textContent||'',inspector:n.querySelector('Inspector')?.textContent||null,inspectorId:n.querySelector('InspectorId')?.textContent||null});});
       const su=[];doc.querySelectorAll('Suspension').forEach(n=>{su.push({id:Number(n.querySelector('ID')?.textContent)||Date.now(),dni:n.querySelector('DNI')?.textContent||'',nombre:n.querySelector('Nombre')?.textContent||'',desde:n.querySelector('Desde')?.textContent||'',hasta:n.querySelector('Hasta')?.textContent||'',motivo:n.querySelector('Motivo')?.textContent||''});});
       const ins=[];doc.querySelectorAll('Inspector').forEach(n=>{ins.push({id:Number(n.querySelector('ID')?.textContent)||Date.now(),nombre:n.querySelector('Nombre')?.textContent||'',tel:n.querySelector('Tel')?.textContent||'',obs:n.querySelector('Obs')?.textContent||''});});
@@ -1626,17 +1626,16 @@ function restaurarBackup(){
       if(inspEx)guardarItem(KEYS.inspActivo,actId);else localStorage.removeItem(KEYS.inspActivo);
       actualizarUIInspectorActivo();actualizarEstadoBloqueo();
       mostrarAlerta('alerta-backup-rest','info','⏳ Restaurando y sincronizando...');
-      // Resetear timestamp remoto para forzar subida
       localStorage.removeItem(KEYS.lastRemoteTs);
       await guardarEnGitHub(false);
       mostrarAlerta('alerta-backup-rest','ok',`✅ Backup restaurado y sincronizado.<br>Ingresos: <strong>${ing.length}</strong> | Apercibamientos: <strong>${ap.length}</strong> | Suspensiones: <strong>${su.length}</strong> | Inspectores: <strong>${ins.length}</strong>`);
-      renderEstadisticas();document.getElementById('archivo-bak').value='';
+      document.getElementById('archivo-bak').value='';
     }catch(ex){mostrarAlerta('alerta-backup-rest','error','❌ Error: '+ex.message);}
   };reader.readAsText(arch);
 }
 
 /* ══════════════════════════════════════════
-   ESTADÍSTICAS
+   ESTADÍSTICAS (sección propia)
 ══════════════════════════════════════════ */
 function renderEstadisticas(){
   const i=cargarDatos(KEYS.ingresos).length,a=cargarDatos(KEYS.apercibimientos).length;
@@ -1663,7 +1662,6 @@ function renderEstadisticas(){
 ══════════════════════════════════════════ */
 function finalizarInit(){
   document.getElementById('sync-loading').classList.remove('show');
-  verificarContextoYMostrarAviso();
   actualizarUIInspectorActivo();
   actualizarEstadoBloqueo();
   actualizarTokenStatusCard();
@@ -1673,33 +1671,29 @@ function finalizarInit(){
     document.getElementById('banner-activar').style.display='block';
     _navegarSeccion('inspectores',document.getElementById('btn-nav-inspectores'));
   }
-  // Auto-sync cada 20 segundos — siempre busca remoto fresco
   setInterval(async()=>{
-    if(!_syncEnCurso && getToken()){
+    if(!_syncEnCurso&&getToken()){
       await sincronizarDesdeGitHub(false);
     }
-  }, SYNC_INTERVAL);
+  },SYNC_INTERVAL);
 }
 
 async function iniciarSyncConGitHub(){
   document.getElementById('sync-loading-txt').textContent='☁️ Descargando datos...';
   document.getElementById('sync-loading-sub').textContent='Esto puede tardar unos segundos...';
   setSyncBadge('syncing','🔄 Cargando...');
-  // Timeout máximo de 12 segundos
   let terminado=false;
   const timeoutId=setTimeout(()=>{
-    if(terminado) return;
-    terminado=true;
-    _syncEnCurso=false;
+    if(terminado)return;
+    terminado=true;_syncEnCurso=false;
     setSyncBadge('error','❌ Timeout');
     document.getElementById('sync-loading-sub').textContent='⚠️ Tiempo agotado – usando datos locales';
     finalizarInit();
   },12000);
   try{
     const info=await ghGetFile(GH.dataFile);
-    if(terminado) return;
-    clearTimeout(timeoutId);
-    terminado=true;
+    if(terminado)return;
+    clearTimeout(timeoutId);terminado=true;
     if(info.error==='token-invalido'){
       setSyncBadge('error','❌ Token inválido');
       document.getElementById('sync-loading-sub').textContent='❌ Token inválido. Generá uno nuevo en GitHub.';
@@ -1723,16 +1717,13 @@ async function iniciarSyncConGitHub(){
       }
       setSyncBadge('ok','✅ Sincronizado');
     } else {
-      // Archivo no existe → subir datos locales
       document.getElementById('sync-loading-sub').textContent='📤 Creando base de datos...';
       _syncEnCurso=false;
       await guardarEnGitHub(true);
     }
   }catch(e){
-    if(terminado) return;
-    clearTimeout(timeoutId);
-    terminado=true;
-    _syncEnCurso=false;
+    if(terminado)return;
+    clearTimeout(timeoutId);terminado=true;_syncEnCurso=false;
     setSyncBadge('error','❌ Sin conexión');
     document.getElementById('sync-loading-sub').textContent='⚠️ Sin conexión – usando datos locales';
     await new Promise(r=>setTimeout(r,1500));
@@ -1742,13 +1733,11 @@ async function iniciarSyncConGitHub(){
 
 (async function init(){
   document.getElementById('sync-loading').classList.add('show');
-  // 1. Sincronizar hora
   document.getElementById('sync-loading-txt').textContent='🕐 Sincronizando hora...';
-  await Promise.race([sincronizarHora(), new Promise(r=>setTimeout(r,5000))]);
+  await Promise.race([sincronizarHora(),new Promise(r=>setTimeout(r,5000))]);
   tickReloj();
   setInterval(tickReloj,1000);
-  setInterval(sincronizarHora, 5*60*1000);
-  // 2. Token
+  setInterval(sincronizarHora,5*60*1000);
   if(!getToken()){
     document.getElementById('sync-loading').classList.remove('show');
     document.getElementById('token-modal').classList.add('show');
