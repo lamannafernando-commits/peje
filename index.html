@@ -102,11 +102,27 @@
     .insp-card .ic-nombre{font-size:.97rem;font-weight:700;color:var(--verde-oscuro);font-family:'Oswald',sans-serif;}
     .insp-card .ic-sub{font-size:.78rem;color:#4a6a4a;}
     .insp-card .ic-acciones{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;}
-    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;align-items:center;justify-content:center;}
+
+    /* ── MODAL FOTO MEJORADO CON ZOOM ── */
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:500;align-items:center;justify-content:center;}
     .modal-overlay.show{display:flex;}
     .modal-box{background:var(--crema);border-radius:12px;border:2px solid var(--dorado);padding:28px 28px 22px;max-width:420px;width:94%;box-shadow:0 8px 40px rgba(0,0,0,.5);color:var(--texto-oscuro);}
     .modal-box h3{font-size:1.1rem;color:var(--verde-oscuro);margin-bottom:16px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:1px;}
     .modal-acciones{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;}
+
+    /* Foto modal con zoom */
+    #modal-foto{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.92);align-items:center;justify-content:center;flex-direction:column;}
+    #modal-foto.show{display:flex;}
+    #modal-foto-container{position:relative;overflow:hidden;border-radius:10px;border:3px solid var(--dorado);box-shadow:0 8px 40px rgba(0,0,0,.7);cursor:grab;user-select:none;max-width:90vw;max-height:80vh;width:500px;height:500px;background:#111;}
+    #modal-foto-container.grabbing{cursor:grabbing;}
+    #modal-foto-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;transform-origin:0 0;transition:none;pointer-events:none;}
+    .foto-zoom-controls{display:flex;gap:8px;margin-top:12px;align-items:center;}
+    .foto-zoom-controls button{background:rgba(200,168,75,.2);border:1px solid var(--dorado);color:var(--dorado);border-radius:6px;padding:6px 14px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:.9rem;transition:.2s;}
+    .foto-zoom-controls button:hover{background:var(--dorado);color:var(--verde-oscuro);}
+    #modal-foto-info{color:#fff;margin-top:8px;font-family:'Oswald',sans-serif;font-size:.9rem;letter-spacing:1px;text-align:center;}
+    #zoom-level-display{color:var(--dorado);font-family:'Oswald',sans-serif;font-size:.85rem;min-width:48px;text-align:center;}
+    .foto-zoom-hint{font-size:.72rem;color:#88aa88;margin-top:4px;text-align:center;}
+
     #bloqueo-overlay{display:none;position:fixed;inset:0;z-index:90;background:linear-gradient(160deg,rgba(10,25,10,.97) 0%,rgba(20,50,20,.97) 100%);align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;}
     #bloqueo-overlay.show{display:flex;}
     .bloqueo-logo{background:#fff;border-radius:14px;padding:10px 20px 8px;margin-bottom:28px;box-shadow:0 4px 20px rgba(0,0,0,.5);}
@@ -130,18 +146,19 @@
     #cam-status{font-size:.8rem;color:#4a6a4a;font-style:italic;margin-bottom:6px;min-height:1.2em;}
     #foto-preview-wrap{display:none;flex-direction:column;align-items:center;gap:8px;margin-top:8px;}
     #foto-preview-wrap.show{display:flex;}
-    /* ── FOTO MÁS GRANDE EN INGRESO ── */
-    #foto-preview{width:220px;height:220px;object-fit:cover;border-radius:10px;border:3px solid var(--verde-logo);box-shadow:0 4px 16px rgba(0,0,0,.25);}
+    #foto-preview{width:220px;height:220px;object-fit:cover;border-radius:10px;border:3px solid var(--verde-logo);box-shadow:0 4px 16px rgba(0,0,0,.25);cursor:zoom-in;transition:transform .15s,box-shadow .15s;}
+    #foto-preview:hover{transform:scale(1.03);box-shadow:0 6px 20px rgba(0,0,0,.35);}
     .foto-dni-label{font-size:.72rem;font-weight:700;color:#4a6a4a;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px;}
     .estado-foto-wrap{float:right;margin:0 0 10px 14px;display:flex;flex-direction:column;align-items:center;gap:4px;}
-    .estado-foto{width:90px;height:90px;object-fit:cover;border-radius:8px;border:3px solid var(--dorado);box-shadow:0 2px 8px rgba(0,0,0,.2);}
+    .estado-foto{width:90px;height:90px;object-fit:cover;border-radius:8px;border:3px solid var(--dorado);box-shadow:0 2px 8px rgba(0,0,0,.2);cursor:zoom-in;transition:transform .15s;}
+    .estado-foto:hover{transform:scale(1.08);}
     .estado-foto.foto-suspendido{border-color:var(--rojo);box-shadow:0 0 0 3px rgba(204,34,34,.3);}
     .estado-foto.foto-apercibido{border-color:var(--naranja);box-shadow:0 0 0 3px rgba(212,132,26,.3);}
     .estado-foto.foto-vencido{border-color:#888;box-shadow:0 0 0 3px rgba(100,100,100,.2);}
     .estado-foto.foto-por-vencer{border-color:var(--naranja);box-shadow:0 0 0 3px rgba(212,132,26,.25);}
     .estado-foto-label{font-size:.68rem;font-weight:700;color:#4a6a4a;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.4px;text-align:center;}
-    .foto-thumb{width:44px;height:44px;object-fit:cover;border-radius:5px;border:2px solid #ccc;vertical-align:middle;cursor:pointer;transition:transform .15s,box-shadow .15s;}
-    .foto-thumb:hover{transform:scale(1.12);box-shadow:0 4px 12px rgba(0,0,0,.3);border-color:var(--dorado);}
+    .foto-thumb{width:44px;height:44px;object-fit:cover;border-radius:5px;border:2px solid #ccc;vertical-align:middle;cursor:zoom-in;transition:transform .15s,box-shadow .15s;}
+    .foto-thumb:hover{transform:scale(1.18);box-shadow:0 4px 14px rgba(0,0,0,.4);border-color:var(--dorado);}
     .foto-thumb-placeholder{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:5px;background:#e8ede8;border:2px dashed #aaaaaa;color:#aaaaaa;font-size:1.2rem;vertical-align:middle;}
     #sync-loading{display:none;position:fixed;inset:0;z-index:999;background:rgba(10,25,10,.95);align-items:center;justify-content:center;flex-direction:column;gap:16px;}
     #sync-loading.show{display:flex;}
@@ -164,17 +181,15 @@
     .token-status{font-size:.85rem;margin-bottom:10px;}
     .token-status.ok{color:#4aff4a;}
     .token-status.error{color:var(--rojo-claro);}
-    /* Password modal */
-    #modal-pass{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.75);align-items:center;justify-content:center;}
+    #modal-pass{display:none;position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.75);align-items:center;justify-content:center;}
     #modal-pass.show{display:flex;}
     .pass-box{background:var(--crema);border-radius:12px;border:2px solid var(--dorado);padding:28px 28px 22px;max-width:360px;width:94%;box-shadow:0 8px 40px rgba(0,0,0,.5);color:var(--texto-oscuro);text-align:center;}
     .pass-box h3{font-family:'Oswald',sans-serif;font-size:1.1rem;color:var(--verde-oscuro);margin-bottom:14px;text-transform:uppercase;letter-spacing:1px;}
     .pass-box input{width:100%;padding:10px 14px;border:2px solid #8aaa8a;border-radius:6px;font-size:1rem;background:#fff;color:var(--texto-oscuro);margin-bottom:12px;font-family:'Open Sans',sans-serif;}
     .pass-box input:focus{outline:none;border-color:var(--verde-logo);}
     .pass-box .pass-btns{display:flex;gap:10px;justify-content:center;}
-    /* Stats section */
     .stats-grid{display:flex;gap:16px;flex-wrap:wrap;margin-top:4px;}
-    /* Edad por DNI card */
+    /* Edad por DNI card — ahora dentro de la sección estadísticas */
     .edad-card{background:linear-gradient(135deg,#1a2a3a,#1a3a4a);border:2px solid var(--dorado);border-radius:12px;padding:18px 22px;margin-top:20px;color:var(--blanco);}
     .edad-card h3{font-family:'Oswald',sans-serif;color:var(--dorado);font-size:1rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;border-bottom:1px solid rgba(200,168,75,.3);padding-bottom:8px;}
     .edad-tabla{width:100%;border-collapse:collapse;font-size:.83rem;}
@@ -184,6 +199,10 @@
     .edad-tabla tr:last-child td{border-bottom:none;}
     .edad-barra-wrap{background:rgba(0,0,0,.3);border-radius:4px;height:10px;overflow:hidden;margin-top:3px;}
     .edad-barra{height:10px;border-radius:4px;background:linear-gradient(90deg,var(--dorado),var(--dorado-claro));}
+    /* Estadísticas por fecha */
+    .stats-fecha-card{background:linear-gradient(135deg,#0d1f2a,#1a3a4a);border:2px solid var(--dorado);border-radius:12px;padding:18px 22px;margin-top:0;color:var(--blanco);}
+    .stats-fecha-card h3{font-family:'Oswald',sans-serif;color:var(--dorado);font-size:1rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;border-bottom:1px solid rgba(200,168,75,.3);padding-bottom:8px;display:flex;align-items:center;gap:8px;}
+    .stats-fecha-grid{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;}
     @media(max-width:600px){
       header h1{font-size:1.15rem;}
       .form-row{flex-direction:column;}
@@ -192,6 +211,7 @@
       .bloqueo-reloj{font-size:1.8rem;}
       .estado-foto-wrap{float:none;margin:0 0 10px 0;}
       #foto-preview{width:160px;height:160px;}
+      #modal-foto-container{width:95vw;height:70vw;}
     }
   </style>
 </head>
@@ -260,7 +280,7 @@
   <button class="bloqueo-btn" onclick="irAInspectores()">👮 Ir a Inspectores</button>
 </div>
 
-<!-- PASSWORD MODAL — corregido -->
+<!-- PASSWORD MODAL -->
 <div id="modal-pass">
   <div class="pass-box">
     <h3 id="pass-titulo">🔒 Contraseña requerida</h3>
@@ -330,7 +350,6 @@
                  onkeydown="if(event.key==='Enter')registrarIngreso()"/>
         </label>
       </div>
-      <!-- Foto -->
       <div class="foto-section">
         <h4>📷 Foto del Invitado</h4>
         <div id="cam-status"></div>
@@ -561,18 +580,57 @@
 
   <!-- ESTADÍSTICAS -->
   <section id="sec-estadisticas" class="seccion">
+    <!-- Resumen general -->
     <div class="card">
-      <h2>📊 Estadísticas del Sistema</h2>
+      <h2>📊 Estadísticas Generales</h2>
       <button class="btn btn-primary" style="margin-bottom:16px;" onclick="renderEstadisticas()">🔄 Actualizar</button>
       <div id="estadisticas" class="stats-grid"></div>
-      <!-- Estimación de edad por DNI -->
-      <div id="edad-por-dni-section" class="edad-card" style="display:none;">
-        <h3>👥 Estimación de Edad por Rango de DNI</h3>
-        <p style="font-size:.78rem;color:#88aa88;margin-bottom:12px;">⚠️ Estimación aproximada basada en la correlación histórica del DNI argentino. No es exacta.</p>
-        <table class="edad-tabla" id="edad-tabla-body">
-          <thead><tr><th>Rango de DNI</th><th>Año de nacim. aprox.</th><th>Edad aprox. (2025)</th><th>Cant. ingresos</th><th>% del total</th><th></th></tr></thead>
-          <tbody></tbody>
-        </table>
+    </div>
+
+    <!-- NUEVO: Estadísticas por rango de fechas -->
+    <div class="card">
+      <h2>📅 Estadísticas por Rango de Fechas</h2>
+      <div class="form-row">
+        <label>Fecha Desde<input type="date" id="stats-desde"/></label>
+        <label>Fecha Hasta<input type="date" id="stats-hasta"/></label>
+        <label>DNI (opcional)<input type="text" id="stats-dni" placeholder="Filtrar por DNI" oninput="this.value=this.value.replace(/\D/g,'')"/></label>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+        <button class="btn btn-primary" onclick="renderStatsFecha()">🔍 Consultar</button>
+        <button class="btn btn-success" onclick="pedirPassBackup('descargar-stats')">⬇️ Descargar XML del período</button>
+      </div>
+      <div id="alerta-stats-fecha" class="alerta"></div>
+      <div id="stats-fecha-resultado" style="display:none;">
+        <div class="stats-fecha-card">
+          <h3>📊 Resumen del Período</h3>
+          <div id="stats-fecha-grid" class="stats-fecha-grid"></div>
+        </div>
+        <div style="margin-top:16px;">
+          <div class="separador-dorado">Ingresos en el período</div>
+          <div class="tabla-wrap">
+            <table id="tabla-stats-fecha">
+              <thead><tr><th>Foto</th><th>DNI</th><th>Nombre</th><th>Fecha</th><th>Hora</th><th>Estado</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estimación de edad por DNI -->
+    <div class="card">
+      <h2>👥 Estimación de Edad por Rango de DNI</h2>
+      <p style="font-size:.78rem;color:#888;margin-bottom:12px;">⚠️ Estimación aproximada basada en la correlación histórica del DNI argentino. No es exacta.</p>
+      <div id="edad-por-dni-section">
+        <div class="edad-card">
+          <h3>📊 Distribución por Rango de DNI</h3>
+          <div class="tabla-wrap">
+            <table class="edad-tabla" id="edad-tabla-body">
+              <thead><tr><th>Rango de DNI</th><th>Año de nacim. aprox.</th><th>Edad aprox. (2025)</th><th>Cant. ingresos</th><th>% del total</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -606,12 +664,20 @@
   </div>
 </div>
 
-<div class="modal-overlay" id="modal-foto" onclick="cerrarModalFoto()">
-  <div style="max-width:420px;width:94%;text-align:center;" onclick="event.stopPropagation()">
-    <img id="modal-foto-img" src="" alt="Foto invitado" style="width:100%;border-radius:12px;border:3px solid var(--dorado);box-shadow:0 8px 40px rgba(0,0,0,.6);"/>
-    <div id="modal-foto-info" style="color:#fff;margin-top:10px;font-family:'Oswald',sans-serif;font-size:.9rem;letter-spacing:1px;"></div>
-    <button class="btn btn-secondary" style="margin-top:12px;" onclick="cerrarModalFoto()">✖ Cerrar</button>
+<!-- MODAL FOTO CON ZOOM — completamente nuevo -->
+<div id="modal-foto" onclick="cerrarModalFoto()">
+  <div id="modal-foto-container" onclick="event.stopPropagation()">
+    <img id="modal-foto-img" src="" alt="Foto invitado"/>
   </div>
+  <div id="modal-foto-info"></div>
+  <div class="foto-zoom-controls" onclick="event.stopPropagation()">
+    <button onclick="zoomFoto(-0.3)" title="Alejar">🔍−</button>
+    <span id="zoom-level-display">100%</span>
+    <button onclick="zoomFoto(0.3)" title="Acercar">🔍+</button>
+    <button onclick="resetZoomFoto()" title="Restablecer">⟳ Reset</button>
+    <button onclick="cerrarModalFoto()">✖ Cerrar</button>
+  </div>
+  <div class="foto-zoom-hint">🖱️ Rueda del mouse para zoom · Arrastrá para mover · Clic fuera para cerrar</div>
 </div>
 
 <script>
@@ -639,44 +705,153 @@ const FOTO_MAX_W=320, FOTO_QUALITY=0.72, SYNC_INTERVAL=20000;
 const BACKUP_PASS='gustavopeje';
 let offsetMs=0, _editInspId=null, _inspDesact=null;
 let _syncEnCurso=false, _ultimoSyncTs=null;
-let _pendingPassAction=null; // 'descargar' | 'restaurar'
+let _pendingPassAction=null;
 
 /* ══════════════════════════════════════════
-   PASSWORD MODAL — CORREGIDO
-   El bug era que confirmarPass() llamaba a las funciones
-   correctamente pero el modal-pass tenía display:none en CSS
-   y necesitaba display:flex para mostrarse con .show.
-   Además se asegura que _pendingPassAction se preserve.
+   ZOOM MODAL — LÓGICA COMPLETA
+══════════════════════════════════════════ */
+let _zoomScale=1, _zoomX=0, _zoomY=0;
+let _zoomDragging=false, _zoomLastX=0, _zoomLastY=0;
+
+function _applyZoomTransform(){
+  const img=document.getElementById('modal-foto-img');
+  img.style.transform=`translate(${_zoomX}px,${_zoomY}px) scale(${_zoomScale})`;
+  img.style.transformOrigin='0 0';
+  document.getElementById('zoom-level-display').textContent=Math.round(_zoomScale*100)+'%';
+}
+
+function zoomFoto(delta){
+  const cont=document.getElementById('modal-foto-container');
+  const cx=cont.offsetWidth/2, cy=cont.offsetHeight/2;
+  const newScale=Math.min(8, Math.max(0.5, _zoomScale+delta));
+  // zoom hacia el centro
+  _zoomX=cx-(cx-_zoomX)*(newScale/_zoomScale);
+  _zoomY=cy-(cy-_zoomY)*(newScale/_zoomScale);
+  _zoomScale=newScale;
+  _applyZoomTransform();
+}
+
+function resetZoomFoto(){
+  _zoomScale=1; _zoomX=0; _zoomY=0;
+  _applyZoomTransform();
+}
+
+function _initZoomEvents(){
+  const cont=document.getElementById('modal-foto-container');
+  // Rueda del mouse
+  cont.onwheel=function(e){
+    e.preventDefault();
+    const rect=cont.getBoundingClientRect();
+    const mx=e.clientX-rect.left, my=e.clientY-rect.top;
+    const delta=e.deltaY<0?0.25:-0.25;
+    const newScale=Math.min(8,Math.max(0.5,_zoomScale+delta));
+    _zoomX=mx-(mx-_zoomX)*(newScale/_zoomScale);
+    _zoomY=my-(my-_zoomY)*(newScale/_zoomScale);
+    _zoomScale=newScale;
+    _applyZoomTransform();
+  };
+  // Arrastre mouse
+  cont.onmousedown=function(e){
+    _zoomDragging=true; _zoomLastX=e.clientX; _zoomLastY=e.clientY;
+    cont.classList.add('grabbing');
+  };
+  document.onmousemove=function(e){
+    if(!_zoomDragging)return;
+    _zoomX+=e.clientX-_zoomLastX; _zoomY+=e.clientY-_zoomLastY;
+    _zoomLastX=e.clientX; _zoomLastY=e.clientY;
+    _applyZoomTransform();
+  };
+  document.onmouseup=function(){
+    _zoomDragging=false;
+    document.getElementById('modal-foto-container').classList.remove('grabbing');
+  };
+  // Touch
+  let _lastTouchDist=null;
+  cont.ontouchstart=function(e){
+    if(e.touches.length===1){
+      _zoomDragging=true;
+      _zoomLastX=e.touches[0].clientX; _zoomLastY=e.touches[0].clientY;
+    } else if(e.touches.length===2){
+      _zoomDragging=false;
+      _lastTouchDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    }
+  };
+  cont.ontouchmove=function(e){
+    e.preventDefault();
+    if(e.touches.length===1&&_zoomDragging){
+      _zoomX+=e.touches[0].clientX-_zoomLastX; _zoomY+=e.touches[0].clientY-_zoomLastY;
+      _zoomLastX=e.touches[0].clientX; _zoomLastY=e.touches[0].clientY;
+      _applyZoomTransform();
+    } else if(e.touches.length===2&&_lastTouchDist!==null){
+      const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+      const delta=(dist-_lastTouchDist)*0.01;
+      const rect=cont.getBoundingClientRect();
+      const mx=((e.touches[0].clientX+e.touches[1].clientX)/2)-rect.left;
+      const my=((e.touches[0].clientY+e.touches[1].clientY)/2)-rect.top;
+      const newScale=Math.min(8,Math.max(0.5,_zoomScale+delta));
+      _zoomX=mx-(mx-_zoomX)*(newScale/_zoomScale);
+      _zoomY=my-(my-_zoomY)*(newScale/_zoomScale);
+      _zoomScale=newScale;
+      _lastTouchDist=dist;
+      _applyZoomTransform();
+    }
+  };
+  cont.ontouchend=function(){_zoomDragging=false;_lastTouchDist=null;};
+}
+
+function _abrirModalFoto(src, info){
+  if(!src||src===window.location.href||src==='')return;
+  resetZoomFoto();
+  document.getElementById('modal-foto-img').src=src;
+  document.getElementById('modal-foto-info').textContent=info||'';
+  document.getElementById('modal-foto').classList.add('show');
+}
+
+function cerrarModalFoto(){
+  document.getElementById('modal-foto').classList.remove('show');
+  _zoomDragging=false;
+}
+
+function verFotoGrande(dni){
+  const f=getFoto(String(dni));if(!f)return;
+  _abrirModalFoto(f,'DNI: '+dni);
+}
+function verFotoGrandePreview(){
+  const src=document.getElementById('foto-preview').src;
+  const dni=document.getElementById('dni-ingreso').value.trim();
+  _abrirModalFoto(src, dni?'DNI: '+dni:'Foto del invitado');
+}
+
+/* ══════════════════════════════════════════
+   PASSWORD MODAL
 ══════════════════════════════════════════ */
 function pedirPassBackup(accion){
   _pendingPassAction = accion;
   const titulos = {
     descargar: '🔒 Contraseña para descargar',
-    restaurar: '🔒 Contraseña para restaurar'
+    restaurar: '🔒 Contraseña para restaurar',
+    'descargar-stats': '🔒 Contraseña para descargar estadísticas'
   };
   const subs = {
     descargar: 'Ingresá la contraseña para descargar el backup XML.',
-    restaurar: 'Ingresá la contraseña para restaurar el backup XML.'
+    restaurar: 'Ingresá la contraseña para restaurar el backup XML.',
+    'descargar-stats': 'Ingresá la contraseña para descargar el XML del período.'
   };
   document.getElementById('pass-titulo').textContent = titulos[accion] || '🔒 Contraseña requerida';
   document.getElementById('pass-subtitulo').textContent = subs[accion] || 'Ingresá la contraseña para continuar.';
   document.getElementById('pass-input').value = '';
   const alertaEl = document.getElementById('alerta-pass');
-  alertaEl.className = 'alerta';
-  alertaEl.textContent = '';
+  alertaEl.className = 'alerta'; alertaEl.textContent = '';
   document.getElementById('modal-pass').style.display = 'flex';
   setTimeout(() => document.getElementById('pass-input').focus(), 120);
 }
-
 function cerrarModalPass(){
   document.getElementById('modal-pass').style.display = 'none';
   _pendingPassAction = null;
   document.getElementById('pass-input').value = '';
   const alertaEl = document.getElementById('alerta-pass');
-  alertaEl.className = 'alerta';
-  alertaEl.textContent = '';
+  alertaEl.className = 'alerta'; alertaEl.textContent = '';
 }
-
 function confirmarPass(){
   const val = document.getElementById('pass-input').value;
   if(val !== BACKUP_PASS){
@@ -689,10 +864,10 @@ function confirmarPass(){
   }
   const accion = _pendingPassAction;
   cerrarModalPass();
-  // Ejecutar acción DESPUÉS de cerrar el modal
   setTimeout(() => {
     if(accion === 'descargar') generarBackup();
     else if(accion === 'restaurar') restaurarBackup();
+    else if(accion === 'descargar-stats') descargarXMLStats();
   }, 150);
 }
 
@@ -1070,10 +1245,8 @@ function estadoIngreso(ing){
 }
 
 /* ══════════════════════════════════════════
-   FOTO — solo carga desde archivo
+   FOTO — carga desde archivo
 ══════════════════════════════════════════ */
-function _setCamStatus(m,c){const e=document.getElementById('cam-status');if(e){e.textContent=m;e.style.color=c||'#4a6a4a';}}
-
 function cargarFotoArchivo(ev){
   const f=ev.target.files[0];if(!f)return;
   const r=new FileReader();
@@ -1114,17 +1287,6 @@ async function borrarFoto(){
   mostrarAlerta('alerta-foto','warn','🗑️ Foto eliminada.');
 }
 
-/* Ver foto preview en grande */
-function verFotoGrandePreview(){
-  const src=document.getElementById('foto-preview').src;
-  if(!src||src===window.location.href)return;
-  const dni=document.getElementById('dni-ingreso').value.trim();
-  document.getElementById('modal-foto-img').src=src;
-  document.getElementById('modal-foto-info').textContent=dni?'DNI: '+dni:'Foto del invitado';
-  document.getElementById('modal-foto').classList.add('show');
-}
-
-/* Live DNI → mostrar foto si existe */
 function onDniIngresoChange(){
   const dni=document.getElementById('dni-ingreso').value.trim();
   const foto=dni?getFoto(dni):null;
@@ -1146,21 +1308,14 @@ function asociarFotoAlRegistrar(dni){
 }
 
 /* ══════════════════════════════════════════
-   FOTOS EN TABLAS
+   FOTOS EN TABLAS — thumb clickeable
 ══════════════════════════════════════════ */
 function fotoThumb(dni,cls){
   const f=getFoto(String(dni));
   return f
-    ?`<img src="${f}" class="foto-thumb ${cls||''}" onclick="verFotoGrande('${dni}')" title="Ver foto" alt="Foto"/>`
+    ?`<img src="${f}" class="foto-thumb ${cls||''}" onclick="verFotoGrande('${dni}')" title="🔍 Click para ampliar" alt="Foto"/>`
     :`<span class="foto-thumb-placeholder" title="Sin foto">👤</span>`;
 }
-function verFotoGrande(dni){
-  const f=getFoto(String(dni));if(!f)return;
-  document.getElementById('modal-foto-img').src=f;
-  document.getElementById('modal-foto-info').textContent='DNI: '+dni;
-  document.getElementById('modal-foto').classList.add('show');
-}
-function cerrarModalFoto(){document.getElementById('modal-foto').classList.remove('show');}
 
 /* ══════════════════════════════════════════
    BLOQUEO
@@ -1514,7 +1669,7 @@ function buscarInvitado(){
     detalles.innerHTML='';panel.style.borderColor='var(--dorado)';
   }
   const foto=getFoto(dni);
-  if(foto) fotoC.innerHTML=`<div class="estado-foto-wrap"><img src="${foto}" class="estado-foto ${fotoClase}" onclick="verFotoGrande('${dni}')" style="cursor:pointer"/><span class="estado-foto-label">📷 DNI ${dni}</span></div>`;
+  if(foto) fotoC.innerHTML=`<div class="estado-foto-wrap"><img src="${foto}" class="estado-foto ${fotoClase}" onclick="verFotoGrande('${dni}')" title="🔍 Click para ampliar"/><span class="estado-foto-label">📷 DNI ${dni}</span></div>`;
   mostrarAlerta('alerta-ingreso',tipo,msg);
   const wrap=document.getElementById('ultimos-ingresos'),tbody=document.querySelector('#tabla-ultimos tbody');
   tbody.innerHTML='';wrap.style.display='block';
@@ -1684,10 +1839,88 @@ function restaurarBackup(){
 }
 
 /* ══════════════════════════════════════════
+   ESTADÍSTICAS POR FECHA — NUEVO APARTADO
+══════════════════════════════════════════ */
+// Guarda el resultado actual de la consulta de stats para poder descargarlo
+let _statsResultado = { desde:'', hasta:'', dni:'', ingresos:[] };
+
+function renderStatsFecha(){
+  const desde=document.getElementById('stats-desde').value;
+  const hasta=document.getElementById('stats-hasta').value;
+  const dni=document.getElementById('stats-dni').value.trim();
+  if(!desde||!hasta){mostrarAlerta('alerta-stats-fecha','error','Seleccioná ambas fechas.');return;}
+  if(hasta<desde){mostrarAlerta('alerta-stats-fecha','error','La fecha "hasta" debe ser ≥ "desde".');return;}
+
+  let ing=cargarDatos(KEYS.ingresos).filter(i=>i.isoFecha>=desde&&i.isoFecha<=hasta);
+  if(dni) ing=ing.filter(i=>i.dni===dni);
+  ing.sort((a,b)=>(a.isoFecha+a.hora)>(b.isoFecha+b.hora)?-1:1);
+
+  _statsResultado={desde,hasta,dni,ingresos:ing};
+
+  // Calcular métricas del período
+  const now=ahoraReal(),lim=HS_VIGENCIA*3600000;
+  const ven=ing.filter(i=>(now.getTime()-parseFechaHora(i.fecha,i.hora).getTime())>=lim).length;
+  const vig=ing.length-ven;
+  // DNIs únicos
+  const dnisUnicos=new Set(ing.map(i=>i.dni)).size;
+  // Día con más ingresos
+  const porDia={};
+  ing.forEach(i=>{porDia[i.isoFecha]=(porDia[i.isoFecha]||0)+1;});
+  const mejorDia=Object.entries(porDia).sort((a,b)=>b[1]-a[1])[0];
+
+  const stat=(num,lbl,bg,border,color)=>
+    `<div style="background:${bg};border:2px solid ${border};border-radius:10px;padding:12px 18px;text-align:center;min-width:100px;">
+      <div style="font-size:1.6rem;font-weight:700;color:${color};font-family:'Oswald',sans-serif">${num}</div>
+      <div style="font-size:.75rem;color:${color};opacity:.9;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.4px">${lbl}</div>
+    </div>`;
+
+  document.getElementById('stats-fecha-grid').innerHTML=
+    stat(ing.length,'Total ingresos','linear-gradient(135deg,#1a3a1a,#2d6e2d)','var(--dorado)','var(--dorado)')+
+    stat(dnisUnicos,'Personas únicas','linear-gradient(135deg,#1a2a3a,#1a4a6a)','#4488cc','#88ccff')+
+    stat(vig,'Vigentes','linear-gradient(135deg,#0a2a0a,#1a6b1a)','#2a8a2a','#88ff88')+
+    stat(ven,'Vencidos','linear-gradient(135deg,#3a0a0a,#7a1a1a)','var(--rojo)','#ff8888')+
+    stat(mejorDia?mejorDia[1]:0,'Máx. en un día','linear-gradient(135deg,#3a2a0a,#7a5a1a)','var(--naranja)','#ffcc88')+
+    (mejorDia?`<div style="background:rgba(200,168,75,.1);border:2px solid var(--dorado);border-radius:10px;padding:12px 18px;text-align:center;min-width:140px;"><div style="font-size:.85rem;font-weight:700;color:var(--dorado);font-family:'Oswald',sans-serif">${mejorDia[0]}</div><div style="font-size:.72rem;color:#aacfaa;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.4px">Día pico</div></div>`:'');
+
+  // Tabla de ingresos del período
+  const tbody=document.querySelector('#tabla-stats-fecha tbody');
+  tbody.innerHTML='';
+  if(!ing.length){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;">Sin resultados para el período seleccionado</td></tr>';
+  } else {
+    ing.forEach(i=>{
+      const est=estadoIngreso(i);const tr=document.createElement('tr');if(est.fila)tr.className=est.fila;
+      tr.innerHTML=`<td>${fotoThumb(i.dni)}</td><td>${i.dni}</td><td>${i.nombre||'—'}</td><td>${i.fecha}</td><td>${i.hora}</td><td><span class="badge ${est.clase}">${est.texto}</span></td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  document.getElementById('stats-fecha-resultado').style.display='block';
+  mostrarAlerta('alerta-stats-fecha','ok',`✅ ${ing.length} ingreso(s) encontrado(s) entre <strong>${desde}</strong> y <strong>${hasta}</strong>${dni?' para DNI '+dni:''}.`);
+}
+
+function descargarXMLStats(){
+  const {desde,hasta,dni,ingresos}=_statsResultado;
+  if(!ingresos||!ingresos.length){
+    mostrarAlerta('alerta-stats-fecha','error','❌ Primero consultá el período para poder descargarlo.');
+    return;
+  }
+  const now=ahoraReal();
+  const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const dnisUnicos=new Set(ingresos.map(i=>i.dni)).size;
+  let x=`<?xml version="1.0" encoding="UTF-8"?>\n<EstadisticasPeriodoPCQ>\n  <MetaData>\n    <FechaGeneracion>${formatFecha(now)} ${formatHora(now)}</FechaGeneracion>\n    <PeriodoDesde>${esc(desde)}</PeriodoDesde>\n    <PeriodoHasta>${esc(hasta)}</PeriodoHasta>\n    ${dni?`<FiltroDNI>${esc(dni)}</FiltroDNI>\n    `:''}<TotalIngresos>${ingresos.length}</TotalIngresos>\n    <PersonasUnicas>${dnisUnicos}</PersonasUnicas>\n  </MetaData>\n  <Ingresos>\n`;
+  ingresos.forEach(i=>{
+    x+=`    <Ingreso><DNI>${esc(i.dni)}</DNI><Nombre>${esc(i.nombre||'')}</Nombre><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora></Ingreso>\n`;
+  });
+  x+=`  </Ingresos>\n</EstadisticasPeriodoPCQ>`;
+  const nom=`PCQ_stats_${desde}_${hasta}${dni?'_DNI'+dni:''}.xml`;
+  const blob=new Blob([x],{type:'application/xml'});const url=URL.createObjectURL(blob);
+  Object.assign(document.createElement('a'),{href:url,download:nom}).click();URL.revokeObjectURL(url);
+  mostrarAlerta('alerta-stats-fecha','ok',`⬇️ Descargado: <strong>${nom}</strong>`);
+}
+
+/* ══════════════════════════════════════════
    ESTIMACIÓN DE EDAD POR DNI ARGENTINO
-   Correlación histórica aproximada:
-   DNI se asigna secuencialmente desde 1968.
-   Rangos basados en datos demográficos de RENAPER.
 ══════════════════════════════════════════ */
 const DNI_RANGOS = [
   { desde:  1000000, hasta:  4999999, anioMin: 1900, anioMax: 1940, label: '1M – 5M'   },
@@ -1703,17 +1936,8 @@ const DNI_RANGOS = [
   { desde: 50000000, hasta: 59999999, anioMin: 2015, anioMax: 2025, label: '50M+'      },
 ];
 
-function estimarEdadPorDni(dniNum){
-  const rango = DNI_RANGOS.find(r => dniNum >= r.desde && dniNum <= r.hasta);
-  if(!rango) return null;
-  const anioMed = Math.round((rango.anioMin + rango.anioMax) / 2);
-  const edadMin = 2025 - rango.anioMax;
-  const edadMax = 2025 - rango.anioMin;
-  return { edadMin: Math.max(0,edadMin), edadMax, anioMin: rango.anioMin, anioMax: rango.anioMax, anioMed };
-}
-
 /* ══════════════════════════════════════════
-   ESTADÍSTICAS
+   ESTADÍSTICAS GENERALES
 ══════════════════════════════════════════ */
 function renderEstadisticas(){
   const ingresos = cargarDatos(KEYS.ingresos);
@@ -1724,7 +1948,11 @@ function renderEstadisticas(){
   const now=ahoraReal(),lim=HS_VIGENCIA*3600000,prev=lim-MIN_POR_VENCER*60000;
   const ven=ingresos.filter(x=>{const ms=now.getTime()-parseFechaHora(x.fecha,x.hora).getTime();return ms>=lim;}).length;
   const pv=ingresos.filter(x=>{const ms=now.getTime()-parseFechaHora(x.fecha,x.hora).getTime();return ms>=prev&&ms<lim;}).length;
-  const stat=(num,lbl,bg,border,color)=>`<div style="background:${bg};border:2px solid ${border};border-radius:10px;padding:14px 22px;text-align:center;min-width:110px;"><div style="font-size:1.8rem;font-weight:700;color:${color};font-family:'Oswald',sans-serif">${num}</div><div style="font-size:.78rem;color:${color};opacity:.85;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">${lbl}</div></div>`;
+  const stat=(num,lbl,bg,border,color)=>
+    `<div style="background:${bg};border:2px solid ${border};border-radius:10px;padding:14px 22px;text-align:center;min-width:110px;">
+      <div style="font-size:1.8rem;font-weight:700;color:${color};font-family:'Oswald',sans-serif">${num}</div>
+      <div style="font-size:.78rem;color:${color};opacity:.85;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">${lbl}</div>
+    </div>`;
   document.getElementById('estadisticas').innerHTML=
     stat(i,'Ingresos','linear-gradient(135deg,#1a3a1a,#2d6e2d)','var(--dorado)','var(--dorado)')+
     stat(pv,'Por vencer','linear-gradient(135deg,#3a2a0a,#7a5a1a)','var(--naranja)','#ffcc88')+
@@ -1735,39 +1963,49 @@ function renderEstadisticas(){
     stat(ins,'Inspectores','linear-gradient(135deg,#1a2a3a,#1a4a6a)','#4488cc','#88ccff')+
     stat(f,'Fotos','linear-gradient(135deg,#1a1a3a,#2a2a6a)','#8888cc','#bbbbff');
 
-  // ── Estimación de edad por DNI ──
-  const secEdad = document.getElementById('edad-por-dni-section');
+  // ── Estimación de edad por DNI (CORREGIDA) ──
   const tbody = document.querySelector('#edad-tabla-body tbody');
+  if(!tbody) return;
   tbody.innerHTML = '';
 
-  if(!ingresos.length){ secEdad.style.display='none'; return; }
-  secEdad.style.display = 'block';
+  if(!ingresos.length){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;padding:14px;">Sin datos de ingresos aún.</td></tr>';
+    return;
+  }
 
-  // Contar ingresos por rango, usando DNIs únicos (último ingreso por persona)
+  // DNIs únicos (último ingreso por persona)
   const dniUnico = {};
   ingresos.forEach(ing => { dniUnico[ing.dni] = ing; });
-  const dniList = Object.keys(dniUnico).map(d => parseInt(d)).filter(d => !isNaN(d));
+  const dniList = Object.keys(dniUnico).map(d => parseInt(d)).filter(d => !isNaN(d) && d > 0);
   const total = dniList.length;
 
-  // Contar por rango
+  if(!total){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;padding:14px;">Sin DNIs válidos para analizar.</td></tr>';
+    return;
+  }
+
   const conteos = DNI_RANGOS.map(r => {
     const cant = dniList.filter(d => d >= r.desde && d <= r.hasta).length;
     return { ...r, cant };
   }).filter(r => r.cant > 0);
 
+  if(!conteos.length){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;padding:14px;">Los DNIs registrados están fuera de los rangos conocidos.</td></tr>';
+    return;
+  }
+
   const maxCant = Math.max(...conteos.map(r => r.cant), 1);
 
   conteos.forEach(r => {
-    const pct = total > 0 ? ((r.cant / total) * 100).toFixed(1) : '0.0';
+    const pct = ((r.cant / total) * 100).toFixed(1);
     const edadMin = Math.max(0, 2025 - r.anioMax);
     const edadMax = 2025 - r.anioMin;
     const edadLabel = edadMin === edadMax ? `~${edadMin} años` : `~${edadMin}–${edadMax} años`;
-    const anioLabel = `${r.anioMin}–${r.anioMax}`;
     const barPct = Math.round((r.cant / maxCant) * 100);
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td><strong>${r.label}</strong></td>
-      <td>${anioLabel}</td>
+      <td>${r.anioMin}–${r.anioMax}</td>
       <td><span style="font-weight:700;color:var(--dorado-claro)">${edadLabel}</span></td>
       <td><strong>${r.cant}</strong></td>
       <td>${pct}%</td>
@@ -1779,17 +2017,23 @@ function renderEstadisticas(){
     tbody.appendChild(tr);
   });
 
-  // Fila resumen: edad promedio ponderada
+  // Fila de promedio ponderado
   const edadProm = dniList.reduce((acc, d) => {
     const r = DNI_RANGOS.find(r => d >= r.desde && d <= r.hasta);
     return r ? acc + (2025 - Math.round((r.anioMin + r.anioMax) / 2)) : acc;
-  }, 0) / (dniList.length || 1);
+  }, 0) / total;
 
   const trRes = document.createElement('tr');
   trRes.style.cssText = 'background:rgba(200,168,75,.15);font-weight:700;';
-  trRes.innerHTML = `<td colspan="2" style="color:var(--dorado)">📊 Promedio estimado</td>
-    <td colspan="4" style="color:var(--dorado-claro)">~${edadProm.toFixed(0)} años (estimación aproximada sobre ${total} personas únicas)</td>`;
+  trRes.innerHTML = `
+    <td colspan="2" style="color:var(--dorado)">📊 Promedio estimado</td>
+    <td colspan="4" style="color:var(--dorado-claro)">~${edadProm.toFixed(0)} años (estimación sobre ${total} personas únicas)</td>`;
   tbody.appendChild(trRes);
+
+  // Setear fechas por defecto en el filtro de stats si están vacías
+  const hoyISO = isoFecha(ahoraReal());
+  if(!document.getElementById('stats-desde').value) document.getElementById('stats-desde').value = hoyISO;
+  if(!document.getElementById('stats-hasta').value) document.getElementById('stats-hasta').value = hoyISO;
 }
 
 /* ══════════════════════════════════════════
@@ -1800,6 +2044,7 @@ function finalizarInit(){
   actualizarUIInspectorActivo();
   actualizarEstadoBloqueo();
   actualizarTokenStatusCard();
+  _initZoomEvents(); // inicializar zoom del modal de fotos
   if(getInspectorActivo()){
     _navegarSeccion('ingreso',document.getElementById('btn-nav-ingreso'));
   } else {
