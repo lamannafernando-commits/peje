@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-03-13T21:41:06.031Z",
+  "updatedAt": "2026-03-14T10:01:22.290Z",
   "ingresos": [
     {
       "dni": "7858",
@@ -50,6 +50,13 @@
       "fecha": "13/03/2026",
       "hora": "18:41:06",
       "isoFecha": "2026-03-13"
+    },
+    {
+      "dni": "26106755",
+      "nombre": "adri",
+      "fecha": "14/03/2026",
+      "hora": "07:01:22",
+      "isoFecha": "2026-03-14"
     }
   ],
   "apercibimientos": [
