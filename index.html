@@ -46,6 +46,8 @@
     .form-row label{display:flex;flex-direction:column;gap:4px;flex:1;min-width:160px;font-size:.85rem;font-weight:700;color:var(--verde-oscuro);text-transform:uppercase;letter-spacing:.5px;}
     .form-row input,.form-row textarea{padding:9px 12px;border:1.5px solid #8aaa8a;border-radius:6px;font-size:.95rem;background:#fff;color:var(--texto-oscuro);font-family:'Open Sans',sans-serif;transition:border-color .2s;}
     .form-row input:focus,.form-row textarea:focus{outline:none;border-color:var(--verde-logo);box-shadow:0 0 0 3px rgba(45,110,45,.15);}
+    /* Highlight autocompletado nombre */
+    .form-row input.autocompletado{border-color:var(--verde-logo);background:#f0fff4;}
     textarea{resize:vertical;min-height:70px;}
     .btn{padding:9px 22px;border:none;border-radius:6px;cursor:pointer;font-size:.88rem;font-weight:700;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px;transition:.2s;display:inline-flex;align-items:center;gap:6px;}
     .btn-primary{background:var(--verde-logo);color:#fff;border:2px solid var(--verde-claro);}.btn-primary:hover{background:var(--verde-oscuro);border-color:var(--dorado);}
@@ -102,15 +104,11 @@
     .insp-card .ic-nombre{font-size:.97rem;font-weight:700;color:var(--verde-oscuro);font-family:'Oswald',sans-serif;}
     .insp-card .ic-sub{font-size:.78rem;color:#4a6a4a;}
     .insp-card .ic-acciones{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;}
-
-    /* ── MODAL FOTO MEJORADO CON ZOOM ── */
     .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:500;align-items:center;justify-content:center;}
     .modal-overlay.show{display:flex;}
     .modal-box{background:var(--crema);border-radius:12px;border:2px solid var(--dorado);padding:28px 28px 22px;max-width:420px;width:94%;box-shadow:0 8px 40px rgba(0,0,0,.5);color:var(--texto-oscuro);}
     .modal-box h3{font-size:1.1rem;color:var(--verde-oscuro);margin-bottom:16px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:1px;}
     .modal-acciones{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;}
-
-    /* Foto modal con zoom */
     #modal-foto{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.92);align-items:center;justify-content:center;flex-direction:column;}
     #modal-foto.show{display:flex;}
     #modal-foto-container{position:relative;overflow:hidden;border-radius:10px;border:3px solid var(--dorado);box-shadow:0 8px 40px rgba(0,0,0,.7);cursor:grab;user-select:none;max-width:90vw;max-height:80vh;width:500px;height:500px;background:#111;}
@@ -122,7 +120,6 @@
     #modal-foto-info{color:#fff;margin-top:8px;font-family:'Oswald',sans-serif;font-size:.9rem;letter-spacing:1px;text-align:center;}
     #zoom-level-display{color:var(--dorado);font-family:'Oswald',sans-serif;font-size:.85rem;min-width:48px;text-align:center;}
     .foto-zoom-hint{font-size:.72rem;color:#88aa88;margin-top:4px;text-align:center;}
-
     #bloqueo-overlay{display:none;position:fixed;inset:0;z-index:90;background:linear-gradient(160deg,rgba(10,25,10,.97) 0%,rgba(20,50,20,.97) 100%);align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;}
     #bloqueo-overlay.show{display:flex;}
     .bloqueo-logo{background:#fff;border-radius:14px;padding:10px 20px 8px;margin-bottom:28px;box-shadow:0 4px 20px rgba(0,0,0,.5);}
@@ -188,8 +185,12 @@
     .pass-box input{width:100%;padding:10px 14px;border:2px solid #8aaa8a;border-radius:6px;font-size:1rem;background:#fff;color:var(--texto-oscuro);margin-bottom:12px;font-family:'Open Sans',sans-serif;}
     .pass-box input:focus{outline:none;border-color:var(--verde-logo);}
     .pass-box .pass-btns{display:flex;gap:10px;justify-content:center;}
+    /* ── ESTADÍSTICAS ── */
     .stats-grid{display:flex;gap:16px;flex-wrap:wrap;margin-top:4px;}
-    /* Edad por DNI card — ahora dentro de la sección estadísticas */
+    .stats-filtro-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:16px;padding:14px 16px;background:rgba(45,110,45,.12);border:1px solid rgba(200,168,75,.3);border-radius:8px;}
+    .stats-filtro-bar label{display:flex;flex-direction:column;gap:4px;font-size:.8rem;font-weight:700;color:var(--verde-oscuro);text-transform:uppercase;letter-spacing:.5px;}
+    .stats-filtro-bar input{padding:7px 10px;border:1.5px solid #8aaa8a;border-radius:6px;font-size:.88rem;background:#fff;color:var(--texto-oscuro);}
+    .stats-filtro-bar input:focus{outline:none;border-color:var(--verde-logo);}
     .edad-card{background:linear-gradient(135deg,#1a2a3a,#1a3a4a);border:2px solid var(--dorado);border-radius:12px;padding:18px 22px;margin-top:20px;color:var(--blanco);}
     .edad-card h3{font-family:'Oswald',sans-serif;color:var(--dorado);font-size:1rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;border-bottom:1px solid rgba(200,168,75,.3);padding-bottom:8px;}
     .edad-tabla{width:100%;border-collapse:collapse;font-size:.83rem;}
@@ -199,10 +200,11 @@
     .edad-tabla tr:last-child td{border-bottom:none;}
     .edad-barra-wrap{background:rgba(0,0,0,.3);border-radius:4px;height:10px;overflow:hidden;margin-top:3px;}
     .edad-barra{height:10px;border-radius:4px;background:linear-gradient(90deg,var(--dorado),var(--dorado-claro));}
-    /* Estadísticas por fecha */
     .stats-fecha-card{background:linear-gradient(135deg,#0d1f2a,#1a3a4a);border:2px solid var(--dorado);border-radius:12px;padding:18px 22px;margin-top:0;color:var(--blanco);}
     .stats-fecha-card h3{font-family:'Oswald',sans-serif;color:var(--dorado);font-size:1rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;border-bottom:1px solid rgba(200,168,75,.3);padding-bottom:8px;display:flex;align-items:center;gap:8px;}
     .stats-fecha-grid{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;}
+    /* Hint autocompletado */
+    .autocomplete-hint{font-size:.72rem;color:#2a6a2a;font-style:italic;margin-top:2px;min-height:1em;display:block;}
     @media(max-width:600px){
       header h1{font-size:1.15rem;}
       .form-row{flex-direction:column;}
@@ -212,6 +214,7 @@
       .estado-foto-wrap{float:none;margin:0 0 10px 0;}
       #foto-preview{width:160px;height:160px;}
       #modal-foto-container{width:95vw;height:70vw;}
+      .stats-filtro-bar{flex-direction:column;}
     }
   </style>
 </head>
@@ -348,6 +351,7 @@
         <label>Nombre (opcional)
           <input type="text" id="nombre-ingreso" placeholder="Apellido, Nombre"
                  onkeydown="if(event.key==='Enter')registrarIngreso()"/>
+          <span class="autocomplete-hint" id="nombre-autocomplete-hint"></span>
         </label>
       </div>
       <div class="foto-section">
@@ -400,7 +404,7 @@
         </div>
       </div>
       <div class="form-row">
-        <label>Nº Documento (DNI)<input type="text" id="dni-aperc" placeholder="Ej: 30123456" maxlength="12" oninput="this.value=this.value.replace(/\D/g,'')"/></label>
+        <label>Nº Documento (DNI)<input type="text" id="dni-aperc" placeholder="Ej: 30123456" maxlength="12" oninput="this.value=this.value.replace(/\D/g,'');autocompletarNombre('dni-aperc','nombre-aperc')"/></label>
         <label>Nombre del Invitado (opcional)<input type="text" id="nombre-aperc" placeholder="Apellido, Nombre"/></label>
       </div>
       <div class="form-row">
@@ -425,7 +429,7 @@
     <div class="card">
       <h2>🚫 Registrar Suspensión</h2>
       <div class="form-row">
-        <label>Nº Documento (DNI)<input type="text" id="dni-susp" placeholder="Ej: 30123456" maxlength="12" oninput="this.value=this.value.replace(/\D/g,'')"/></label>
+        <label>Nº Documento (DNI)<input type="text" id="dni-susp" placeholder="Ej: 30123456" maxlength="12" oninput="this.value=this.value.replace(/\D/g,'');autocompletarNombre('dni-susp','nombre-susp')"/></label>
         <label>Nombre del Invitado (opcional)<input type="text" id="nombre-susp" placeholder="Apellido, Nombre"/></label>
       </div>
       <div class="form-row">
@@ -578,49 +582,48 @@
     </div>
   </section>
 
-  <!-- ESTADÍSTICAS -->
+  <!-- ESTADÍSTICAS — ahora todo filtrado por rango de fechas -->
   <section id="sec-estadisticas" class="seccion">
-    <!-- Resumen general -->
-    <div class="card">
-      <h2>📊 Estadísticas Generales</h2>
-      <button class="btn btn-primary" style="margin-bottom:16px;" onclick="renderEstadisticas()">🔄 Actualizar</button>
-      <div id="estadisticas" class="stats-grid"></div>
-    </div>
 
-    <!-- NUEVO: Estadísticas por rango de fechas -->
+    <!-- Filtro global de fechas para toda la sección -->
     <div class="card">
-      <h2>📅 Estadísticas por Rango de Fechas</h2>
-      <div class="form-row">
+      <h2>📅 Filtro de Período</h2>
+      <div class="stats-filtro-bar">
         <label>Fecha Desde<input type="date" id="stats-desde"/></label>
         <label>Fecha Hasta<input type="date" id="stats-hasta"/></label>
         <label>DNI (opcional)<input type="text" id="stats-dni" placeholder="Filtrar por DNI" oninput="this.value=this.value.replace(/\D/g,'')"/></label>
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
-        <button class="btn btn-primary" onclick="renderStatsFecha()">🔍 Consultar</button>
-        <button class="btn btn-success" onclick="pedirPassBackup('descargar-stats')">⬇️ Descargar XML del período</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-self:flex-end;">
+          <button class="btn btn-primary" onclick="renderEstadisticas()">🔍 Consultar</button>
+          <button class="btn btn-success" onclick="pedirPassBackup('descargar-stats')">⬇️ Guardar Estadísticas XML</button>
+        </div>
       </div>
       <div id="alerta-stats-fecha" class="alerta"></div>
-      <div id="stats-fecha-resultado" style="display:none;">
-        <div class="stats-fecha-card">
-          <h3>📊 Resumen del Período</h3>
-          <div id="stats-fecha-grid" class="stats-fecha-grid"></div>
-        </div>
-        <div style="margin-top:16px;">
-          <div class="separador-dorado">Ingresos en el período</div>
-          <div class="tabla-wrap">
-            <table id="tabla-stats-fecha">
-              <thead><tr><th>Foto</th><th>DNI</th><th>Nombre</th><th>Fecha</th><th>Hora</th><th>Estado</th></tr></thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
+    </div>
+
+    <!-- Resumen general del período -->
+    <div class="card">
+      <h2>📊 Resumen del Período</h2>
+      <div id="estadisticas" class="stats-grid">
+        <span style="color:#8aaa8a;font-size:.88rem;">Seleccioná un rango y presioná Consultar.</span>
+      </div>
+      <div id="stats-periodo-label" style="font-size:.78rem;color:#888;margin-top:10px;"></div>
+    </div>
+
+    <!-- Tabla de ingresos del período -->
+    <div class="card" id="stats-tabla-card" style="display:none;">
+      <h2>🚪 Ingresos en el Período</h2>
+      <div class="tabla-wrap">
+        <table id="tabla-stats-fecha">
+          <thead><tr><th>Foto</th><th>DNI</th><th>Nombre</th><th>Fecha</th><th>Hora</th><th>Estado</th></tr></thead>
+          <tbody></tbody>
+        </table>
       </div>
     </div>
 
     <!-- Estimación de edad por DNI -->
     <div class="card">
       <h2>👥 Estimación de Edad por Rango de DNI</h2>
-      <p style="font-size:.78rem;color:#888;margin-bottom:12px;">⚠️ Estimación aproximada basada en la correlación histórica del DNI argentino. No es exacta.</p>
+      <p style="font-size:.78rem;color:#888;margin-bottom:12px;">⚠️ Estimación aproximada basada en la correlación histórica del DNI argentino. No es exacta. Aplica el mismo filtro de período.</p>
       <div id="edad-por-dni-section">
         <div class="edad-card">
           <h3>📊 Distribución por Rango de DNI</h3>
@@ -633,6 +636,7 @@
         </div>
       </div>
     </div>
+
   </section>
 </main>
 
@@ -664,7 +668,7 @@
   </div>
 </div>
 
-<!-- MODAL FOTO CON ZOOM — completamente nuevo -->
+<!-- MODAL FOTO CON ZOOM -->
 <div id="modal-foto" onclick="cerrarModalFoto()">
   <div id="modal-foto-container" onclick="event.stopPropagation()">
     <img id="modal-foto-img" src="" alt="Foto invitado"/>
@@ -708,7 +712,7 @@ let _syncEnCurso=false, _ultimoSyncTs=null;
 let _pendingPassAction=null;
 
 /* ══════════════════════════════════════════
-   ZOOM MODAL — LÓGICA COMPLETA
+   ZOOM MODAL
 ══════════════════════════════════════════ */
 let _zoomScale=1, _zoomX=0, _zoomY=0;
 let _zoomDragging=false, _zoomLastX=0, _zoomLastY=0;
@@ -719,69 +723,53 @@ function _applyZoomTransform(){
   img.style.transformOrigin='0 0';
   document.getElementById('zoom-level-display').textContent=Math.round(_zoomScale*100)+'%';
 }
-
 function zoomFoto(delta){
   const cont=document.getElementById('modal-foto-container');
   const cx=cont.offsetWidth/2, cy=cont.offsetHeight/2;
-  const newScale=Math.min(8, Math.max(0.5, _zoomScale+delta));
-  // zoom hacia el centro
+  const newScale=Math.min(8,Math.max(0.5,_zoomScale+delta));
   _zoomX=cx-(cx-_zoomX)*(newScale/_zoomScale);
   _zoomY=cy-(cy-_zoomY)*(newScale/_zoomScale);
   _zoomScale=newScale;
   _applyZoomTransform();
 }
-
 function resetZoomFoto(){
-  _zoomScale=1; _zoomX=0; _zoomY=0;
-  _applyZoomTransform();
+  _zoomScale=1;_zoomX=0;_zoomY=0;_applyZoomTransform();
 }
-
 function _initZoomEvents(){
   const cont=document.getElementById('modal-foto-container');
-  // Rueda del mouse
   cont.onwheel=function(e){
     e.preventDefault();
     const rect=cont.getBoundingClientRect();
-    const mx=e.clientX-rect.left, my=e.clientY-rect.top;
+    const mx=e.clientX-rect.left,my=e.clientY-rect.top;
     const delta=e.deltaY<0?0.25:-0.25;
     const newScale=Math.min(8,Math.max(0.5,_zoomScale+delta));
     _zoomX=mx-(mx-_zoomX)*(newScale/_zoomScale);
     _zoomY=my-(my-_zoomY)*(newScale/_zoomScale);
-    _zoomScale=newScale;
-    _applyZoomTransform();
+    _zoomScale=newScale;_applyZoomTransform();
   };
-  // Arrastre mouse
   cont.onmousedown=function(e){
-    _zoomDragging=true; _zoomLastX=e.clientX; _zoomLastY=e.clientY;
+    _zoomDragging=true;_zoomLastX=e.clientX;_zoomLastY=e.clientY;
     cont.classList.add('grabbing');
   };
   document.onmousemove=function(e){
     if(!_zoomDragging)return;
-    _zoomX+=e.clientX-_zoomLastX; _zoomY+=e.clientY-_zoomLastY;
-    _zoomLastX=e.clientX; _zoomLastY=e.clientY;
-    _applyZoomTransform();
+    _zoomX+=e.clientX-_zoomLastX;_zoomY+=e.clientY-_zoomLastY;
+    _zoomLastX=e.clientX;_zoomLastY=e.clientY;_applyZoomTransform();
   };
   document.onmouseup=function(){
     _zoomDragging=false;
     document.getElementById('modal-foto-container').classList.remove('grabbing');
   };
-  // Touch
   let _lastTouchDist=null;
   cont.ontouchstart=function(e){
-    if(e.touches.length===1){
-      _zoomDragging=true;
-      _zoomLastX=e.touches[0].clientX; _zoomLastY=e.touches[0].clientY;
-    } else if(e.touches.length===2){
-      _zoomDragging=false;
-      _lastTouchDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
-    }
+    if(e.touches.length===1){_zoomDragging=true;_zoomLastX=e.touches[0].clientX;_zoomLastY=e.touches[0].clientY;}
+    else if(e.touches.length===2){_zoomDragging=false;_lastTouchDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);}
   };
   cont.ontouchmove=function(e){
     e.preventDefault();
     if(e.touches.length===1&&_zoomDragging){
-      _zoomX+=e.touches[0].clientX-_zoomLastX; _zoomY+=e.touches[0].clientY-_zoomLastY;
-      _zoomLastX=e.touches[0].clientX; _zoomLastY=e.touches[0].clientY;
-      _applyZoomTransform();
+      _zoomX+=e.touches[0].clientX-_zoomLastX;_zoomY+=e.touches[0].clientY-_zoomLastY;
+      _zoomLastX=e.touches[0].clientX;_zoomLastY=e.touches[0].clientY;_applyZoomTransform();
     } else if(e.touches.length===2&&_lastTouchDist!==null){
       const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
       const delta=(dist-_lastTouchDist)*0.01;
@@ -789,153 +777,217 @@ function _initZoomEvents(){
       const mx=((e.touches[0].clientX+e.touches[1].clientX)/2)-rect.left;
       const my=((e.touches[0].clientY+e.touches[1].clientY)/2)-rect.top;
       const newScale=Math.min(8,Math.max(0.5,_zoomScale+delta));
-      _zoomX=mx-(mx-_zoomX)*(newScale/_zoomScale);
-      _zoomY=my-(my-_zoomY)*(newScale/_zoomScale);
-      _zoomScale=newScale;
-      _lastTouchDist=dist;
-      _applyZoomTransform();
+      _zoomX=mx-(mx-_zoomX)*(newScale/_zoomScale);_zoomY=my-(my-_zoomY)*(newScale/_zoomScale);
+      _zoomScale=newScale;_lastTouchDist=dist;_applyZoomTransform();
     }
   };
   cont.ontouchend=function(){_zoomDragging=false;_lastTouchDist=null;};
 }
-
-function _abrirModalFoto(src, info){
+function _abrirModalFoto(src,info){
   if(!src||src===window.location.href||src==='')return;
   resetZoomFoto();
   document.getElementById('modal-foto-img').src=src;
   document.getElementById('modal-foto-info').textContent=info||'';
   document.getElementById('modal-foto').classList.add('show');
 }
-
 function cerrarModalFoto(){
-  document.getElementById('modal-foto').classList.remove('show');
-  _zoomDragging=false;
+  document.getElementById('modal-foto').classList.remove('show');_zoomDragging=false;
 }
-
-function verFotoGrande(dni){
-  const f=getFoto(String(dni));if(!f)return;
-  _abrirModalFoto(f,'DNI: '+dni);
-}
+function verFotoGrande(dni){const f=getFoto(String(dni));if(!f)return;_abrirModalFoto(f,'DNI: '+dni);}
 function verFotoGrandePreview(){
   const src=document.getElementById('foto-preview').src;
   const dni=document.getElementById('dni-ingreso').value.trim();
-  _abrirModalFoto(src, dni?'DNI: '+dni:'Foto del invitado');
+  _abrirModalFoto(src,dni?'DNI: '+dni:'Foto del invitado');
+}
+
+/* ══════════════════════════════════════════
+   AUTOCOMPLETAR NOMBRE DESDE DNI
+   Busca el nombre más reciente en ingresos,
+   apercibimientos y suspensiones para ese DNI.
+══════════════════════════════════════════ */
+function buscarNombrePorDni(dni){
+  if(!dni||dni.length<6) return '';
+  // Buscar en ingresos (más recientes primero)
+  const ingresos=cargarDatos(KEYS.ingresos).filter(i=>i.dni===dni&&i.nombre&&i.nombre.trim());
+  if(ingresos.length) return ingresos[ingresos.length-1].nombre.trim();
+  // Buscar en apercibimientos
+  const aperc=cargarDatos(KEYS.apercibimientos).filter(a=>a.dni===dni&&a.nombre&&a.nombre.trim());
+  if(aperc.length) return aperc[aperc.length-1].nombre.trim();
+  // Buscar en suspensiones
+  const susp=cargarDatos(KEYS.suspensiones).filter(s=>s.dni===dni&&s.nombre&&s.nombre.trim());
+  if(susp.length) return susp[susp.length-1].nombre.trim();
+  return '';
+}
+
+/**
+ * Autocompletado genérico: lee el campo dniId, busca el nombre
+ * y lo pone en nombreId solo si el campo nombre está vacío o ya
+ * tiene un valor autocompletado anteriormente.
+ */
+function autocompletarNombre(dniId, nombreId){
+  const dni=document.getElementById(dniId).value.trim();
+  const campoNombre=document.getElementById(nombreId);
+  if(!dni||dni.length<6){
+    campoNombre.classList.remove('autocompletado');
+    return;
+  }
+  const nombre=buscarNombrePorDni(dni);
+  if(nombre){
+    // Solo autocompletar si el usuario no escribió manualmente
+    if(!campoNombre.value.trim()||campoNombre.classList.contains('autocompletado')){
+      campoNombre.value=nombre;
+      campoNombre.classList.add('autocompletado');
+    }
+  } else {
+    // Si no hay nombre, limpiar solo si era autocompletado
+    if(campoNombre.classList.contains('autocompletado')){
+      campoNombre.value='';
+      campoNombre.classList.remove('autocompletado');
+    }
+  }
+}
+
+/**
+ * Versión especial para el formulario de ingreso:
+ * muestra también el hint debajo del campo nombre.
+ */
+function onDniIngresoChange(){
+  const dni=document.getElementById('dni-ingreso').value.trim();
+  const campoNombre=document.getElementById('nombre-ingreso');
+  const hint=document.getElementById('nombre-autocomplete-hint');
+
+  // Foto
+  const foto=dni?getFoto(dni):null;
+  if(foto){
+    document.getElementById('foto-preview').src=foto;
+    document.getElementById('foto-preview-wrap').classList.add('show');
+    document.getElementById('btn-borrar-foto').style.display='inline-flex';
+    document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅';
+  } else {
+    document.getElementById('foto-preview').src='';
+    document.getElementById('foto-preview-wrap').classList.remove('show');
+    document.getElementById('btn-borrar-foto').style.display='none';
+    document.getElementById('foto-preview-dni').textContent='DNI: --';
+  }
+
+  // Autocompletar nombre
+  if(dni&&dni.length>=6){
+    const nombre=buscarNombrePorDni(dni);
+    if(nombre){
+      if(!campoNombre.value.trim()||campoNombre.classList.contains('autocompletado')){
+        campoNombre.value=nombre;
+        campoNombre.classList.add('autocompletado');
+        hint.textContent='✅ Nombre encontrado en registros anteriores';
+      } else {
+        hint.textContent='';
+      }
+    } else {
+      if(campoNombre.classList.contains('autocompletado')){
+        campoNombre.value='';
+        campoNombre.classList.remove('autocompletado');
+      }
+      hint.textContent='';
+    }
+  } else {
+    if(campoNombre.classList.contains('autocompletado')){
+      campoNombre.value='';
+      campoNombre.classList.remove('autocompletado');
+    }
+    hint.textContent='';
+  }
 }
 
 /* ══════════════════════════════════════════
    PASSWORD MODAL
 ══════════════════════════════════════════ */
 function pedirPassBackup(accion){
-  _pendingPassAction = accion;
-  const titulos = {
-    descargar: '🔒 Contraseña para descargar',
-    restaurar: '🔒 Contraseña para restaurar',
-    'descargar-stats': '🔒 Contraseña para descargar estadísticas'
+  _pendingPassAction=accion;
+  const titulos={
+    descargar:'🔒 Contraseña para descargar',
+    restaurar:'🔒 Contraseña para restaurar',
+    'descargar-stats':'🔒 Contraseña para guardar estadísticas'
   };
-  const subs = {
-    descargar: 'Ingresá la contraseña para descargar el backup XML.',
-    restaurar: 'Ingresá la contraseña para restaurar el backup XML.',
-    'descargar-stats': 'Ingresá la contraseña para descargar el XML del período.'
+  const subs={
+    descargar:'Ingresá la contraseña para descargar el backup XML.',
+    restaurar:'Ingresá la contraseña para restaurar el backup XML.',
+    'descargar-stats':'Ingresá la contraseña para guardar el XML de estadísticas del período.'
   };
-  document.getElementById('pass-titulo').textContent = titulos[accion] || '🔒 Contraseña requerida';
-  document.getElementById('pass-subtitulo').textContent = subs[accion] || 'Ingresá la contraseña para continuar.';
-  document.getElementById('pass-input').value = '';
-  const alertaEl = document.getElementById('alerta-pass');
-  alertaEl.className = 'alerta'; alertaEl.textContent = '';
-  document.getElementById('modal-pass').style.display = 'flex';
-  setTimeout(() => document.getElementById('pass-input').focus(), 120);
+  document.getElementById('pass-titulo').textContent=titulos[accion]||'🔒 Contraseña requerida';
+  document.getElementById('pass-subtitulo').textContent=subs[accion]||'Ingresá la contraseña para continuar.';
+  document.getElementById('pass-input').value='';
+  const alertaEl=document.getElementById('alerta-pass');
+  alertaEl.className='alerta';alertaEl.textContent='';
+  document.getElementById('modal-pass').style.display='flex';
+  setTimeout(()=>document.getElementById('pass-input').focus(),120);
 }
 function cerrarModalPass(){
-  document.getElementById('modal-pass').style.display = 'none';
-  _pendingPassAction = null;
-  document.getElementById('pass-input').value = '';
-  const alertaEl = document.getElementById('alerta-pass');
-  alertaEl.className = 'alerta'; alertaEl.textContent = '';
+  document.getElementById('modal-pass').style.display='none';
+  _pendingPassAction=null;
+  document.getElementById('pass-input').value='';
+  const alertaEl=document.getElementById('alerta-pass');
+  alertaEl.className='alerta';alertaEl.textContent='';
 }
 function confirmarPass(){
-  const val = document.getElementById('pass-input').value;
-  if(val !== BACKUP_PASS){
-    const el = document.getElementById('alerta-pass');
-    el.className = 'alerta show alerta-error';
-    el.textContent = '❌ Contraseña incorrecta.';
-    document.getElementById('pass-input').value = '';
-    document.getElementById('pass-input').focus();
+  const val=document.getElementById('pass-input').value;
+  if(val!==BACKUP_PASS){
+    const el=document.getElementById('alerta-pass');
+    el.className='alerta show alerta-error';el.textContent='❌ Contraseña incorrecta.';
+    document.getElementById('pass-input').value='';document.getElementById('pass-input').focus();
     return;
   }
-  const accion = _pendingPassAction;
+  const accion=_pendingPassAction;
   cerrarModalPass();
-  setTimeout(() => {
-    if(accion === 'descargar') generarBackup();
-    else if(accion === 'restaurar') restaurarBackup();
-    else if(accion === 'descargar-stats') descargarXMLStats();
-  }, 150);
+  setTimeout(()=>{
+    if(accion==='descargar') generarBackup();
+    else if(accion==='restaurar') restaurarBackup();
+    else if(accion==='descargar-stats') descargarXMLStats();
+  },150);
 }
 
 /* ══════════════════════════════════════════
    TOKEN
 ══════════════════════════════════════════ */
-function getToken(){ return localStorage.getItem('pcq_gh_token')||''; }
-function setToken(t){ localStorage.setItem('pcq_gh_token',t); }
-function clearToken(){ localStorage.removeItem('pcq_gh_token'); }
-
+function getToken(){return localStorage.getItem('pcq_gh_token')||'';}
+function setToken(t){localStorage.setItem('pcq_gh_token',t);}
+function clearToken(){localStorage.removeItem('pcq_gh_token');}
 function guardarTokenModal(){
   const v=document.getElementById('token-input-modal').value.trim();
   if(!v){mostrarAlertaEl('alerta-token-modal','error','Ingresá el token.');return;}
-  setToken(v);
-  document.getElementById('token-modal').classList.remove('show');
+  setToken(v);document.getElementById('token-modal').classList.remove('show');
   document.getElementById('token-input-modal').value='';
-  actualizarTokenStatusCard();
-  iniciarSyncConGitHub();
+  actualizarTokenStatusCard();iniciarSyncConGitHub();
 }
 function continuarSinToken(){
   document.getElementById('token-modal').classList.remove('show');
-  setSyncBadge('error','❌ Sin token');
-  finalizarInit();
+  setSyncBadge('error','❌ Sin token');finalizarInit();
 }
 function guardarTokenBackup(){
   const v=document.getElementById('token-campo-backup').value.trim();
   if(!v){mostrarAlerta('alerta-token-backup','error','Ingresá el token.');return;}
-  setToken(v);
-  document.getElementById('token-campo-backup').value='';
-  actualizarTokenStatusCard();
-  mostrarAlerta('alerta-token-backup','ok','✅ Token guardado. Sincronizando...');
+  setToken(v);document.getElementById('token-campo-backup').value='';
+  actualizarTokenStatusCard();mostrarAlerta('alerta-token-backup','ok','✅ Token guardado. Sincronizando...');
   sincronizarDesdeGitHub(false);
 }
 function borrarTokenBackup(){
   if(!confirm('¿Eliminar el token?'))return;
-  clearToken(); actualizarTokenStatusCard();
-  mostrarAlerta('alerta-token-backup','warn','⚠️ Token eliminado.');
-  setSyncBadge('error','❌ Sin token');
+  clearToken();actualizarTokenStatusCard();
+  mostrarAlerta('alerta-token-backup','warn','⚠️ Token eliminado.');setSyncBadge('error','❌ Sin token');
 }
 function toggleVerTokenBackup(){
-  const i=document.getElementById('token-campo-backup');
-  i.type=i.type==='password'?'text':'password';
+  const i=document.getElementById('token-campo-backup');i.type=i.type==='password'?'text':'password';
 }
 function actualizarTokenStatusCard(){
-  const el=document.getElementById('token-status-card'); if(!el)return;
+  const el=document.getElementById('token-status-card');if(!el)return;
   const t=getToken();
-  if(t){
-    const prev=t.substring(0,8)+'••••'+t.slice(-4);
-    el.className='token-status ok';
-    el.textContent='✅ Token configurado: '+prev;
-  } else {
-    el.className='token-status error';
-    el.textContent='❌ No hay token configurado — la sincronización no funcionará';
-  }
+  if(t){const prev=t.substring(0,8)+'••••'+t.slice(-4);el.className='token-status ok';el.textContent='✅ Token configurado: '+prev;}
+  else{el.className='token-status error';el.textContent='❌ No hay token configurado — la sincronización no funcionará';}
 }
 
 /* ══════════════════════════════════════════
    BASE64
 ══════════════════════════════════════════ */
-function utf8ToBase64(s){
-  const b=new TextEncoder().encode(s); let r='';
-  b.forEach(x=>{r+=String.fromCharCode(x);}); return btoa(r);
-}
-function base64ToUtf8(b64){
-  const bin=atob(b64); const b=new Uint8Array(bin.length);
-  for(let i=0;i<bin.length;i++) b[i]=bin.charCodeAt(i);
-  return new TextDecoder().decode(b);
-}
+function utf8ToBase64(s){const b=new TextEncoder().encode(s);let r='';b.forEach(x=>{r+=String.fromCharCode(x);});return btoa(r);}
+function base64ToUtf8(b64){const bin=atob(b64);const b=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)b[i]=bin.charCodeAt(i);return new TextDecoder().decode(b);}
 
 /* ══════════════════════════════════════════
    SYNC BADGE
@@ -949,55 +1001,42 @@ function setSyncBadge(e,t){
    GITHUB API
 ══════════════════════════════════════════ */
 function fetchConTimeout(url,opts,ms=10000){
-  const ctrl=new AbortController();
-  const timer=setTimeout(()=>ctrl.abort(),ms);
+  const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),ms);
   return fetch(url,{...opts,signal:ctrl.signal}).finally(()=>clearTimeout(timer));
 }
-
 async function ghGetFile(path){
-  if(!getToken()) return {sha:null,content:null,error:'sin-token'};
+  if(!getToken())return{sha:null,content:null,error:'sin-token'};
   try{
     const r=await fetchConTimeout(
       `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${path}?ref=${GH.branch}&t=${Date.now()}`,
-      {cache:'no-store',headers:{
-        'Authorization':`Bearer ${getToken()}`,
-        'Accept':'application/vnd.github+json',
-        'X-GitHub-Api-Version':'2022-11-28'
-      }}
+      {cache:'no-store',headers:{'Authorization':`Bearer ${getToken()}`,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}}
     );
-    if(r.status===404) return {sha:null,content:null};
-    if(r.status===401||r.status===403) return {sha:null,content:null,error:'token-invalido'};
-    if(!r.ok) return {sha:null,content:null,error:`HTTP ${r.status}`};
-    const d=await r.json();
-    return {sha:d.sha||null,content:d.content||null};
+    if(r.status===404)return{sha:null,content:null};
+    if(r.status===401||r.status===403)return{sha:null,content:null,error:'token-invalido'};
+    if(!r.ok)return{sha:null,content:null,error:`HTTP ${r.status}`};
+    const d=await r.json();return{sha:d.sha||null,content:d.content||null};
   }catch(e){
-    if(e.name==='AbortError') return {sha:null,content:null,error:'timeout'};
-    return {sha:null,content:null,error:e.message};
+    if(e.name==='AbortError')return{sha:null,content:null,error:'timeout'};
+    return{sha:null,content:null,error:e.message};
   }
 }
-
 async function ghPutFile(path,contenido,mensaje,sha){
-  if(!getToken()) return {ok:false,error:'sin-token'};
+  if(!getToken())return{ok:false,error:'sin-token'};
   const body={message:mensaje,content:utf8ToBase64(contenido),branch:GH.branch};
-  if(sha) body.sha=sha;
+  if(sha)body.sha=sha;
   try{
     const r=await fetchConTimeout(
       `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${path}`,
-      {method:'PUT',headers:{
-        'Authorization':`Bearer ${getToken()}`,
-        'Accept':'application/vnd.github+json',
-        'Content-Type':'application/json',
-        'X-GitHub-Api-Version':'2022-11-28'
-      },body:JSON.stringify(body)}
+      {method:'PUT',headers:{'Authorization':`Bearer ${getToken()}`,'Accept':'application/vnd.github+json','Content-Type':'application/json','X-GitHub-Api-Version':'2022-11-28'},body:JSON.stringify(body)}
     );
     const d=await r.json();
-    if(r.ok) return {ok:true,sha:d.content?.sha||null};
-    if(r.status===401||r.status===403) return {ok:false,error:'token-invalido'};
-    if(r.status===409||r.status===422) return {ok:false,error:'sha-conflict'};
-    return {ok:false,error:`${r.status}: ${d.message||'Error'}`};
+    if(r.ok)return{ok:true,sha:d.content?.sha||null};
+    if(r.status===401||r.status===403)return{ok:false,error:'token-invalido'};
+    if(r.status===409||r.status===422)return{ok:false,error:'sha-conflict'};
+    return{ok:false,error:`${r.status}: ${d.message||'Error'}`};
   }catch(e){
-    if(e.name==='AbortError') return {ok:false,error:'timeout'};
-    return {ok:false,error:e.message};
+    if(e.name==='AbortError')return{ok:false,error:'timeout'};
+    return{ok:false,error:e.message};
   }
 }
 
@@ -1005,29 +1044,18 @@ async function ghPutFile(path,contenido,mensaje,sha){
    DATOS
 ══════════════════════════════════════════ */
 function construirDatos(){
-  return {
-    version:2,
-    updatedAt:ahoraReal().toISOString(),
-    ingresos:cargarDatos(KEYS.ingresos),
-    apercibimientos:cargarDatos(KEYS.apercibimientos),
-    suspensiones:cargarDatos(KEYS.suspensiones),
-    inspectores:cargarDatos(KEYS.inspectores),
-    fotos:cargarFotos(),
-    inspActivo:cargarItem(KEYS.inspActivo)||'',
-    turnoInicio:cargarItem(KEYS.turnoInicio)||''
-  };
+  return{version:2,updatedAt:ahoraReal().toISOString(),
+    ingresos:cargarDatos(KEYS.ingresos),apercibimientos:cargarDatos(KEYS.apercibimientos),
+    suspensiones:cargarDatos(KEYS.suspensiones),inspectores:cargarDatos(KEYS.inspectores),
+    fotos:cargarFotos(),inspActivo:cargarItem(KEYS.inspActivo)||'',turnoInicio:cargarItem(KEYS.turnoInicio)||''};
 }
 function aplicarDatos(d){
-  if(!d||typeof d!=='object') return false;
-  guardarDatos(KEYS.ingresos,       d.ingresos||[]);
-  guardarDatos(KEYS.apercibimientos,d.apercibimientos||[]);
-  guardarDatos(KEYS.suspensiones,   d.suspensiones||[]);
-  guardarDatos(KEYS.inspectores,    d.inspectores||[]);
+  if(!d||typeof d!=='object')return false;
+  guardarDatos(KEYS.ingresos,d.ingresos||[]);guardarDatos(KEYS.apercibimientos,d.apercibimientos||[]);
+  guardarDatos(KEYS.suspensiones,d.suspensiones||[]);guardarDatos(KEYS.inspectores,d.inspectores||[]);
   guardarFotos(d.fotos||{});
-  if(d.inspActivo) guardarItem(KEYS.inspActivo,d.inspActivo);
-  else localStorage.removeItem(KEYS.inspActivo);
-  if(d.turnoInicio) guardarItem(KEYS.turnoInicio,d.turnoInicio);
-  else localStorage.removeItem(KEYS.turnoInicio);
+  if(d.inspActivo)guardarItem(KEYS.inspActivo,d.inspActivo);else localStorage.removeItem(KEYS.inspActivo);
+  if(d.turnoInicio)guardarItem(KEYS.turnoInicio,d.turnoInicio);else localStorage.removeItem(KEYS.turnoInicio);
   return true;
 }
 
@@ -1035,146 +1063,81 @@ function aplicarDatos(d){
    GUARDAR EN GITHUB
 ══════════════════════════════════════════ */
 async function guardarEnGitHub(silencioso=false){
-  if(!getToken()){setSyncBadge('error','❌ Sin token');return {ok:false,error:'sin-token'};}
-  let w=0;
-  while(_syncEnCurso&&w<27){await new Promise(r=>setTimeout(r,300));w++;}
-  _syncEnCurso=true;
-  setSyncBadge('syncing',silencioso?'⏳ Sync...':'⏳ Guardando...');
+  if(!getToken()){setSyncBadge('error','❌ Sin token');return{ok:false,error:'sin-token'};}
+  let w=0;while(_syncEnCurso&&w<27){await new Promise(r=>setTimeout(r,300));w++;}
+  _syncEnCurso=true;setSyncBadge('syncing',silencioso?'⏳ Sync...':'⏳ Guardando...');
   try{
     const json=JSON.stringify(construirDatos(),null,2);
-    const now=ahoraReal();
-    const msg=`PCQ ${formatFecha(now)} ${formatHora(now)}`;
+    const now=ahoraReal();const msg=`PCQ ${formatFecha(now)} ${formatHora(now)}`;
     for(let intento=0;intento<3;intento++){
       const info=await ghGetFile(GH.dataFile);
-      if(info.error==='token-invalido'){setSyncBadge('error','❌ Token inválido');return {ok:false,error:'token-invalido'};}
-      if(info.error==='timeout'||info.error==='sin-token'){setSyncBadge('error','❌ '+info.error);return {ok:false,error:info.error};}
-      const sha=info.sha||null;
-      const res=await ghPutFile(GH.dataFile,json,msg,sha);
+      if(info.error==='token-invalido'){setSyncBadge('error','❌ Token inválido');return{ok:false,error:'token-invalido'};}
+      if(info.error==='timeout'||info.error==='sin-token'){setSyncBadge('error','❌ '+info.error);return{ok:false,error:info.error};}
+      const sha=info.sha||null;const res=await ghPutFile(GH.dataFile,json,msg,sha);
       if(res.ok){
-        _ultimoSyncTs=ahoraReal();
-        guardarItem(KEYS.lastSync,_ultimoSyncTs.toISOString());
-        guardarItem(KEYS.lastRemoteTs,now.toISOString());
-        setSyncBadge('ok','✅ '+formatHora(_ultimoSyncTs));
-        _actualizarInfoSync();
-        return {ok:true};
+        _ultimoSyncTs=ahoraReal();guardarItem(KEYS.lastSync,_ultimoSyncTs.toISOString());guardarItem(KEYS.lastRemoteTs,now.toISOString());
+        setSyncBadge('ok','✅ '+formatHora(_ultimoSyncTs));_actualizarInfoSync();return{ok:true};
       }
       if(res.error==='sha-conflict'){await new Promise(r=>setTimeout(r,500*(intento+1)));continue;}
-      if(res.error==='token-invalido'){setSyncBadge('error','❌ Token inválido');return {ok:false,error:res.error};}
-      setSyncBadge('error','❌ Error');
-      return {ok:false,error:res.error};
+      if(res.error==='token-invalido'){setSyncBadge('error','❌ Token inválido');return{ok:false,error:res.error};}
+      setSyncBadge('error','❌ Error');return{ok:false,error:res.error};
     }
-    setSyncBadge('error','❌ Conflicto persistente');
-    return {ok:false,error:'sha-conflict-max-retries'};
-  }catch(e){
-    setSyncBadge('error','❌ Sin conexión');
-    return {ok:false,error:e.message};
-  }finally{
-    _syncEnCurso=false;
-  }
+    setSyncBadge('error','❌ Conflicto persistente');return{ok:false,error:'sha-conflict-max-retries'};
+  }catch(e){setSyncBadge('error','❌ Sin conexión');return{ok:false,error:e.message};}
+  finally{_syncEnCurso=false;}
 }
 
 /* ══════════════════════════════════════════
    SINCRONIZAR DESDE GITHUB
 ══════════════════════════════════════════ */
 async function sincronizarDesdeGitHub(mostrarUI=false){
-  if(_syncEnCurso){
-    if(mostrarUI) mostrarAlerta('alerta-github','info','⏳ Sincronización en curso, esperá...');
-    return;
-  }
-  _syncEnCurso=true;
-  setSyncBadge('syncing','🔄 Sincronizando...');
-  if(mostrarUI) mostrarAlerta('alerta-github','info','⏳ Sincronizando...');
+  if(_syncEnCurso){if(mostrarUI)mostrarAlerta('alerta-github','info','⏳ Sincronización en curso, esperá...');return;}
+  _syncEnCurso=true;setSyncBadge('syncing','🔄 Sincronizando...');
+  if(mostrarUI)mostrarAlerta('alerta-github','info','⏳ Sincronizando...');
   try{
-    if(!getToken()){
-      setSyncBadge('error','❌ Sin token');
-      if(mostrarUI) mostrarAlerta('alerta-github','error','❌ No hay token. Ingresalo en 🔑 Token de Sincronización.');
-      return;
-    }
+    if(!getToken()){setSyncBadge('error','❌ Sin token');if(mostrarUI)mostrarAlerta('alerta-github','error','❌ No hay token.');return;}
     const info=await ghGetFile(GH.dataFile);
-    if(info.error==='token-invalido'){
-      setSyncBadge('error','❌ Token inválido');
-      if(mostrarUI) mostrarAlerta('alerta-github','error','❌ Token inválido o revocado. Generá uno nuevo.');
-      return;
-    }
-    if(info.error==='timeout'){
-      setSyncBadge('error','❌ Timeout');
-      if(mostrarUI) mostrarAlerta('alerta-github','error','❌ Tiempo de espera agotado. Verificá tu conexión.');
-      return;
-    }
-    if(info.error){
-      setSyncBadge('error','❌ Error');
-      if(mostrarUI) mostrarAlerta('alerta-github','error','❌ Error: '+info.error);
-      return;
-    }
-    if(!info.content){
-      _syncEnCurso=false;
-      await guardarEnGitHub(true);
-      if(mostrarUI) mostrarAlerta('alerta-github','ok','✅ Datos subidos a la nube por primera vez.');
-      return;
-    }
+    if(info.error==='token-invalido'){setSyncBadge('error','❌ Token inválido');if(mostrarUI)mostrarAlerta('alerta-github','error','❌ Token inválido o revocado.');return;}
+    if(info.error==='timeout'){setSyncBadge('error','❌ Timeout');if(mostrarUI)mostrarAlerta('alerta-github','error','❌ Tiempo de espera agotado.');return;}
+    if(info.error){setSyncBadge('error','❌ Error');if(mostrarUI)mostrarAlerta('alerta-github','error','❌ Error: '+info.error);return;}
+    if(!info.content){_syncEnCurso=false;await guardarEnGitHub(true);if(mostrarUI)mostrarAlerta('alerta-github','ok','✅ Datos subidos a la nube por primera vez.');return;}
     const remoto=JSON.parse(base64ToUtf8(info.content.replace(/\n/g,'')));
     const tsRemoto=remoto.updatedAt?new Date(remoto.updatedAt).getTime():0;
     const tsLocalRemoto=cargarItem(KEYS.lastRemoteTs)?new Date(cargarItem(KEYS.lastRemoteTs)).getTime():0;
     if(tsRemoto>tsLocalRemoto+500){
-      aplicarDatos(remoto);
-      _ultimoSyncTs=new Date(remoto.updatedAt);
-      guardarItem(KEYS.lastSync,remoto.updatedAt);
-      guardarItem(KEYS.lastRemoteTs,remoto.updatedAt);
-      setSyncBadge('ok','✅ '+formatHora(_ultimoSyncTs));
-      _actualizarInfoSync();
-      actualizarUIInspectorActivo();
-      actualizarEstadoBloqueo();
-      _refrescarSeccionActiva();
-      if(mostrarUI) mostrarAlerta('alerta-github','ok',
-        `✅ Datos actualizados desde la nube.<br>
-         📅 <strong>${formatFecha(_ultimoSyncTs)} ${formatHora(_ultimoSyncTs)}</strong> |
-         🚪 Ingresos: <strong>${remoto.ingresos?.length||0}</strong> |
-         ⚠️ Aperc: <strong>${remoto.apercibimientos?.length||0}</strong> |
-         🚫 Susp: <strong>${remoto.suspensiones?.length||0}</strong>`);
+      aplicarDatos(remoto);_ultimoSyncTs=new Date(remoto.updatedAt);
+      guardarItem(KEYS.lastSync,remoto.updatedAt);guardarItem(KEYS.lastRemoteTs,remoto.updatedAt);
+      setSyncBadge('ok','✅ '+formatHora(_ultimoSyncTs));_actualizarInfoSync();
+      actualizarUIInspectorActivo();actualizarEstadoBloqueo();_refrescarSeccionActiva();
+      if(mostrarUI)mostrarAlerta('alerta-github','ok',
+        `✅ Datos actualizados desde la nube.<br>📅 <strong>${formatFecha(_ultimoSyncTs)} ${formatHora(_ultimoSyncTs)}</strong> | 🚪 Ingresos: <strong>${remoto.ingresos?.length||0}</strong> | ⚠️ Aperc: <strong>${remoto.apercibimientos?.length||0}</strong> | 🚫 Susp: <strong>${remoto.suspensiones?.length||0}</strong>`);
     } else {
-      setSyncBadge('ok','✅ Al día');
-      if(mostrarUI) mostrarAlerta('alerta-github','ok','✅ Los datos ya están actualizados.');
+      setSyncBadge('ok','✅ Al día');if(mostrarUI)mostrarAlerta('alerta-github','ok','✅ Los datos ya están actualizados.');
     }
-  }catch(e){
-    setSyncBadge('error','❌ Error');
-    if(mostrarUI) mostrarAlerta('alerta-github','error','❌ Error: '+e.message);
-  }finally{
-    _syncEnCurso=false;
-  }
+  }catch(e){setSyncBadge('error','❌ Error');if(mostrarUI)mostrarAlerta('alerta-github','error','❌ Error: '+e.message);}
+  finally{_syncEnCurso=false;}
 }
-
 function _refrescarSeccionActiva(){
-  const activa=document.querySelector('.seccion.activa');
-  if(!activa) return;
+  const activa=document.querySelector('.seccion.activa');if(!activa)return;
   const id=activa.id.replace('sec-','');
   if(id==='apercibamiento'){renderTablaApercibimientos();actualizarUIInspectorActivo();}
-  if(id==='suspension') renderTablaSuspensiones();
-  if(id==='vencidos') renderVencidos();
+  if(id==='suspension')renderTablaSuspensiones();
+  if(id==='vencidos')renderVencidos();
   if(id==='inspectores'){renderInspectores();actualizarUIInspectorActivo();}
   if(id==='backup'){_actualizarInfoSync();actualizarTokenStatusCard();}
-  if(id==='estadisticas') renderEstadisticas();
+  if(id==='estadisticas')renderEstadisticas();
 }
-
 function _actualizarInfoSync(){
   const el=document.getElementById('ultimo-sync-info');
-  if(el&&_ultimoSyncTs) el.textContent=`🕐 Última sincronización: ${formatFecha(_ultimoSyncTs)} ${formatHora(_ultimoSyncTs)}`;
+  if(el&&_ultimoSyncTs)el.textContent=`🕐 Última sincronización: ${formatFecha(_ultimoSyncTs)} ${formatHora(_ultimoSyncTs)}`;
 }
-
 async function verificarConexionGitHub(){
-  mostrarAlerta('alerta-github','info','⏳ Verificando...');
-  if(!getToken()){mostrarAlerta('alerta-github','error','❌ No hay token.');return;}
+  mostrarAlerta('alerta-github','info','⏳ Verificando...');if(!getToken()){mostrarAlerta('alerta-github','error','❌ No hay token.');return;}
   try{
-    const r=await fetchConTimeout(
-      `https://api.github.com/repos/${GH.owner}/${GH.repo}`,
-      {headers:{
-        'Authorization':`Bearer ${getToken()}`,
-        'Accept':'application/vnd.github+json',
-        'X-GitHub-Api-Version':'2022-11-28'
-      }}
-    );
+    const r=await fetchConTimeout(`https://api.github.com/repos/${GH.owner}/${GH.repo}`,{headers:{'Authorization':`Bearer ${getToken()}`,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}});
     const d=await r.json();
-    if(r.ok) mostrarAlerta('alerta-github','ok','✅ Conexión exitosa con el servicio de sincronización.');
-    else if(r.status===401||r.status===403) mostrarAlerta('alerta-github','error','❌ Token inválido. Generá uno nuevo con permiso <strong>repo</strong>.');
+    if(r.ok)mostrarAlerta('alerta-github','ok','✅ Conexión exitosa con el servicio de sincronización.');
+    else if(r.status===401||r.status===403)mostrarAlerta('alerta-github','error','❌ Token inválido. Generá uno nuevo con permiso <strong>repo</strong>.');
     else mostrarAlerta('alerta-github','error',`❌ Error ${r.status}: ${d.message}`);
   }catch(e){mostrarAlerta('alerta-github','error','❌ Sin conexión: '+e.message);}
 }
@@ -1196,24 +1159,17 @@ function deleteFoto(dni){const f=cargarFotos();delete f[String(dni)];guardarFoto
    HORA
 ══════════════════════════════════════════ */
 async function sincronizarHora(){
-  const apis=[
-    'https://timeapi.io/api/time/current/zone?timeZone=America%2FArgentina%2FBuenos_Aires',
-    'https://worldtimeapi.org/api/timezone/America/Argentina/Buenos_Aires'
-  ];
+  const apis=['https://timeapi.io/api/time/current/zone?timeZone=America%2FArgentina%2FBuenos_Aires','https://worldtimeapi.org/api/timezone/America/Argentina/Buenos_Aires'];
   for(const url of apis){
     try{
-      const r=await fetchConTimeout(url,{},5000);
-      if(!r.ok) continue;
-      const d=await r.json();
-      const raw=d.dateTime||d.datetime; if(!raw) continue;
-      const dt=new Date(raw); if(isNaN(dt)) continue;
+      const r=await fetchConTimeout(url,{},5000);if(!r.ok)continue;
+      const d=await r.json();const raw=d.dateTime||d.datetime;if(!raw)continue;
+      const dt=new Date(raw);if(isNaN(dt))continue;
       offsetMs=dt.getTime()-Date.now();
-      document.getElementById('fuente-hora').textContent='🌐 Hora sincronizada desde internet (Argentina)';
-      return;
+      document.getElementById('fuente-hora').textContent='🌐 Hora sincronizada desde internet (Argentina)';return;
     }catch(e){}
   }
-  offsetMs=0;
-  document.getElementById('fuente-hora').textContent='⚠️ Sin conexión – usando hora local del dispositivo';
+  offsetMs=0;document.getElementById('fuente-hora').textContent='⚠️ Sin conexión – usando hora local del dispositivo';
 }
 function ahoraReal(){return new Date(Date.now()+offsetMs);}
 function pad(n){return String(n).padStart(2,'0');}
@@ -1225,11 +1181,9 @@ function tiempoTranscurrido(ms){const h=Math.floor(ms/3600000),min=Math.floor((m
 function tickReloj(){
   const now=ahoraReal(),hs=formatHora(now);
   const fs=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][now.getDay()]+', '+formatFecha(now);
-  document.getElementById('reloj-grande').textContent=hs;
-  document.getElementById('fecha-grande').textContent=fs;
+  document.getElementById('reloj-grande').textContent=hs;document.getElementById('fecha-grande').textContent=fs;
   document.getElementById('reloj-header').textContent=formatFecha(now)+'  '+hs;
-  document.getElementById('bloqueo-reloj').textContent=hs;
-  document.getElementById('bloqueo-fecha').textContent=fs;
+  document.getElementById('bloqueo-reloj').textContent=hs;document.getElementById('bloqueo-fecha').textContent=fs;
 }
 
 /* ══════════════════════════════════════════
@@ -1238,14 +1192,14 @@ function tickReloj(){
 function estadoIngreso(ing){
   const ms=ahoraReal().getTime()-parseFechaHora(ing.fecha,ing.hora).getTime();
   const lim=HS_VIGENCIA*3600000,prev=lim-MIN_POR_VENCER*60000;
-  if(ms<0) return {texto:'⏳ Pendiente',clase:'badge-azul',fila:''};
-  if(ms>=lim) return {texto:'⏰ Vencido',clase:'badge-rojo',fila:'vencido'};
-  if(ms>=prev){const rm=Math.ceil((lim-ms)/60000);return {texto:`⚠️ Vence en ${rm} min`,clase:'badge-naranja',fila:'por-vencer'};}
-  return {texto:'✅ Vigente',clase:'badge-verde',fila:''};
+  if(ms<0)return{texto:'⏳ Pendiente',clase:'badge-azul',fila:''};
+  if(ms>=lim)return{texto:'⏰ Vencido',clase:'badge-rojo',fila:'vencido'};
+  if(ms>=prev){const rm=Math.ceil((lim-ms)/60000);return{texto:`⚠️ Vence en ${rm} min`,clase:'badge-naranja',fila:'por-vencer'};}
+  return{texto:'✅ Vigente',clase:'badge-verde',fila:''};
 }
 
 /* ══════════════════════════════════════════
-   FOTO — carga desde archivo
+   FOTO
 ══════════════════════════════════════════ */
 function cargarFotoArchivo(ev){
   const f=ev.target.files[0];if(!f)return;
@@ -1257,8 +1211,7 @@ function comprimirImagen(src){
   const c=document.createElement('canvas');
   let w=src.videoWidth||src.naturalWidth||src.width||320,h=src.videoHeight||src.naturalHeight||src.height||240;
   if(w>FOTO_MAX_W){h=Math.round(h*FOTO_MAX_W/w);w=FOTO_MAX_W;}
-  c.width=w;c.height=h;c.getContext('2d').drawImage(src,0,0,w,h);
-  return c.toDataURL('image/jpeg',FOTO_QUALITY);
+  c.width=w;c.height=h;c.getContext('2d').drawImage(src,0,0,w,h);return c.toDataURL('image/jpeg',FOTO_QUALITY);
 }
 async function _guardarFoto(b64){
   document.getElementById('foto-preview').src=b64;
@@ -1267,11 +1220,9 @@ async function _guardarFoto(b64){
   document.getElementById('alerta-foto').className='alerta';
   const dni=document.getElementById('dni-ingreso').value.trim();
   if(dni){
-    setFoto(dni,b64);
-    document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅';
+    setFoto(dni,b64);document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅';
     mostrarAlerta('alerta-foto','info','📤 Guardando foto...');
-    await guardarEnGitHub(true);
-    mostrarAlerta('alerta-foto','ok','✅ Foto guardada para DNI '+dni+'.');
+    await guardarEnGitHub(true);mostrarAlerta('alerta-foto','ok','✅ Foto guardada para DNI '+dni+'.');
   } else {
     document.getElementById('foto-preview-dni').textContent='⚠️ Ingresá el DNI para asociar la foto';
     mostrarAlerta('alerta-foto','warn','⚠️ Ingresá el DNI del invitado para asociar la foto.');
@@ -1286,30 +1237,10 @@ async function borrarFoto(){
   document.getElementById('foto-preview-dni').textContent='DNI: --';
   mostrarAlerta('alerta-foto','warn','🗑️ Foto eliminada.');
 }
-
-function onDniIngresoChange(){
-  const dni=document.getElementById('dni-ingreso').value.trim();
-  const foto=dni?getFoto(dni):null;
-  if(foto){
-    document.getElementById('foto-preview').src=foto;
-    document.getElementById('foto-preview-wrap').classList.add('show');
-    document.getElementById('btn-borrar-foto').style.display='inline-flex';
-    document.getElementById('foto-preview-dni').textContent='DNI: '+dni+' ✅';
-  } else {
-    document.getElementById('foto-preview').src='';
-    document.getElementById('foto-preview-wrap').classList.remove('show');
-    document.getElementById('btn-borrar-foto').style.display='none';
-    document.getElementById('foto-preview-dni').textContent='DNI: --';
-  }
-}
 function asociarFotoAlRegistrar(dni){
   const s=document.getElementById('foto-preview').src;
-  if(s&&s!==window.location.href&&!getFoto(dni)) setFoto(dni,s);
+  if(s&&s!==window.location.href&&!getFoto(dni))setFoto(dni,s);
 }
-
-/* ══════════════════════════════════════════
-   FOTOS EN TABLAS — thumb clickeable
-══════════════════════════════════════════ */
 function fotoThumb(dni,cls){
   const f=getFoto(String(dni));
   return f
@@ -1328,8 +1259,7 @@ function actualizarEstadoBloqueo(){
   const ok=!!getInspectorActivo();
   document.getElementById('bloqueo-overlay').classList[ok?'remove':'add']('show');
   ['btn-nav-ingreso','btn-nav-apercibamiento','btn-nav-suspension','btn-nav-consulta','btn-nav-vencidos','btn-nav-backup','btn-nav-estadisticas'].forEach(id=>{
-    const b=document.getElementById(id);if(!b)return;
-    b.classList[ok?'remove':'add']('nav-bloqueado');
+    const b=document.getElementById(id);if(!b)return;b.classList[ok?'remove':'add']('nav-bloqueado');
   });
 }
 function irAInspectores(){
@@ -1343,14 +1273,14 @@ function _navegarSeccion(id,btn){
   document.querySelectorAll('.seccion').forEach(s=>s.classList.remove('activa'));
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('activo'));
   document.getElementById('sec-'+id).classList.add('activa');
-  if(btn) btn.classList.add('activo');
+  if(btn)btn.classList.add('activo');
   if(id==='apercibamiento'){renderTablaApercibimientos();actualizarUIInspectorActivo();}
-  if(id==='suspension') renderTablaSuspensiones();
+  if(id==='suspension')renderTablaSuspensiones();
   if(id==='backup'){_actualizarInfoSync();actualizarTokenStatusCard();}
-  if(id==='estadisticas') renderEstadisticas();
+  if(id==='estadisticas')renderEstadisticas();
   if(id==='inspectores'){renderInspectores();actualizarUIInspectorActivo();}
-  if(id==='vencidos') renderVencidos();
-  if(id==='consulta') setFechasConsultaHoy();
+  if(id==='vencidos')renderVencidos();
+  if(id==='consulta')setFechasConsultaHoy();
 }
 
 /* ══════════════════════════════════════════
@@ -1385,13 +1315,12 @@ function actualizarUIInspectorActivo(){
 async function activarInspector(id){
   const ant=cargarItem(KEYS.inspActivo);
   if(ant&&ant!==String(id)){localStorage.removeItem(KEYS.inspActivo);localStorage.removeItem(KEYS.turnoInicio);}
-  guardarItem(KEYS.inspActivo,String(id));
-  guardarItem(KEYS.turnoInicio,ahoraReal().toISOString());
+  guardarItem(KEYS.inspActivo,String(id));guardarItem(KEYS.turnoInicio,ahoraReal().toISOString());
   document.getElementById('banner-activar').style.display='none';
   actualizarUIInspectorActivo();actualizarEstadoBloqueo();renderInspectores();
   mostrarAlerta('alerta-insp','info','⏳ Activando y sincronizando...');
   const res=await guardarEnGitHub(false);
-  if(res.ok) mostrarAlerta('alerta-insp','ok','✅ Inspector activado y sincronizado. ¡Sistema habilitado!');
+  if(res.ok)mostrarAlerta('alerta-insp','ok','✅ Inspector activado y sincronizado. ¡Sistema habilitado!');
   else mostrarAlerta('alerta-insp','warn',`⚠️ Inspector activado localmente. Error sync: ${res.error||''}`);
   _navegarSeccion('ingreso',document.getElementById('btn-nav-ingreso'));
 }
@@ -1431,11 +1360,9 @@ async function confirmarDesactivar(){
   Object.assign(document.createElement('a'),{href:url,download:nom}).click();URL.revokeObjectURL(url);
   localStorage.removeItem(KEYS.inspActivo);localStorage.removeItem(KEYS.turnoInicio);
   mostrarAlerta('alerta-modal-cierre','info','⏳ Sincronizando cierre...');
-  await guardarEnGitHub(false);
-  mostrarAlerta('alerta-modal-cierre','ok','✅ Turno cerrado y sincronizado.');
+  await guardarEnGitHub(false);mostrarAlerta('alerta-modal-cierre','ok','✅ Turno cerrado y sincronizado.');
   actualizarUIInspectorActivo();actualizarEstadoBloqueo();renderInspectores();
-  cerrarModalCierre();
-  document.getElementById('banner-activar').style.display='block';
+  cerrarModalCierre();document.getElementById('banner-activar').style.display='block';
   _navegarSeccion('inspectores',document.getElementById('btn-nav-inspectores'));
   setTimeout(()=>window.open(`https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(armarMensajeWA(insp,turno))}`,'_blank'),800);
 }
@@ -1473,11 +1400,10 @@ async function guardarInspector(){
   if(!nombre){mostrarAlerta('alerta-insp','error','Ingresá el nombre del inspector.');return;}
   const lista=cargarDatos(KEYS.inspectores);
   if(lista.find(i=>i.nombre.toLowerCase()===nombre.toLowerCase())){mostrarAlerta('alerta-insp','error','Ya existe un inspector con ese nombre.');return;}
-  lista.push({id:Date.now(),nombre,tel,obs});
-  guardarDatos(KEYS.inspectores,lista);
+  lista.push({id:Date.now(),nombre,tel,obs});guardarDatos(KEYS.inspectores,lista);
   mostrarAlerta('alerta-insp','info','⏳ Guardando...');
   const res=await guardarEnGitHub(false);
-  if(res.ok) mostrarAlerta('alerta-insp','ok',`✅ Inspector <strong>${nombre}</strong> registrado y sincronizado.`);
+  if(res.ok)mostrarAlerta('alerta-insp','ok',`✅ Inspector <strong>${nombre}</strong> registrado y sincronizado.`);
   else mostrarAlerta('alerta-insp','warn',`⚠️ Guardado localmente. Error sync: ${res.error||''}`);
   ['insp-nombre','insp-tel','insp-obs'].forEach(id=>{document.getElementById(id).value='';});
   renderInspectores();
@@ -1500,10 +1426,8 @@ async function guardarModalInspector(){
   const lista=cargarDatos(KEYS.inspectores);
   if(lista.find(i=>i.nombre.toLowerCase()===nombre.toLowerCase()&&i.id!==_editInspId)){mostrarAlerta('alerta-modal-insp','error','Ya existe ese nombre.');return;}
   const idx=lista.findIndex(i=>i.id===_editInspId);if(idx===-1){cerrarModalInspector();return;}
-  lista[idx]={...lista[idx],nombre,tel,obs};
-  guardarDatos(KEYS.inspectores,lista);
-  await guardarEnGitHub(false);
-  cerrarModalInspector();actualizarUIInspectorActivo();renderInspectores();
+  lista[idx]={...lista[idx],nombre,tel,obs};guardarDatos(KEYS.inspectores,lista);
+  await guardarEnGitHub(false);cerrarModalInspector();actualizarUIInspectorActivo();renderInspectores();
   mostrarAlerta('alerta-insp','ok','✅ Inspector actualizado y sincronizado.');
 }
 async function eliminarInspector(id){
@@ -1511,8 +1435,7 @@ async function eliminarInspector(id){
   if(!confirm(`¿Eliminar al inspector "${insp.nombre}"?`))return;
   if(cargarItem(KEYS.inspActivo)===String(id)){localStorage.removeItem(KEYS.inspActivo);localStorage.removeItem(KEYS.turnoInicio);}
   guardarDatos(KEYS.inspectores,cargarDatos(KEYS.inspectores).filter(i=>i.id!==id));
-  await guardarEnGitHub(false);
-  actualizarUIInspectorActivo();actualizarEstadoBloqueo();renderInspectores();
+  await guardarEnGitHub(false);actualizarUIInspectorActivo();actualizarEstadoBloqueo();renderInspectores();
   mostrarAlerta('alerta-insp','warn','⚠️ Inspector eliminado y sincronizado.');
 }
 function renderInspectores(){
@@ -1525,17 +1448,11 @@ function renderInspectores(){
     const esAct=String(insp.id)===String(actId);
     const card=document.createElement('div');card.className='insp-card'+(esAct?' activo':'');
     card.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;">
-      <div>
-        <div class="ic-nombre">👮 ${insp.nombre}</div>
-        ${insp.tel?`<div class="ic-sub">📞 ${insp.tel}</div>`:''}
-        ${insp.obs?`<div class="ic-sub">📝 ${insp.obs}</div>`:''}
-      </div>
+      <div><div class="ic-nombre">👮 ${insp.nombre}</div>${insp.tel?`<div class="ic-sub">📞 ${insp.tel}</div>`:''}${insp.obs?`<div class="ic-sub">📝 ${insp.obs}</div>`:''}</div>
       ${esAct?'<span class="badge badge-dorado">✅ ACTIVO</span>':''}
     </div>
     <div class="ic-acciones">
-      ${!esAct
-        ?`<button class="btn btn-gold btn-sm" onclick="activarInspector(${insp.id})">⚡ Activar</button>`
-        :`<button class="btn btn-secondary btn-sm" onclick="desactivarInspector()">✖ Desactivar</button>`}
+      ${!esAct?`<button class="btn btn-gold btn-sm" onclick="activarInspector(${insp.id})">⚡ Activar</button>`:`<button class="btn btn-secondary btn-sm" onclick="desactivarInspector()">✖ Desactivar</button>`}
       <button class="btn btn-warning btn-sm" onclick="editarInspector(${insp.id})">✏️ Editar</button>
       <button class="btn btn-danger btn-sm" onclick="eliminarInspector(${insp.id})">🗑️ Eliminar</button>
     </div>`;
@@ -1549,10 +1466,8 @@ function renderInspectores(){
 function renderVencidos(){
   const ing=cargarDatos(KEYS.ingresos),now=ahoraReal();
   const lim=HS_VIGENCIA*3600000,prev=lim-MIN_POR_VENCER*60000;
-  const ven=ing.filter(i=>{const ms=now.getTime()-parseFechaHora(i.fecha,i.hora).getTime();return ms>=lim;})
-             .sort((a,b)=>parseFechaHora(a.fecha,a.hora)-parseFechaHora(b.fecha,b.hora));
-  const pv=ing.filter(i=>{const ms=now.getTime()-parseFechaHora(i.fecha,i.hora).getTime();return ms>=prev&&ms<lim;})
-             .sort((a,b)=>parseFechaHora(a.fecha,a.hora)-parseFechaHora(b.fecha,b.hora));
+  const ven=ing.filter(i=>{const ms=now.getTime()-parseFechaHora(i.fecha,i.hora).getTime();return ms>=lim;}).sort((a,b)=>parseFechaHora(a.fecha,a.hora)-parseFechaHora(b.fecha,b.hora));
+  const pv=ing.filter(i=>{const ms=now.getTime()-parseFechaHora(i.fecha,i.hora).getTime();return ms>=prev&&ms<lim;}).sort((a,b)=>parseFechaHora(a.fecha,a.hora)-parseFechaHora(b.fecha,b.hora));
   const cpv=document.getElementById('contador-por-vencer');
   if(pv.length){cpv.style.display='flex';document.getElementById('cpv-num').textContent=pv.length;}else cpv.style.display='none';
   const cv=document.getElementById('contador-vencidos');
@@ -1588,8 +1503,7 @@ async function limpiarVencidos(){
 ══════════════════════════════════════════ */
 function setFechasConsultaHoy(){
   const hoy=isoFecha(ahoraReal());
-  const d=document.getElementById('consulta-desde');
-  const h=document.getElementById('consulta-hasta');
+  const d=document.getElementById('consulta-desde');const h=document.getElementById('consulta-hasta');
   if(!d.value)d.value=hoy;if(!h.value)h.value=hoy;
 }
 function consultarIngresos(){
@@ -1597,7 +1511,7 @@ function consultarIngresos(){
   if(!desde||!hasta){mostrarAlerta('alerta-consulta','error','Seleccioná ambas fechas.');return;}
   if(hasta<desde){mostrarAlerta('alerta-consulta','error','La fecha "hasta" debe ser ≥ "desde".');return;}
   let res=cargarDatos(KEYS.ingresos).filter(i=>i.isoFecha>=desde&&i.isoFecha<=hasta);
-  if(dni) res=res.filter(i=>i.dni===dni);
+  if(dni)res=res.filter(i=>i.dni===dni);
   res.sort((a,b)=>(a.isoFecha+a.hora)>(b.isoFecha+b.hora)?-1:1);
   document.getElementById('resumen-consulta').textContent=`Se encontraron ${res.length} ingreso(s) entre ${desde} y ${hasta}${dni?' para DNI '+dni:''}.`;
   const tbody=document.querySelector('#tabla-consulta tbody');tbody.innerHTML='';
@@ -1648,7 +1562,7 @@ function buscarInvitado(){
     panel.style.borderColor='var(--rojo)';fotoClase='foto-suspendido';
   } else if(miAp.length){
     badges.innerHTML+=`<span class="badge badge-naranja">⚠️ ${miAp.length} apercibamiento(s)</span>`;
-    if(tieneVen) badges.innerHTML+=`<span class="badge badge-rojo">⏰ Ingreso vencido</span>`;
+    if(tieneVen)badges.innerHTML+=`<span class="badge badge-rojo">⏰ Ingreso vencido</span>`;
     else if(tienePV){const rm=Math.ceil((lim-msU)/60000);badges.innerHTML+=`<span class="badge badge-naranja">⏳ Vence en ${rm} min</span>`;}
     detalles.innerHTML=miAp.map(a=>`<div>• ${a.fecha} – ${a.motivo}${a.inspector?` <span class="badge badge-azul">👮 ${a.inspector}</span>`:''}</div>`).join('');
     tipo='warn';msg=`⚠️ El invitado tiene <strong>${miAp.length} apercibamiento(s)</strong>. Puede ingresar con advertencia.`;
@@ -1669,7 +1583,7 @@ function buscarInvitado(){
     detalles.innerHTML='';panel.style.borderColor='var(--dorado)';
   }
   const foto=getFoto(dni);
-  if(foto) fotoC.innerHTML=`<div class="estado-foto-wrap"><img src="${foto}" class="estado-foto ${fotoClase}" onclick="verFotoGrande('${dni}')" title="🔍 Click para ampliar"/><span class="estado-foto-label">📷 DNI ${dni}</span></div>`;
+  if(foto)fotoC.innerHTML=`<div class="estado-foto-wrap"><img src="${foto}" class="estado-foto ${fotoClase}" onclick="verFotoGrande('${dni}')" title="🔍 Click para ampliar"/><span class="estado-foto-label">📷 DNI ${dni}</span></div>`;
   mostrarAlerta('alerta-ingreso',tipo,msg);
   const wrap=document.getElementById('ultimos-ingresos'),tbody=document.querySelector('#tabla-ultimos tbody');
   tbody.innerHTML='';wrap.style.display='block';
@@ -1701,8 +1615,11 @@ async function registrarIngreso(){
   guardarDatos(KEYS.ingresos,lista);
   mostrarAlerta('alerta-ingreso','info','⏳ Guardando...');
   const res=await guardarEnGitHub(false);
-  if(res.ok) mostrarAlerta('alerta-ingreso','ok',`✅ Ingreso registrado – DNI: <strong>${dni}</strong>${nombre?' | Nombre: <strong>'+nombre+'</strong>':''} | ${formatFecha(now)} ${formatHora(now)}`);
+  if(res.ok)mostrarAlerta('alerta-ingreso','ok',`✅ Ingreso registrado – DNI: <strong>${dni}</strong>${nombre?' | Nombre: <strong>'+nombre+'</strong>':''} | ${formatFecha(now)} ${formatHora(now)}`);
   else mostrarAlerta('alerta-ingreso','warn',`⚠️ Guardado localmente. Error sync: ${res.error||''}`);
+  // Limpiar hint y clase autocompletado tras registrar
+  document.getElementById('nombre-ingreso').classList.remove('autocompletado');
+  document.getElementById('nombre-autocomplete-hint').textContent='';
   buscarInvitado();
   document.getElementById('nombre-ingreso').value='';
 }
@@ -1724,6 +1641,7 @@ async function registrarApercibamiento(){
   await guardarEnGitHub(false);
   mostrarAlerta('alerta-aperc','ok',`⚠️ Apercibamiento registrado para DNI <strong>${dni}</strong>${insp?` | Inspector: <strong>${insp.nombre}</strong>`:''}.`);
   ['dni-aperc','nombre-aperc','motivo-aperc'].forEach(id=>{document.getElementById(id).value='';});
+  document.getElementById('nombre-aperc').classList.remove('autocompletado');
   renderTablaApercibimientos();
 }
 async function eliminarApercibimiento(id){
@@ -1756,12 +1674,12 @@ async function registrarSuspension(){
   if(hasta<desde){mostrarAlerta('alerta-susp','error','La fecha "hasta" debe ser ≥ "desde".');return;}
   if(!motivo){mostrarAlerta('alerta-susp','error','Ingresá el motivo.');return;}
   const lista=cargarDatos(KEYS.suspensiones);
-  lista.push({id:Date.now(),dni,nombre,desde,hasta,motivo});
-  guardarDatos(KEYS.suspensiones,lista);
+  lista.push({id:Date.now(),dni,nombre,desde,hasta,motivo});guardarDatos(KEYS.suspensiones,lista);
   mostrarAlerta('alerta-susp','info','⏳ Guardando...');
   await guardarEnGitHub(false);
   mostrarAlerta('alerta-susp','ok',`🚫 Suspensión registrada para DNI <strong>${dni}</strong> hasta <strong>${hasta}</strong>.`);
   ['dni-susp','nombre-susp','susp-desde','susp-hasta','motivo-susp'].forEach(id=>{document.getElementById(id).value='';});
+  document.getElementById('nombre-susp').classList.remove('autocompletado');
   renderTablaSuspensiones();
 }
 async function eliminarSuspension(id){
@@ -1839,201 +1757,218 @@ function restaurarBackup(){
 }
 
 /* ══════════════════════════════════════════
-   ESTADÍSTICAS POR FECHA — NUEVO APARTADO
+   ESTADÍSTICAS — todo filtrado por rango de fechas
+   Default: día de hoy. Incluye ingresos, aperc,
+   suspensiones, vencidos y estimación de edad.
 ══════════════════════════════════════════ */
-// Guarda el resultado actual de la consulta de stats para poder descargarlo
-let _statsResultado = { desde:'', hasta:'', dni:'', ingresos:[] };
 
-function renderStatsFecha(){
+// Guarda el resultado actual para poder descargarlo
+let _statsResultado = { desde:'', hasta:'', dni:'', ingresos:[], apercibimientos:[], suspensiones:[] };
+
+/**
+ * Setea las fechas de estadísticas al día de hoy si están vacías.
+ * Se llama al navegar a la sección y en finalizarInit.
+ */
+function setFechasStatsHoy(){
+  const hoy=isoFecha(ahoraReal());
+  const d=document.getElementById('stats-desde');
+  const h=document.getElementById('stats-hasta');
+  if(!d.value) d.value=hoy;
+  if(!h.value) h.value=hoy;
+}
+
+function renderEstadisticas(){
   const desde=document.getElementById('stats-desde').value;
   const hasta=document.getElementById('stats-hasta').value;
   const dni=document.getElementById('stats-dni').value.trim();
-  if(!desde||!hasta){mostrarAlerta('alerta-stats-fecha','error','Seleccioná ambas fechas.');return;}
-  if(hasta<desde){mostrarAlerta('alerta-stats-fecha','error','La fecha "hasta" debe ser ≥ "desde".');return;}
 
+  if(!desde||!hasta){
+    mostrarAlerta('alerta-stats-fecha','error','Seleccioná ambas fechas.');
+    return;
+  }
+  if(hasta<desde){
+    mostrarAlerta('alerta-stats-fecha','error','La fecha "hasta" debe ser ≥ "desde".');
+    return;
+  }
+
+  // ── Filtrar ingresos del período ──
   let ing=cargarDatos(KEYS.ingresos).filter(i=>i.isoFecha>=desde&&i.isoFecha<=hasta);
   if(dni) ing=ing.filter(i=>i.dni===dni);
   ing.sort((a,b)=>(a.isoFecha+a.hora)>(b.isoFecha+b.hora)?-1:1);
 
-  _statsResultado={desde,hasta,dni,ingresos:ing};
+  // ── Filtrar apercibamientos del período ──
+  // Los apercibamientos tienen fecha en formato dd/mm/yyyy, convertimos a iso para comparar
+  const apTodos=cargarDatos(KEYS.apercibimientos);
+  let ap=apTodos.filter(a=>{
+    if(!a.fecha) return false;
+    const [d,m,y]=a.fecha.split('/');
+    const iso=`${y}-${m}-${d}`;
+    return iso>=desde&&iso<=hasta&&(!dni||a.dni===dni);
+  });
 
-  // Calcular métricas del período
-  const now=ahoraReal(),lim=HS_VIGENCIA*3600000;
+  // ── Filtrar suspensiones del período ──
+  // Suspensiones activas que se solapan con el rango
+  const suTodos=cargarDatos(KEYS.suspensiones);
+  let su=suTodos.filter(s=>s.desde<=hasta&&s.hasta>=desde&&(!dni||s.dni===dni));
+
+  // ── Guardar para descarga ──
+  _statsResultado={desde,hasta,dni,ingresos:ing,apercibimientos:ap,suspensiones:su};
+
+  // ── Métricas ──
+  const now=ahoraReal(),lim=HS_VIGENCIA*3600000,prev=lim-MIN_POR_VENCER*60000;
   const ven=ing.filter(i=>(now.getTime()-parseFechaHora(i.fecha,i.hora).getTime())>=lim).length;
-  const vig=ing.length-ven;
-  // DNIs únicos
+  const pv=ing.filter(i=>{const ms=now.getTime()-parseFechaHora(i.fecha,i.hora).getTime();return ms>=prev&&ms<lim;}).length;
+  const vig=ing.length-ven-pv;
   const dnisUnicos=new Set(ing.map(i=>i.dni)).size;
+  const hoy=isoFecha(now);
+  const suAct=su.filter(s=>hoy>=s.desde&&hoy<=s.hasta).length;
+
   // Día con más ingresos
   const porDia={};
   ing.forEach(i=>{porDia[i.isoFecha]=(porDia[i.isoFecha]||0)+1;});
   const mejorDia=Object.entries(porDia).sort((a,b)=>b[1]-a[1])[0];
 
   const stat=(num,lbl,bg,border,color)=>
-    `<div style="background:${bg};border:2px solid ${border};border-radius:10px;padding:12px 18px;text-align:center;min-width:100px;">
-      <div style="font-size:1.6rem;font-weight:700;color:${color};font-family:'Oswald',sans-serif">${num}</div>
-      <div style="font-size:.75rem;color:${color};opacity:.9;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.4px">${lbl}</div>
+    `<div style="background:${bg};border:2px solid ${border};border-radius:10px;padding:14px 22px;text-align:center;min-width:110px;">
+      <div style="font-size:1.8rem;font-weight:700;color:${color};font-family:'Oswald',sans-serif">${num}</div>
+      <div style="font-size:.78rem;color:${color};opacity:.85;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">${lbl}</div>
     </div>`;
 
-  document.getElementById('stats-fecha-grid').innerHTML=
-    stat(ing.length,'Total ingresos','linear-gradient(135deg,#1a3a1a,#2d6e2d)','var(--dorado)','var(--dorado)')+
+  document.getElementById('estadisticas').innerHTML=
+    stat(ing.length,'Ingresos','linear-gradient(135deg,#1a3a1a,#2d6e2d)','var(--dorado)','var(--dorado)')+
     stat(dnisUnicos,'Personas únicas','linear-gradient(135deg,#1a2a3a,#1a4a6a)','#4488cc','#88ccff')+
-    stat(vig,'Vigentes','linear-gradient(135deg,#0a2a0a,#1a6b1a)','#2a8a2a','#88ff88')+
+    stat(vig>0?vig:0,'Vigentes','linear-gradient(135deg,#0a2a0a,#1a6b1a)','#2a8a2a','#88ff88')+
+    stat(pv,'Por vencer','linear-gradient(135deg,#3a2a0a,#7a5a1a)','var(--naranja)','#ffcc88')+
     stat(ven,'Vencidos','linear-gradient(135deg,#3a0a0a,#7a1a1a)','var(--rojo)','#ff8888')+
+    stat(ap.length,'Apercibamientos','linear-gradient(135deg,#3a2a0a,#7a5a1a)','var(--naranja)','#ffcc88')+
+    stat(su.length,'Suspensiones','linear-gradient(135deg,#3a0a0a,#7a1a1a)','var(--rojo)','#ff8888')+
+    stat(suAct,'Susp. activas','linear-gradient(135deg,#2a0a2a,#5a1a5a)','#cc44cc','#ff88ff')+
     stat(mejorDia?mejorDia[1]:0,'Máx. en un día','linear-gradient(135deg,#3a2a0a,#7a5a1a)','var(--naranja)','#ffcc88')+
-    (mejorDia?`<div style="background:rgba(200,168,75,.1);border:2px solid var(--dorado);border-radius:10px;padding:12px 18px;text-align:center;min-width:140px;"><div style="font-size:.85rem;font-weight:700;color:var(--dorado);font-family:'Oswald',sans-serif">${mejorDia[0]}</div><div style="font-size:.72rem;color:#aacfaa;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.4px">Día pico</div></div>`:'');
+    (mejorDia?`<div style="background:rgba(200,168,75,.1);border:2px solid var(--dorado);border-radius:10px;padding:14px 22px;text-align:center;min-width:140px;"><div style="font-size:.95rem;font-weight:700;color:var(--dorado);font-family:'Oswald',sans-serif">${mejorDia[0]}</div><div style="font-size:.72rem;color:#aacfaa;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.4px">Día pico</div></div>`:'');
 
-  // Tabla de ingresos del período
+  // Etiqueta del período
+  const periodoLabel=desde===hasta
+    ?`📅 Mostrando datos del día <strong>${desde}</strong>${dni?' | DNI: '+dni:''}`
+    :`📅 Período: <strong>${desde}</strong> al <strong>${hasta}</strong>${dni?' | DNI: '+dni:''}`;
+  document.getElementById('stats-periodo-label').innerHTML=periodoLabel;
+
+  // ── Tabla de ingresos del período ──
+  const tablaCard=document.getElementById('stats-tabla-card');
   const tbody=document.querySelector('#tabla-stats-fecha tbody');
   tbody.innerHTML='';
-  if(!ing.length){
-    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;">Sin resultados para el período seleccionado</td></tr>';
-  } else {
+  if(ing.length){
+    tablaCard.style.display='block';
     ing.forEach(i=>{
       const est=estadoIngreso(i);const tr=document.createElement('tr');if(est.fila)tr.className=est.fila;
       tr.innerHTML=`<td>${fotoThumb(i.dni)}</td><td>${i.dni}</td><td>${i.nombre||'—'}</td><td>${i.fecha}</td><td>${i.hora}</td><td><span class="badge ${est.clase}">${est.texto}</span></td>`;
       tbody.appendChild(tr);
     });
+  } else {
+    tablaCard.style.display='block';
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;">Sin ingresos en el período seleccionado</td></tr>';
   }
 
-  document.getElementById('stats-fecha-resultado').style.display='block';
-  mostrarAlerta('alerta-stats-fecha','ok',`✅ ${ing.length} ingreso(s) encontrado(s) entre <strong>${desde}</strong> y <strong>${hasta}</strong>${dni?' para DNI '+dni:''}.`);
+  // ── Estimación de edad por DNI (filtrada por el período) ──
+  _renderEdadPorDni(ing);
+
+  mostrarAlerta('alerta-stats-fecha','ok',
+    `✅ Período consultado: <strong>${desde}</strong> al <strong>${hasta}</strong>${dni?' | DNI '+dni:''}. `+
+    `Ingresos: <strong>${ing.length}</strong> | Apercibamientos: <strong>${ap.length}</strong> | Suspensiones: <strong>${su.length}</strong>.`);
 }
 
+/* ── Render tabla de edad (ahora recibe los ingresos ya filtrados) ── */
+const DNI_RANGOS=[
+  {desde:1000000,  hasta:4999999,  anioMin:1900,anioMax:1940,label:'1M – 5M'},
+  {desde:5000000,  hasta:9999999,  anioMin:1940,anioMax:1955,label:'5M – 10M'},
+  {desde:10000000, hasta:14999999, anioMin:1955,anioMax:1965,label:'10M – 15M'},
+  {desde:15000000, hasta:19999999, anioMin:1965,anioMax:1975,label:'15M – 20M'},
+  {desde:20000000, hasta:24999999, anioMin:1975,anioMax:1983,label:'20M – 25M'},
+  {desde:25000000, hasta:29999999, anioMin:1983,anioMax:1990,label:'25M – 30M'},
+  {desde:30000000, hasta:34999999, anioMin:1990,anioMax:1997,label:'30M – 35M'},
+  {desde:35000000, hasta:39999999, anioMin:1997,anioMax:2003,label:'35M – 40M'},
+  {desde:40000000, hasta:44999999, anioMin:2003,anioMax:2009,label:'40M – 45M'},
+  {desde:45000000, hasta:49999999, anioMin:2009,anioMax:2015,label:'45M – 50M'},
+  {desde:50000000, hasta:59999999, anioMin:2015,anioMax:2025,label:'50M+'},
+];
+
+function _renderEdadPorDni(ingresos){
+  const tbody=document.querySelector('#edad-tabla-body tbody');
+  if(!tbody)return;
+  tbody.innerHTML='';
+  if(!ingresos.length){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;padding:14px;">Sin datos de ingresos para el período.</td></tr>';
+    return;
+  }
+  // DNIs únicos del período
+  const dniUnico={};
+  ingresos.forEach(ing=>{dniUnico[ing.dni]=ing;});
+  const dniList=Object.keys(dniUnico).map(d=>parseInt(d)).filter(d=>!isNaN(d)&&d>0);
+  const total=dniList.length;
+  if(!total){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;padding:14px;">Sin DNIs válidos para analizar.</td></tr>';
+    return;
+  }
+  const conteos=DNI_RANGOS.map(r=>{
+    const cant=dniList.filter(d=>d>=r.desde&&d<=r.hasta).length;
+    return{...r,cant};
+  }).filter(r=>r.cant>0);
+  if(!conteos.length){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;padding:14px;">Los DNIs registrados están fuera de los rangos conocidos.</td></tr>';
+    return;
+  }
+  const maxCant=Math.max(...conteos.map(r=>r.cant),1);
+  conteos.forEach(r=>{
+    const pct=((r.cant/total)*100).toFixed(1);
+    const edadMin=Math.max(0,2025-r.anioMax);
+    const edadMax=2025-r.anioMin;
+    const edadLabel=edadMin===edadMax?`~${edadMin} años`:`~${edadMin}–${edadMax} años`;
+    const barPct=Math.round((r.cant/maxCant)*100);
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><strong>${r.label}</strong></td><td>${r.anioMin}–${r.anioMax}</td><td><span style="font-weight:700;color:var(--dorado-claro)">${edadLabel}</span></td><td><strong>${r.cant}</strong></td><td>${pct}%</td><td style="min-width:80px"><div class="edad-barra-wrap"><div class="edad-barra" style="width:${barPct}%"></div></div></td>`;
+    tbody.appendChild(tr);
+  });
+  // Promedio ponderado
+  const edadProm=dniList.reduce((acc,d)=>{
+    const r=DNI_RANGOS.find(r=>d>=r.desde&&d<=r.hasta);
+    return r?acc+(2025-Math.round((r.anioMin+r.anioMax)/2)):acc;
+  },0)/total;
+  const trRes=document.createElement('tr');
+  trRes.style.cssText='background:rgba(200,168,75,.15);font-weight:700;';
+  trRes.innerHTML=`<td colspan="2" style="color:var(--dorado)">📊 Promedio estimado</td><td colspan="4" style="color:var(--dorado-claro)">~${edadProm.toFixed(0)} años (estimación sobre ${total} personas únicas)</td>`;
+  tbody.appendChild(trRes);
+}
+
+/* ══════════════════════════════════════════
+   DESCARGAR XML DE ESTADÍSTICAS
+   Incluye ingresos, apercibamientos y suspensiones
+   del período, más el resumen de métricas.
+══════════════════════════════════════════ */
 function descargarXMLStats(){
-  const {desde,hasta,dni,ingresos}=_statsResultado;
-  if(!ingresos||!ingresos.length){
+  const {desde,hasta,dni,ingresos,apercibimientos,suspensiones}=_statsResultado;
+  if(!desde||!hasta){
     mostrarAlerta('alerta-stats-fecha','error','❌ Primero consultá el período para poder descargarlo.');
     return;
   }
   const now=ahoraReal();
   const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   const dnisUnicos=new Set(ingresos.map(i=>i.dni)).size;
-  let x=`<?xml version="1.0" encoding="UTF-8"?>\n<EstadisticasPeriodoPCQ>\n  <MetaData>\n    <FechaGeneracion>${formatFecha(now)} ${formatHora(now)}</FechaGeneracion>\n    <PeriodoDesde>${esc(desde)}</PeriodoDesde>\n    <PeriodoHasta>${esc(hasta)}</PeriodoHasta>\n    ${dni?`<FiltroDNI>${esc(dni)}</FiltroDNI>\n    `:''}<TotalIngresos>${ingresos.length}</TotalIngresos>\n    <PersonasUnicas>${dnisUnicos}</PersonasUnicas>\n  </MetaData>\n  <Ingresos>\n`;
-  ingresos.forEach(i=>{
-    x+=`    <Ingreso><DNI>${esc(i.dni)}</DNI><Nombre>${esc(i.nombre||'')}</Nombre><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora></Ingreso>\n`;
-  });
-  x+=`  </Ingresos>\n</EstadisticasPeriodoPCQ>`;
+  const lim=HS_VIGENCIA*3600000;
+  const ven=ingresos.filter(i=>(now.getTime()-parseFechaHora(i.fecha,i.hora).getTime())>=lim).length;
+  const hoyISO=isoFecha(now);
+  const suAct=suspensiones.filter(s=>hoyISO>=s.desde&&hoyISO<=s.hasta).length;
+
+  let x=`<?xml version="1.0" encoding="UTF-8"?>\n<EstadisticasPeriodoPCQ>\n  <MetaData>\n    <FechaGeneracion>${formatFecha(now)} ${formatHora(now)}</FechaGeneracion>\n    <PeriodoDesde>${esc(desde)}</PeriodoDesde>\n    <PeriodoHasta>${esc(hasta)}</PeriodoHasta>\n    ${dni?`<FiltroDNI>${esc(dni)}</FiltroDNI>\n    `:''}<TotalIngresos>${ingresos.length}</TotalIngresos>\n    <PersonasUnicas>${dnisUnicos}</PersonasUnicas>\n    <TotalVencidos>${ven}</TotalVencidos>\n    <TotalApercibamientos>${apercibimientos.length}</TotalApercibamientos>\n    <TotalSuspensiones>${suspensiones.length}</TotalSuspensiones>\n    <SuspensionesActivas>${suAct}</SuspensionesActivas>\n  </MetaData>\n  <Ingresos>\n`;
+  ingresos.forEach(i=>{x+=`    <Ingreso><DNI>${esc(i.dni)}</DNI><Nombre>${esc(i.nombre||'')}</Nombre><Fecha>${esc(i.fecha)}</Fecha><Hora>${esc(i.hora)}</Hora></Ingreso>\n`;});
+  x+=`  </Ingresos>\n  <Apercibamientos>\n`;
+  apercibimientos.forEach(a=>{x+=`    <Apercibamiento><DNI>${esc(a.dni)}</DNI><Nombre>${esc(a.nombre||'')}</Nombre><Motivo>${esc(a.motivo)}</Motivo><Fecha>${esc(a.fecha)}</Fecha><Hora>${esc(a.hora)}</Hora><Inspector>${esc(a.inspector||'')}</Inspector></Apercibamiento>\n`;});
+  x+=`  </Apercibamientos>\n  <Suspensiones>\n`;
+  suspensiones.forEach(s=>{x+=`    <Suspension><DNI>${esc(s.dni)}</DNI><Nombre>${esc(s.nombre||'')}</Nombre><Desde>${esc(s.desde)}</Desde><Hasta>${esc(s.hasta)}</Hasta><Motivo>${esc(s.motivo)}</Motivo></Suspension>\n`;});
+  x+=`  </Suspensiones>\n</EstadisticasPeriodoPCQ>`;
+
   const nom=`PCQ_stats_${desde}_${hasta}${dni?'_DNI'+dni:''}.xml`;
   const blob=new Blob([x],{type:'application/xml'});const url=URL.createObjectURL(blob);
   Object.assign(document.createElement('a'),{href:url,download:nom}).click();URL.revokeObjectURL(url);
   mostrarAlerta('alerta-stats-fecha','ok',`⬇️ Descargado: <strong>${nom}</strong>`);
-}
-
-/* ══════════════════════════════════════════
-   ESTIMACIÓN DE EDAD POR DNI ARGENTINO
-══════════════════════════════════════════ */
-const DNI_RANGOS = [
-  { desde:  1000000, hasta:  4999999, anioMin: 1900, anioMax: 1940, label: '1M – 5M'   },
-  { desde:  5000000, hasta:  9999999, anioMin: 1940, anioMax: 1955, label: '5M – 10M'  },
-  { desde: 10000000, hasta: 14999999, anioMin: 1955, anioMax: 1965, label: '10M – 15M' },
-  { desde: 15000000, hasta: 19999999, anioMin: 1965, anioMax: 1975, label: '15M – 20M' },
-  { desde: 20000000, hasta: 24999999, anioMin: 1975, anioMax: 1983, label: '20M – 25M' },
-  { desde: 25000000, hasta: 29999999, anioMin: 1983, anioMax: 1990, label: '25M – 30M' },
-  { desde: 30000000, hasta: 34999999, anioMin: 1990, anioMax: 1997, label: '30M – 35M' },
-  { desde: 35000000, hasta: 39999999, anioMin: 1997, anioMax: 2003, label: '35M – 40M' },
-  { desde: 40000000, hasta: 44999999, anioMin: 2003, anioMax: 2009, label: '40M – 45M' },
-  { desde: 45000000, hasta: 49999999, anioMin: 2009, anioMax: 2015, label: '45M – 50M' },
-  { desde: 50000000, hasta: 59999999, anioMin: 2015, anioMax: 2025, label: '50M+'      },
-];
-
-/* ══════════════════════════════════════════
-   ESTADÍSTICAS GENERALES
-══════════════════════════════════════════ */
-function renderEstadisticas(){
-  const ingresos = cargarDatos(KEYS.ingresos);
-  const i=ingresos.length, a=cargarDatos(KEYS.apercibimientos).length;
-  const s=cargarDatos(KEYS.suspensiones).length, ins=cargarDatos(KEYS.inspectores).length;
-  const f=Object.keys(cargarFotos()).length, hoy=isoFecha(ahoraReal());
-  const sa=cargarDatos(KEYS.suspensiones).filter(x=>hoy>=x.desde&&hoy<=x.hasta).length;
-  const now=ahoraReal(),lim=HS_VIGENCIA*3600000,prev=lim-MIN_POR_VENCER*60000;
-  const ven=ingresos.filter(x=>{const ms=now.getTime()-parseFechaHora(x.fecha,x.hora).getTime();return ms>=lim;}).length;
-  const pv=ingresos.filter(x=>{const ms=now.getTime()-parseFechaHora(x.fecha,x.hora).getTime();return ms>=prev&&ms<lim;}).length;
-  const stat=(num,lbl,bg,border,color)=>
-    `<div style="background:${bg};border:2px solid ${border};border-radius:10px;padding:14px 22px;text-align:center;min-width:110px;">
-      <div style="font-size:1.8rem;font-weight:700;color:${color};font-family:'Oswald',sans-serif">${num}</div>
-      <div style="font-size:.78rem;color:${color};opacity:.85;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px">${lbl}</div>
-    </div>`;
-  document.getElementById('estadisticas').innerHTML=
-    stat(i,'Ingresos','linear-gradient(135deg,#1a3a1a,#2d6e2d)','var(--dorado)','var(--dorado)')+
-    stat(pv,'Por vencer','linear-gradient(135deg,#3a2a0a,#7a5a1a)','var(--naranja)','#ffcc88')+
-    stat(ven,'Vencidos','linear-gradient(135deg,#3a0a0a,#7a1a1a)','var(--rojo)','#ff8888')+
-    stat(a,'Apercibamientos','linear-gradient(135deg,#3a2a0a,#7a5a1a)','var(--naranja)','#ffcc88')+
-    stat(s,'Suspensiones','linear-gradient(135deg,#3a0a0a,#7a1a1a)','var(--rojo)','#ff8888')+
-    stat(sa,'Susp. activas','linear-gradient(135deg,#2a0a2a,#5a1a5a)','#cc44cc','#ff88ff')+
-    stat(ins,'Inspectores','linear-gradient(135deg,#1a2a3a,#1a4a6a)','#4488cc','#88ccff')+
-    stat(f,'Fotos','linear-gradient(135deg,#1a1a3a,#2a2a6a)','#8888cc','#bbbbff');
-
-  // ── Estimación de edad por DNI (CORREGIDA) ──
-  const tbody = document.querySelector('#edad-tabla-body tbody');
-  if(!tbody) return;
-  tbody.innerHTML = '';
-
-  if(!ingresos.length){
-    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;padding:14px;">Sin datos de ingresos aún.</td></tr>';
-    return;
-  }
-
-  // DNIs únicos (último ingreso por persona)
-  const dniUnico = {};
-  ingresos.forEach(ing => { dniUnico[ing.dni] = ing; });
-  const dniList = Object.keys(dniUnico).map(d => parseInt(d)).filter(d => !isNaN(d) && d > 0);
-  const total = dniList.length;
-
-  if(!total){
-    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;padding:14px;">Sin DNIs válidos para analizar.</td></tr>';
-    return;
-  }
-
-  const conteos = DNI_RANGOS.map(r => {
-    const cant = dniList.filter(d => d >= r.desde && d <= r.hasta).length;
-    return { ...r, cant };
-  }).filter(r => r.cant > 0);
-
-  if(!conteos.length){
-    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;padding:14px;">Los DNIs registrados están fuera de los rangos conocidos.</td></tr>';
-    return;
-  }
-
-  const maxCant = Math.max(...conteos.map(r => r.cant), 1);
-
-  conteos.forEach(r => {
-    const pct = ((r.cant / total) * 100).toFixed(1);
-    const edadMin = Math.max(0, 2025 - r.anioMax);
-    const edadMax = 2025 - r.anioMin;
-    const edadLabel = edadMin === edadMax ? `~${edadMin} años` : `~${edadMin}–${edadMax} años`;
-    const barPct = Math.round((r.cant / maxCant) * 100);
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><strong>${r.label}</strong></td>
-      <td>${r.anioMin}–${r.anioMax}</td>
-      <td><span style="font-weight:700;color:var(--dorado-claro)">${edadLabel}</span></td>
-      <td><strong>${r.cant}</strong></td>
-      <td>${pct}%</td>
-      <td style="min-width:80px">
-        <div class="edad-barra-wrap">
-          <div class="edad-barra" style="width:${barPct}%"></div>
-        </div>
-      </td>`;
-    tbody.appendChild(tr);
-  });
-
-  // Fila de promedio ponderado
-  const edadProm = dniList.reduce((acc, d) => {
-    const r = DNI_RANGOS.find(r => d >= r.desde && d <= r.hasta);
-    return r ? acc + (2025 - Math.round((r.anioMin + r.anioMax) / 2)) : acc;
-  }, 0) / total;
-
-  const trRes = document.createElement('tr');
-  trRes.style.cssText = 'background:rgba(200,168,75,.15);font-weight:700;';
-  trRes.innerHTML = `
-    <td colspan="2" style="color:var(--dorado)">📊 Promedio estimado</td>
-    <td colspan="4" style="color:var(--dorado-claro)">~${edadProm.toFixed(0)} años (estimación sobre ${total} personas únicas)</td>`;
-  tbody.appendChild(trRes);
-
-  // Setear fechas por defecto en el filtro de stats si están vacías
-  const hoyISO = isoFecha(ahoraReal());
-  if(!document.getElementById('stats-desde').value) document.getElementById('stats-desde').value = hoyISO;
-  if(!document.getElementById('stats-hasta').value) document.getElementById('stats-hasta').value = hoyISO;
 }
 
 /* ══════════════════════════════════════════
@@ -2044,7 +1979,8 @@ function finalizarInit(){
   actualizarUIInspectorActivo();
   actualizarEstadoBloqueo();
   actualizarTokenStatusCard();
-  _initZoomEvents(); // inicializar zoom del modal de fotos
+  _initZoomEvents();
+  setFechasStatsHoy(); // fechas de stats por defecto = hoy
   if(getInspectorActivo()){
     _navegarSeccion('ingreso',document.getElementById('btn-nav-ingreso'));
   } else {
@@ -2052,11 +1988,13 @@ function finalizarInit(){
     _navegarSeccion('inspectores',document.getElementById('btn-nav-inspectores'));
   }
   setInterval(async()=>{
-    if(!_syncEnCurso&&getToken()){
-      await sincronizarDesdeGitHub(false);
-    }
+    if(!_syncEnCurso&&getToken()) await sincronizarDesdeGitHub(false);
   },SYNC_INTERVAL);
 }
+
+// Sobreescribir _navegarSeccion para setear fechas de stats al navegar
+const _navegarSeccionOrig=_navegarSeccion;
+// (ya incluido en _navegarSeccion abajo, no necesita override)
 
 async function iniciarSyncConGitHub(){
   document.getElementById('sync-loading-txt').textContent='☁️ Descargando datos...';
@@ -2064,16 +2002,14 @@ async function iniciarSyncConGitHub(){
   setSyncBadge('syncing','🔄 Cargando...');
   let terminado=false;
   const timeoutId=setTimeout(()=>{
-    if(terminado)return;
-    terminado=true;_syncEnCurso=false;
+    if(terminado)return;terminado=true;_syncEnCurso=false;
     setSyncBadge('error','❌ Timeout');
     document.getElementById('sync-loading-sub').textContent='⚠️ Tiempo agotado – usando datos locales';
     finalizarInit();
   },12000);
   try{
     const info=await ghGetFile(GH.dataFile);
-    if(terminado)return;
-    clearTimeout(timeoutId);terminado=true;
+    if(terminado)return;clearTimeout(timeoutId);terminado=true;
     if(info.error==='token-invalido'){
       setSyncBadge('error','❌ Token inválido');
       document.getElementById('sync-loading-sub').textContent='❌ Token inválido. Generá uno nuevo en GitHub.';
@@ -2087,10 +2023,8 @@ async function iniciarSyncConGitHub(){
       const tsRemoto=remoto.updatedAt?new Date(remoto.updatedAt).getTime():0;
       const tsLocalRemoto=cargarItem(KEYS.lastRemoteTs)?new Date(cargarItem(KEYS.lastRemoteTs)).getTime():0;
       if(tsRemoto>tsLocalRemoto+500){
-        aplicarDatos(remoto);
-        _ultimoSyncTs=new Date(remoto.updatedAt);
-        guardarItem(KEYS.lastSync,remoto.updatedAt);
-        guardarItem(KEYS.lastRemoteTs,remoto.updatedAt);
+        aplicarDatos(remoto);_ultimoSyncTs=new Date(remoto.updatedAt);
+        guardarItem(KEYS.lastSync,remoto.updatedAt);guardarItem(KEYS.lastRemoteTs,remoto.updatedAt);
         document.getElementById('sync-loading-sub').textContent='✅ Datos sincronizados correctamente';
       } else {
         document.getElementById('sync-loading-sub').textContent='✅ Datos ya actualizados';
@@ -2098,12 +2032,10 @@ async function iniciarSyncConGitHub(){
       setSyncBadge('ok','✅ Sincronizado');
     } else {
       document.getElementById('sync-loading-sub').textContent='📤 Creando base de datos...';
-      _syncEnCurso=false;
-      await guardarEnGitHub(true);
+      _syncEnCurso=false;await guardarEnGitHub(true);
     }
   }catch(e){
-    if(terminado)return;
-    clearTimeout(timeoutId);terminado=true;_syncEnCurso=false;
+    if(terminado)return;clearTimeout(timeoutId);terminado=true;_syncEnCurso=false;
     setSyncBadge('error','❌ Sin conexión');
     document.getElementById('sync-loading-sub').textContent='⚠️ Sin conexión – usando datos locales';
     await new Promise(r=>setTimeout(r,1500));
@@ -2115,9 +2047,7 @@ async function iniciarSyncConGitHub(){
   document.getElementById('sync-loading').classList.add('show');
   document.getElementById('sync-loading-txt').textContent='🕐 Sincronizando hora...';
   await Promise.race([sincronizarHora(),new Promise(r=>setTimeout(r,5000))]);
-  tickReloj();
-  setInterval(tickReloj,1000);
-  setInterval(sincronizarHora,5*60*1000);
+  tickReloj();setInterval(tickReloj,1000);setInterval(sincronizarHora,5*60*1000);
   if(!getToken()){
     document.getElementById('sync-loading').classList.remove('show');
     document.getElementById('token-modal').classList.add('show');
